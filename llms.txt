@@ -1,4 +1,4 @@
-# songR ![songR logo](reference/figures/logo.png)
+# songR
 
 ## Overview
 
