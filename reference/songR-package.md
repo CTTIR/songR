@@ -23,31 +23,13 @@ Systems*, 32(10), 4588–4602.
 
 Useful links:
 
-- <https://rabanheller.github.io/songR/>
+- <https://r-heller.github.io/songR/>
 
-- <https://github.com/rabanheller/songR>
+- <https://github.com/r-heller/songR>
 
-- Report bugs at <https://github.com/rabanheller/songR/issues>
+- Report bugs at <https://github.com/r-heller/songR/issues>
 
 ## Author
 
 **Maintainer**: Raban Heller <raban.heller@uni-ulm.de>
 ([ORCID](https://orcid.org/0000-0001-8006-9742))
-
-Authors:
-
-- Lars Andersen (Boehringer Ingelheim)
-
-Other contributors:
-
-- Damith Senanayake (Original SONG algorithm (Senanayake et al., 2021,
-  IEEE TNNLS)) \[contributor\]
-
-- Wei Wang (Original SONG algorithm (Senanayake et al., 2021, IEEE
-  TNNLS)) \[contributor\]
-
-- Shalin Naik (Original SONG algorithm (Senanayake et al., 2021, IEEE
-  TNNLS)) \[contributor\]
-
-- Saman Halgamuge (Original SONG algorithm (Senanayake et al., 2021,
-  IEEE TNNLS)) \[contributor\]

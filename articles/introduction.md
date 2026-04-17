@@ -26,7 +26,7 @@ The algorithm is described in:
 
 ``` r
 # Install from GitHub
-devtools::install_github("rabanheller/songR")
+devtools::install_github("r-heller/songR")
 ```
 
 ## Quick Start with Iris
@@ -207,18 +207,18 @@ side-by-side on your own data.
 
 ``` r
 citation("songR")
-#> To cite the SONG algorithm in publications, use:
+#> To cite the songR R package, use:
+#> 
+#>   Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
+#>   Dimensionality Reduction. R package version 0.1.0.
+#>   https://github.com/r-heller/songR
+#> 
+#> To cite the underlying SONG algorithm, use:
 #> 
 #>   Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).
 #>   Self-Organizing Nebulous Growths for Robust and Incremental Data
 #>   Visualization. IEEE Transactions on Neural Networks and Learning
 #>   Systems, 32(10), 4588-4602. doi:10.1109/TNNLS.2020.3023941
-#> 
-#> To cite the R package, use:
-#> 
-#>   Heller, R., & Andersen, L. (2026). songR: Self-Organizing Nebulous
-#>   Growths for Dimensionality Reduction. R package version 0.1.0.
-#>   https://github.com/rabanheller/songR
 #> 
 #> To see these entries in BibTeX format, use 'print(<citation>,
 #> bibtex=TRUE)', 'toBibtex(.)', or set
@@ -253,13 +253,13 @@ sessionInfo()
 #> [1] songR_0.1.0
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] vctrs_0.7.2        cli_3.6.5          knitr_1.51         rlang_1.1.7       
-#>  [5] xfun_0.57          otel_0.2.0         S7_0.2.1           textshaping_1.0.5 
+#>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.51         rlang_1.2.0       
+#>  [5] xfun_0.57          otel_0.2.0         S7_0.2.1-1         textshaping_1.0.5 
 #>  [9] jsonlite_2.0.0     glue_1.8.0         Rtsne_0.17         htmltools_0.5.9   
 #> [13] ragg_1.5.2         sass_0.4.10        uwot_0.2.4         scales_1.4.0      
 #> [17] rmarkdown_2.31     grid_4.5.3         evaluate_1.0.5     jquerylib_0.1.4   
 #> [21] fastmap_1.2.0      yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1       
-#> [25] compiler_4.5.3     RColorBrewer_1.1-3 fs_2.0.1           Rcpp_1.1.1        
+#> [25] compiler_4.5.3     RColorBrewer_1.1-3 fs_2.0.1           Rcpp_1.1.1-1      
 #> [29] farver_2.1.2       systemfonts_1.3.2  lattice_0.22-9     digest_0.6.39     
 #> [33] R6_2.6.1           bslib_0.10.0       Matrix_1.7-4       gtable_0.3.6      
 #> [37] tools_4.5.3        ggplot2_4.0.2      pkgdown_2.2.0      cachem_1.1.0      

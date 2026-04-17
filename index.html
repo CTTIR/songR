@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Self-Organizing Nebulous Growths for Dimensionality Reduction • songR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -13,7 +18,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Self-Organizing Nebulous Growths for Dimensionality Reduction">
 <meta name="description" content="Native R/C++ implementation of the Self-Organizing Nebulous Growths (SONG) algorithm for nonlinear dimensionality reduction and data visualization. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Based on the algorithm described in Senanayake et al. (2021) &lt;doi:10.1109/TNNLS.2020.3023941&gt;. Includes an interactive Shiny application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.">
 <meta property="og:description" content="Native R/C++ implementation of the Self-Organizing Nebulous Growths (SONG) algorithm for nonlinear dimensionality reduction and data visualization. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Based on the algorithm described in Senanayake et al. (2021) &lt;doi:10.1109/TNNLS.2020.3023941&gt;. Includes an interactive Shiny application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.">
-<meta property="og:image" content="https://rabanheller.github.io/songR/logo.svg">
+<meta property="og:image" content="https://r-heller.github.io/songR/logo.svg">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -48,7 +53,7 @@
 <li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/rabanheller/songR/" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/r-heller/songR/" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -113,13 +118,13 @@
 <span></span>
 <span><span class="co"># Or install the development version from GitHub</span></span>
 <span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rabanheller/songR"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-heller/songR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rabanheller.github.io/songR/">songR</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-heller.github.io/songR/">songR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Fit a SONG model</span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/song.html">song</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
@@ -343,14 +348,14 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use <code>songR</code> in published research, please cite both the original SONG algorithm and this R package:</p>
-<p><strong>Algorithm:</strong></p>
-<blockquote>
-<p>Senanayake, D. A., Wang, W., Naik, S. H., &amp; Halgamuge, S. (2021). Self-Organizing Nebulous Growths for Robust and Incremental Data Visualization. <em>IEEE Transactions on Neural Networks and Learning Systems</em>, 32(10), 4588-4602. <a href="https://doi.org/10.1109/TNNLS.2020.3023941" class="external-link">doi:10.1109/TNNLS.2020.3023941</a></p>
-</blockquote>
+<p>If you use <code>songR</code> in published research, please cite both this R package and the underlying SONG algorithm:</p>
 <p><strong>R package:</strong></p>
 <blockquote>
-<p>Heller, R., &amp; Andersen, L. (2026). songR: Self-Organizing Nebulous Growths for Dimensionality Reduction. R package version 0.1.0. <a href="https://github.com/rabanheller/songR" class="external-link uri">https://github.com/rabanheller/songR</a></p>
+<p>Heller, R. (2026). songR: Self-Organizing Nebulous Growths for Dimensionality Reduction. R package version 0.1.0. <a href="https://github.com/r-heller/songR" class="external-link uri">https://github.com/r-heller/songR</a></p>
+</blockquote>
+<p><strong>Underlying algorithm:</strong></p>
+<blockquote>
+<p>Senanayake, D. A., Wang, W., Naik, S. H., &amp; Halgamuge, S. (2021). Self-Organizing Nebulous Growths for Robust and Incremental Data Visualization. <em>IEEE Transactions on Neural Networks and Learning Systems</em>, 32(10), 4588-4602. <a href="https://doi.org/10.1109/TNNLS.2020.3023941" class="external-link">doi:10.1109/TNNLS.2020.3023941</a></p>
 </blockquote>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"songR"</span><span class="op">)</span></span></code></pre></div>
@@ -363,14 +368,14 @@
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>MIT (c) Raban Heller, Lars Andersen</p>
+<p>MIT (c) Raban Heller</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/rabanheller/songR/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/rabanheller/songR/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/r-heller/songR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/r-heller/songR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -394,17 +399,16 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Raban Heller <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8006-9742" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
-<li>Lars Andersen <br><small class="roles"> Author </small>   </li>
-<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/rabanheller/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/rabanheller/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://rabanheller.github.io/songR/"><img src="https://github.com/rabanheller/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://github.com/r-heller/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/r-heller/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://r-heller.github.io/songR/"><img src="https://github.com/r-heller/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
 <li><a href="https://CRAN.R-project.org/package=songR" class="external-link"><img src="https://www.r-pkg.org/badges/version/songR" alt="CRAN status"></a></li>
+<li><a href="https://codecov.io/gh/r-heller/songR" class="external-link"><img src="https://codecov.io/gh/r-heller/songR/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
 </ul>
 </div>
@@ -414,7 +418,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Raban Heller, Lars Andersen.</p>
+  <p>Developed by Raban Heller.</p>
 </div>
 
 <div class="pkgdown-footer-right">

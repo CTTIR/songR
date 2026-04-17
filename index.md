@@ -27,7 +27,7 @@ install.packages("songR")
 
 # Or install the development version from GitHub
 # install.packages("devtools")
-devtools::install_github("rabanheller/songR")
+devtools::install_github("r-heller/songR")
 ```
 
 ## Quick Start
@@ -120,12 +120,12 @@ running incremental updates, and exporting embeddings and plots.
 ### pkgdown Articles
 
 - **[Reproducing Paper
-  Figures](https://rabanheller.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
+  Figures](https://r-heller.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
   – Reproduces key experiments from Senanayake et al. (2021) using songR
   (heterogeneous/homogeneous increments, CDY stability, noise tolerance,
   topology preservation, AMI scores)
 - **[Interactive Shiny
-  App](https://rabanheller.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
+  App](https://r-heller.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
   – Guide to the built-in comparison app with dark mode
 
 ### Full-Scale Tutorial Scripts
@@ -169,22 +169,22 @@ source("tutorials/01_prepare_data.R")
 
 ## Citation
 
-If you use `songR` in published research, please cite both the original
-SONG algorithm and this R package:
+If you use `songR` in published research, please cite both this R
+package and the underlying SONG algorithm:
 
-**Algorithm:**
+**R package:**
+
+> Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
+> Dimensionality Reduction. R package version 0.1.0.
+> <https://github.com/r-heller/songR>
+
+**Underlying algorithm:**
 
 > Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).
 > Self-Organizing Nebulous Growths for Robust and Incremental Data
 > Visualization. *IEEE Transactions on Neural Networks and Learning
 > Systems*, 32(10), 4588-4602.
 > [doi:10.1109/TNNLS.2020.3023941](https://doi.org/10.1109/TNNLS.2020.3023941)
-
-**R package:**
-
-> Heller, R., & Andersen, L. (2026). songR: Self-Organizing Nebulous
-> Growths for Dimensionality Reduction. R package version 0.1.0.
-> <https://github.com/rabanheller/songR>
 
 ``` r
 citation("songR")
@@ -202,4 +202,4 @@ Python implementation is available at
 
 ## License
 
-MIT (c) Raban Heller, Lars Andersen
+MIT (c) Raban Heller

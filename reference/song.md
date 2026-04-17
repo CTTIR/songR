@@ -5,7 +5,7 @@ Nebulous Growths (SONG) algorithm. SONG builds a codebook of coding
 vectors connected by a topology-preserving graph, then maps the graph
 into a low-dimensional embedding space. Unlike t-SNE and UMAP, the
 resulting model supports incremental updates with new data via
-[`update.song_model`](https://rabanheller.github.io/songR/reference/update.song_model.md).
+[`update.song_model`](https://r-heller.github.io/songR/reference/update.song_model.md).
 
 ## Usage
 
@@ -167,9 +167,9 @@ Systems*, 32(10), 4588–4602.
 
 ## See also
 
-[`update.song_model`](https://rabanheller.github.io/songR/reference/update.song_model.md),
-[`predict.song_model`](https://rabanheller.github.io/songR/reference/predict.song_model.md),
-[`plot.song_model`](https://rabanheller.github.io/songR/reference/plot.song_model.md)
+[`update.song_model`](https://r-heller.github.io/songR/reference/update.song_model.md),
+[`predict.song_model`](https://r-heller.github.io/songR/reference/predict.song_model.md),
+[`plot.song_model`](https://r-heller.github.io/songR/reference/plot.song_model.md)
 
 ## Examples
 

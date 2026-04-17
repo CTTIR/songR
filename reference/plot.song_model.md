@@ -47,8 +47,8 @@ Systems*, 32(10), 4588–4602.
 
 ## See also
 
-[`song`](https://rabanheller.github.io/songR/reference/song.md),
-[`autoplot.song_model`](https://rabanheller.github.io/songR/reference/autoplot.song_model.md)
+[`song`](https://r-heller.github.io/songR/reference/song.md),
+[`autoplot.song_model`](https://r-heller.github.io/songR/reference/autoplot.song_model.md)
 
 ## Examples
 

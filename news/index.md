@@ -29,7 +29,7 @@
 ### Interactive App
 
 - Interactive Shiny app
-  ([`run_songR_app()`](https://rabanheller.github.io/songR/reference/run_songR_app.md))
+  ([`run_songR_app()`](https://r-heller.github.io/songR/reference/run_songR_app.md))
   for comparing SONG, t-SNE, and UMAP side-by-side.
 - Dark mode toggle with localStorage persistence.
 - Upload custom CSV/RDS data or use built-in datasets.
