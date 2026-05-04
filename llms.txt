@@ -22,6 +22,7 @@ datasets, and experiments where data arrives in batches.
 ## Installation
 
 ``` r
+
 # Install from CRAN (when available)
 install.packages("songR")
 
@@ -33,6 +34,7 @@ devtools::install_github("r-heller/songR")
 ## Quick Start
 
 ``` r
+
 library(songR)
 
 # Fit a SONG model
@@ -54,6 +56,7 @@ Train on an initial batch, then add more data without recomputing from
 scratch. Existing point positions are preserved:
 
 ``` r
+
 # Train on first batch
 model <- song(batch1, epochs = 20L, seed = 42)
 
@@ -69,6 +72,7 @@ emb <- predict(model, newdata = rbind(batch1, batch2))
 Once trained, a SONG model can project unseen data without retraining:
 
 ``` r
+
 new_coords <- predict(model, newdata = held_out_data)
 ```
 
@@ -78,6 +82,7 @@ songR ships with `songR_blobs`, a synthetic 8-cluster dataset in 20
 dimensions for quick benchmarking:
 
 ``` r
+
 data(songR_blobs)
 model <- song(songR_blobs$data, epochs = 15L, seed = 42)
 plot(model, color_by = songR_blobs$labels)
@@ -89,6 +94,7 @@ Launch a Shiny app comparing SONG, t-SNE, and UMAP side-by-side with
 dark mode support:
 
 ``` r
+
 run_songR_app()
 ```
 
@@ -134,23 +140,24 @@ The `tutorials/` directory contains scripts for full-scale reproduction
 of all paper figures and tables on real datasets (MNIST, Fashion-MNIST,
 Wong CyTOF 1.27M cells, COIL-20, Samusik):
 
-| Script                                  | Paper Figure      | Dataset             |
-|-----------------------------------------|-------------------|---------------------|
-| `02_fig3_fashion_mnist_heterogeneous.R` | Fig. 3            | Fashion-MNIST (70k) |
-| `03_fig4_mnist_heterogeneous.R`         | Fig. 4            | MNIST (70k)         |
-| `04_fig5_wong_homogeneous.R`            | Fig. 5            | Wong CyTOF (1.27M)  |
-| `05_fig6_cdy_lines.R`                   | Fig. 6            | Multiple            |
-| `06_fig7_table_IV_noise_tolerance.R`    | Fig. 7 / Table IV | Gaussian blobs      |
-| `07_fig8_coil20_topology.R`             | Fig. 8            | COIL-20 (1440)      |
-| `08_table_II_heterogeneous_ami.R`       | Table II          | Multiple            |
-| `09_table_III_homogeneous_ami.R`        | Table III         | Multiple            |
-| `11_extra_static_benchmark.R`           | –                 | All datasets        |
-| `12_extra_hyperparam_sensitivity.R`     | –                 | songR_blobs         |
-| `13_extra_runtime_benchmark.R`          | –                 | Scaling test        |
+| Script | Paper Figure | Dataset |
+|----|----|----|
+| `02_fig3_fashion_mnist_heterogeneous.R` | Fig. 3 | Fashion-MNIST (70k) |
+| `03_fig4_mnist_heterogeneous.R` | Fig. 4 | MNIST (70k) |
+| `04_fig5_wong_homogeneous.R` | Fig. 5 | Wong CyTOF (1.27M) |
+| `05_fig6_cdy_lines.R` | Fig. 6 | Multiple |
+| `06_fig7_table_IV_noise_tolerance.R` | Fig. 7 / Table IV | Gaussian blobs |
+| `07_fig8_coil20_topology.R` | Fig. 8 | COIL-20 (1440) |
+| `08_table_II_heterogeneous_ami.R` | Table II | Multiple |
+| `09_table_III_homogeneous_ami.R` | Table III | Multiple |
+| `11_extra_static_benchmark.R` | – | All datasets |
+| `12_extra_hyperparam_sensitivity.R` | – | songR_blobs |
+| `13_extra_runtime_benchmark.R` | – | Scaling test |
 
 Run all tutorials:
 
 ``` r
+
 source("tutorials/00_install_dependencies.R")
 source("tutorials/01_prepare_data.R")
 # Then source any tutorial script
@@ -187,6 +194,7 @@ package and the underlying SONG algorithm:
 > [doi:10.1109/TNNLS.2020.3023941](https://doi.org/10.1109/TNNLS.2020.3023941)
 
 ``` r
+
 citation("songR")
 ```
 

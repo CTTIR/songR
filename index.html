@@ -74,32 +74,32 @@
 <p><strong>songR</strong> provides a native R/C++ implementation of the <a href="https://doi.org/10.1109/TNNLS.2020.3023941" class="external-link">Self-Organizing Nebulous Growths (SONG)</a> algorithm for nonlinear dimensionality reduction and data visualization.</p>
 <p>SONG’s key advantages over t-SNE and UMAP:</p>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Feature</th>
 <th>SONG</th>
 <th>t-SNE</th>
 <th>UMAP</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><strong>Incremental updates</strong></td>
 <td>Yes</td>
 <td>No</td>
 <td>No</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Parametric model</strong></td>
 <td>Yes (codebook)</td>
 <td>No</td>
 <td>Optional</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Noise robustness</strong></td>
 <td>High</td>
 <td>Low</td>
 <td>Medium</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Global structure</strong></td>
 <td>Good</td>
 <td>Poor</td>
@@ -227,63 +227,63 @@
 <col width="43%">
 <col width="30%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Script</th>
 <th>Paper Figure</th>
 <th>Dataset</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>02_fig3_fashion_mnist_heterogeneous.R</code></td>
 <td>Fig. 3</td>
 <td>Fashion-MNIST (70k)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>03_fig4_mnist_heterogeneous.R</code></td>
 <td>Fig. 4</td>
 <td>MNIST (70k)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>04_fig5_wong_homogeneous.R</code></td>
 <td>Fig. 5</td>
 <td>Wong CyTOF (1.27M)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>05_fig6_cdy_lines.R</code></td>
 <td>Fig. 6</td>
 <td>Multiple</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>06_fig7_table_IV_noise_tolerance.R</code></td>
 <td>Fig. 7 / Table IV</td>
 <td>Gaussian blobs</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>07_fig8_coil20_topology.R</code></td>
 <td>Fig. 8</td>
 <td>COIL-20 (1440)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>08_table_II_heterogeneous_ami.R</code></td>
 <td>Table II</td>
 <td>Multiple</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>09_table_III_homogeneous_ami.R</code></td>
 <td>Table III</td>
 <td>Multiple</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>11_extra_static_benchmark.R</code></td>
 <td>–</td>
 <td>All datasets</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>12_extra_hyperparam_sensitivity.R</code></td>
 <td>–</td>
 <td>songR_blobs</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>13_extra_runtime_benchmark.R</code></td>
 <td>–</td>
 <td>Scaling test</td>
@@ -306,38 +306,38 @@
 <col width="32%">
 <col width="28%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Parameter</th>
 <th>Default</th>
 <th>Effect</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>epochs</code></td>
 <td>50</td>
 <td>More = better convergence, slower</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>epsilon</code></td>
 <td>0.9</td>
 <td>Edge decay rate (0–1); lower = sparser graph</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>spread_factor</code></td>
 <td>0.5</td>
 <td>Growth threshold; higher = more coding vectors</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>k</code></td>
 <td>3</td>
 <td>Neighborhood size for graph construction</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>dispersion</code></td>
 <td>TRUE</td>
 <td>UMAP refinement step for visual quality</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>alpha</code></td>
 <td>1.0</td>
 <td>Initial learning rate</td>

@@ -17,6 +17,7 @@ package provides a native R/C++ implementation using RcppArmadillo.
 ## Installation
 
 ``` r
+
 # From CRAN (when available):
 install.packages("songR")
 
@@ -31,6 +32,7 @@ The simplest way to use songR is the
 which fits a SONG model and returns an embedding:
 
 ``` r
+
 library(songR)
 
 model <- song(as.matrix(iris[, 1:4]),
@@ -51,6 +53,7 @@ The model contains the 2D embedding for all input points. Let’s
 visualize it:
 
 ``` r
+
 plot(model, color_by = iris$Species)
 ```
 
@@ -65,6 +68,7 @@ songR ships with `songR_blobs`, a synthetic 8-cluster dataset in 20
 dimensions designed for quick testing:
 
 ``` r
+
 data(songR_blobs)
 cat("Data:", nrow(songR_blobs$data), "x", ncol(songR_blobs$data), "\n")
 #> Data: 1600 x 20
@@ -88,6 +92,7 @@ initial batch of data and then add more data later without recomputing
 from scratch. The existing embedding is preserved.
 
 ``` r
+
 # Split iris into two halves
 X1 <- as.matrix(iris[1:75, 1:4])
 X2 <- as.matrix(iris[76:150, 1:4])
@@ -112,6 +117,7 @@ emb_v2_all <- predict(model_v2, newdata = rbind(X1, X2))
 Let’s see the before/after:
 
 ``` r
+
 par(mfrow = c(1, 2), mar = c(2, 2, 3, 1))
 
 # Before: only first 75 points
@@ -141,6 +147,7 @@ Once trained, a SONG model can project unseen data into the embedding
 space without retraining:
 
 ``` r
+
 # Train on 80% of iris
 train_idx <- sample(150, 120)
 test_idx <- setdiff(1:150, train_idx)
@@ -157,6 +164,7 @@ cat("Projected", nrow(new_coords), "new points into",
 ```
 
 ``` r
+
 # Plot training points (circles) and projected points (triangles)
 emb_train <- model_train$embedding
 
@@ -181,6 +189,7 @@ legend("topright",
 ## Model Inspection
 
 ``` r
+
 summary(model_blobs)
 #> SONG model summary
 #> ==================
@@ -210,20 +219,21 @@ summary(model_blobs)
 
 ## When to Use SONG vs t-SNE vs UMAP
 
-| Feature             | SONG                   | t-SNE                | UMAP                  |
-|---------------------|------------------------|----------------------|-----------------------|
-| Incremental updates | Yes                    | No                   | No                    |
-| Parametric model    | Yes                    | No                   | No                    |
-| Noise tolerance     | High                   | Low                  | Medium                |
-| Global structure    | Good                   | Poor                 | Good                  |
-| Speed (large data)  | Medium                 | Slow                 | Fast                  |
-| Best for            | Streaming, incremental | Static, local detail | Static, fast overview |
+| Feature | SONG | t-SNE | UMAP |
+|----|----|----|----|
+| Incremental updates | Yes | No | No |
+| Parametric model | Yes | No | No |
+| Noise tolerance | High | Low | Medium |
+| Global structure | Good | Poor | Good |
+| Speed (large data) | Medium | Slow | Fast |
+| Best for | Streaming, incremental | Static, local detail | Static, fast overview |
 
 ## Citation
 
 If you use songR in your research, please cite:
 
 ``` r
+
 citation("songR")
 ```
 
@@ -236,8 +246,9 @@ citation("songR")
 ## Session Info
 
 ``` r
+
 sessionInfo()
-#> R version 4.5.3 (2026-03-11)
+#> R version 4.6.0 (2026-04-24)
 #> Platform: x86_64-pc-linux-gnu
 #> Running under: Ubuntu 24.04.4 LTS
 #> 
@@ -262,13 +273,13 @@ sessionInfo()
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.51         rlang_1.2.0       
-#>  [5] xfun_0.57          otel_0.2.0         S7_0.2.1-1         textshaping_1.0.5 
-#>  [9] jsonlite_2.0.0     glue_1.8.0         htmltools_0.5.9    ragg_1.5.2        
+#>  [5] xfun_0.57          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 
+#>  [9] jsonlite_2.0.0     glue_1.8.1         htmltools_0.5.9    ragg_1.5.2        
 #> [13] sass_0.4.10        uwot_0.2.4         scales_1.4.0       rmarkdown_2.31    
-#> [17] grid_4.5.3         evaluate_1.0.5     jquerylib_0.1.4    fastmap_1.2.0     
-#> [21] yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1        compiler_4.5.3    
-#> [25] RColorBrewer_1.1-3 fs_2.0.1           Rcpp_1.1.1-1       lattice_0.22-9    
+#> [17] grid_4.6.0         evaluate_1.0.5     jquerylib_0.1.4    fastmap_1.2.0     
+#> [21] yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1        compiler_4.6.0    
+#> [25] RColorBrewer_1.1-3 fs_2.1.0           Rcpp_1.1.1-1.1     lattice_0.22-9    
 #> [29] farver_2.1.2       systemfonts_1.3.2  digest_0.6.39      R6_2.6.1          
-#> [33] Matrix_1.7-4       bslib_0.10.0       gtable_0.3.6       tools_4.5.3       
-#> [37] pkgdown_2.2.0      ggplot2_4.0.2      cachem_1.1.0       desc_1.4.3
+#> [33] Matrix_1.7-5       bslib_0.10.0       gtable_0.3.6       tools_4.6.0       
+#> [37] pkgdown_2.2.0      ggplot2_4.0.3      cachem_1.1.0       desc_1.4.3
 ```

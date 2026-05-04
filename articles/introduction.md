@@ -25,6 +25,7 @@ The algorithm is described in:
 ## Installation
 
 ``` r
+
 # Install from GitHub
 devtools::install_github("r-heller/songR")
 ```
@@ -32,6 +33,7 @@ devtools::install_github("r-heller/songR")
 ## Quick Start with Iris
 
 ``` r
+
 library(songR)
 
 model <- song(as.matrix(iris[, 1:4]), seed = 42, epochs = 20L)
@@ -64,6 +66,7 @@ plot(model, color_by = iris$Species)
 ## Working with the Bundled Dataset
 
 ``` r
+
 data(songR_blobs)
 model_blobs <- song(songR_blobs$data, seed = 42, epochs = 15L, verbose = FALSE)
 plot(model_blobs, color_by = songR_blobs$labels)
@@ -77,6 +80,7 @@ This is SONG’s key feature. We train on the first half of the data, then
 incrementally add the second half.
 
 ``` r
+
 # Split data
 data(songR_blobs)
 n <- nrow(songR_blobs$data)
@@ -106,6 +110,7 @@ embedding structure.
 ## Predicting New Points
 
 ``` r
+
 # Train on 90%, predict on 10%
 train_idx <- 1:135
 test_idx <- 136:150
@@ -126,6 +131,7 @@ points(new_coords[, 1], new_coords[, 2], col = "red", pch = 17, cex = 1.2)
 ## Comparison: SONG vs t-SNE vs UMAP
 
 ``` r
+
 mat <- as.matrix(iris[, 1:4])
 
 # SONG
@@ -155,15 +161,15 @@ incremental updates and retains a parametric codebook model.
 
 ## Tuning Guide
 
-| Parameter       | Default      | Description                                                        |
-|-----------------|--------------|--------------------------------------------------------------------|
-| `spread_factor` | 0.5          | Growth threshold; higher = more coding vectors. Range: (0, 1).     |
-| `k`             | 3            | Neighborhood size. Must be \>= `d + 1`. Lower = finer topology.    |
-| `epsilon`       | 0.9          | Edge decay rate (0–1). Lower = sparser, faster-pruning graph.      |
-| `epochs`        | 50           | Number of self-organisation iterations. More = better convergence. |
-| `alpha`         | 1.0          | Initial learning rate.                                             |
-| `a`, `b`        | 1.577, 0.895 | Kernel shape parameters from the UMAP literature.                  |
-| `dispersion`    | TRUE         | UMAP refinement step for visual cluster separation.                |
+| Parameter | Default | Description |
+|----|----|----|
+| `spread_factor` | 0.5 | Growth threshold; higher = more coding vectors. Range: (0, 1). |
+| `k` | 3 | Neighborhood size. Must be \>= `d + 1`. Lower = finer topology. |
+| `epsilon` | 0.9 | Edge decay rate (0–1). Lower = sparser, faster-pruning graph. |
+| `epochs` | 50 | Number of self-organisation iterations. More = better convergence. |
+| `alpha` | 1.0 | Initial learning rate. |
+| `a`, `b` | 1.577, 0.895 | Kernel shape parameters from the UMAP literature. |
+| `dispersion` | TRUE | UMAP refinement step for visual cluster separation. |
 
 ## The Codebook Model
 
@@ -172,6 +178,7 @@ topology-preserving graph. This is what enables incremental updates and
 fast projection.
 
 ``` r
+
 model <- song(as.matrix(iris[, 1:4]), seed = 42, epochs = 15L, verbose = FALSE)
 summary(model)
 #> SONG model summary
@@ -197,6 +204,7 @@ plot(model, type = "graph", color_by = iris$Species)
 For interactive exploration, launch the Shiny comparison app:
 
 ``` r
+
 run_songR_app()
 ```
 
@@ -206,6 +214,7 @@ side-by-side on your own data.
 ## Citation
 
 ``` r
+
 citation("songR")
 #> To cite the songR R package, use:
 #> 
@@ -228,8 +237,9 @@ citation("songR")
 ## Session Info
 
 ``` r
+
 sessionInfo()
-#> R version 4.5.3 (2026-03-11)
+#> R version 4.6.0 (2026-04-24)
 #> Platform: x86_64-pc-linux-gnu
 #> Running under: Ubuntu 24.04.4 LTS
 #> 
@@ -254,14 +264,14 @@ sessionInfo()
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.51         rlang_1.2.0       
-#>  [5] xfun_0.57          otel_0.2.0         S7_0.2.1-1         textshaping_1.0.5 
-#>  [9] jsonlite_2.0.0     glue_1.8.0         Rtsne_0.17         htmltools_0.5.9   
+#>  [5] xfun_0.57          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 
+#>  [9] jsonlite_2.0.0     glue_1.8.1         Rtsne_0.17         htmltools_0.5.9   
 #> [13] ragg_1.5.2         sass_0.4.10        uwot_0.2.4         scales_1.4.0      
-#> [17] rmarkdown_2.31     grid_4.5.3         evaluate_1.0.5     jquerylib_0.1.4   
+#> [17] rmarkdown_2.31     grid_4.6.0         evaluate_1.0.5     jquerylib_0.1.4   
 #> [21] fastmap_1.2.0      yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1       
-#> [25] compiler_4.5.3     RColorBrewer_1.1-3 fs_2.0.1           Rcpp_1.1.1-1      
+#> [25] compiler_4.6.0     RColorBrewer_1.1-3 fs_2.1.0           Rcpp_1.1.1-1.1    
 #> [29] farver_2.1.2       systemfonts_1.3.2  lattice_0.22-9     digest_0.6.39     
-#> [33] R6_2.6.1           bslib_0.10.0       Matrix_1.7-4       gtable_0.3.6      
-#> [37] tools_4.5.3        ggplot2_4.0.2      pkgdown_2.2.0      cachem_1.1.0      
+#> [33] R6_2.6.1           bslib_0.10.0       Matrix_1.7-5       gtable_0.3.6      
+#> [37] tools_4.6.0        ggplot2_4.0.3      pkgdown_2.2.0      cachem_1.1.0      
 #> [41] desc_1.4.3
 ```
