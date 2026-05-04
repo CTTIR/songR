@@ -1,0 +1,125 @@
+---
+title: "Interactive Visualization with the songR Shiny App"
+author: "Raban Heller"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+## Overview
+
+songR includes a built-in Shiny application for interactive exploration
+of SONG embeddings. The app lets you:
+
+- Upload CSV/RDS data or use built-in datasets
+- Adjust SONG hyperparameters (epochs, epsilon, spread_factor, k)
+- Run SONG, t-SNE, and UMAP side-by-side
+- Incrementally add data and observe embedding stability
+- Color points by any variable (discrete or continuous)
+- Toggle **dark mode** for comfortable viewing (preference persisted via
+  localStorage)
+- Export embeddings and plots
+
+All plots use the **viridis plasma** color scale for perceptually
+uniform, colorblind-friendly visualization.
+
+## Launching the App
+
+```{r launch}
+library(songR)
+
+# Launch with default settings
+run_songR_app()
+```
+
+The app opens in your default browser.
+
+## Using Built-in Data
+
+The app ships with `songR_blobs`, an 8-cluster synthetic dataset in 20
+dimensions. Select it from the "Data" dropdown to get started immediately.
+
+## Uploading Your Own Data
+
+1. Click **Upload Data** in the sidebar
+2. Select a CSV file (first columns = features, optional last column = labels)
+3. Or upload an RDS file containing a list with `$data` (matrix) and
+   optional `$labels` (factor/character)
+
+## Hyperparameter Controls
+
+The sidebar provides sliders for all key SONG parameters:
+
+| Control | Maps to | Effect |
+|---------|---------|--------|
+| Epochs | `epochs` | More = better quality, slower |
+| Epsilon | `epsilon` | Edge decay rate (0-1) |
+| Spread Factor | `spread_factor` | Growth threshold for new CVs |
+| k | `k` | Neighborhood size |
+| Dispersion | `dispersion` | Toggle UMAP refinement |
+
+## Incremental Mode
+
+The app supports SONG's incremental workflow:
+
+1. Load initial data and click **Run SONG**
+2. Upload additional data via **Add Increment**
+3. Click **Update Model** — the existing embedding is preserved
+4. Compare with **Reinitialize** to see the stability difference
+
+## Dark Mode
+
+Click the moon/sun toggle button in the navbar to switch between light
+and dark mode. The preference is saved in your browser's localStorage
+and restored on the next visit.
+
+Dark mode adjusts:
+
+- Background, text, and border colors for all UI panels
+- Plot backgrounds and axis label colors
+- Sidebar, navbar, and well panel styling
+
+## Exporting Results
+
+- **Download Embedding**: Saves the 2D coordinates as CSV
+- **Download Plot**: Exports the current visualization as PNG/PDF
+- **Download Model**: Saves the full `song_model` object as RDS
+
+## Example Workflow
+
+```{r workflow}
+library(songR)
+
+# Programmatic equivalent of the Shiny workflow:
+
+# 1. Load data
+data(songR_blobs)
+X <- songR_blobs$data
+labels <- songR_blobs$labels
+
+# 2. Initial SONG
+model <- song(X[1:500, ], epochs = 20L, seed = 42, verbose = FALSE)
+plot(model, color_by = labels[1:500])
+
+# 3. Incremental update
+model <- update(model, X[501:1000, ], epochs = 20L, verbose = FALSE)
+emb <- predict(model, newdata = X[1:1000, ])
+
+# 4. Visualize
+plot(emb[, 1], emb[, 2], pch = 16, cex = 0.5,
+     col = rainbow(8)[as.integer(labels[1:1000])],
+     main = "After Incremental Update",
+     xlab = "SONG 1", ylab = "SONG 2", bty = "n")
+```
+
+## Session Info
+
+```{r sessioninfo, eval = TRUE}
+sessionInfo()
+```

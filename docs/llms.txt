@@ -1,0 +1,282 @@
+# songR
+
+## Overview
+
+**songR** provides a native R/C++ implementation of the [Self-Organizing
+Nebulous Growths (SONG)](https://doi.org/10.1109/TNNLS.2020.3023941)
+algorithm for nonlinear dimensionality reduction and data visualization.
+
+SONG’s key advantages over t-SNE and UMAP:
+
+| Feature                 | SONG           | t-SNE | UMAP     |
+|-------------------------|----------------|-------|----------|
+| **Incremental updates** | Yes            | No    | No       |
+| **Parametric model**    | Yes (codebook) | No    | Optional |
+| **Noise robustness**    | High           | Low   | Medium   |
+| **Global structure**    | Good           | Poor  | Good     |
+
+New data can be added to an existing embedding without reinitializing or
+retraining the model, making SONG ideal for streaming data, growing
+datasets, and experiments where data arrives in batches.
+
+## Installation
+
+``` r
+# Install from CRAN (when available)
+install.packages("songR")
+
+# Or install the development version from GitHub
+# install.packages("devtools")
+devtools::install_github("r-heller/songR")
+```
+
+## Quick Start
+
+``` r
+library(songR)
+
+# Fit a SONG model
+model <- song(as.matrix(iris[, 1:4]), seed = 42)
+plot(model, color_by = iris$Species)
+
+# Incremental update with new data
+model <- update(model, new_data_matrix)
+
+# Project new points into existing embedding
+new_coords <- predict(model, newdata = held_out_matrix)
+```
+
+## Key Features
+
+### Incremental Visualization
+
+Train on an initial batch, then add more data without recomputing from
+scratch. Existing point positions are preserved:
+
+``` r
+# Train on first batch
+model <- song(batch1, epochs = 20L, seed = 42)
+
+# Add second batch -- existing embedding is preserved
+model <- update(model, batch2, epochs = 20L)
+
+# Get embedding for ALL points
+emb <- predict(model, newdata = rbind(batch1, batch2))
+```
+
+### Parametric Projection
+
+Once trained, a SONG model can project unseen data without retraining:
+
+``` r
+new_coords <- predict(model, newdata = held_out_data)
+```
+
+### Bundled Dataset
+
+songR ships with `songR_blobs`, a synthetic 8-cluster dataset in 20
+dimensions for quick benchmarking:
+
+``` r
+data(songR_blobs)
+model <- song(songR_blobs$data, epochs = 15L, seed = 42)
+plot(model, color_by = songR_blobs$labels)
+```
+
+### Interactive Comparison App
+
+Launch a Shiny app comparing SONG, t-SNE, and UMAP side-by-side with
+dark mode support:
+
+``` r
+run_songR_app()
+```
+
+The app supports uploading custom data, tuning all SONG hyperparameters,
+running incremental updates, and exporting embeddings and plots.
+
+## When to Use SONG
+
+- **Incremental/streaming data**: Data arrives in batches and you need a
+  stable, growing visualization.
+- **Heterogeneous increments**: New data may contain classes or
+  structures not present in the original data.
+- **Noisy or mixed clusters**: SONG is more tolerant to noise and
+  cluster overlap than t-SNE.
+- **Parametric mapping**: SONG retains a codebook model that can project
+  new points without retraining.
+- **Large-scale cytometry/single-cell**: SONG handles 1M+ cells
+  incrementally with stable embeddings (see tutorials).
+
+## Vignettes and Tutorials
+
+### CRAN Vignettes
+
+- **Introduction to songR** – Full overview of the API with iris and
+  songR_blobs examples
+- **Getting Started with songR** – Quick-start guide covering fitting,
+  updating, predicting, and tuning
+
+### pkgdown Articles
+
+- **[Reproducing Paper
+  Figures](https://r-heller.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
+  – Reproduces key experiments from Senanayake et al. (2021) using songR
+  (heterogeneous/homogeneous increments, CDY stability, noise tolerance,
+  topology preservation, AMI scores)
+- **[Interactive Shiny
+  App](https://r-heller.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
+  – Guide to the built-in comparison app with dark mode
+
+### Full-Scale Tutorial Scripts
+
+The `tutorials/` directory contains scripts for full-scale reproduction
+of all paper figures and tables on real datasets (MNIST, Fashion-MNIST,
+Wong CyTOF 1.27M cells, COIL-20, Samusik):
+
+| Script | Paper Figure | Dataset |
+|----|----|----|
+| `02_fig3_fashion_mnist_heterogeneous.R` | Fig. 3 | Fashion-MNIST (70k) |
+| `03_fig4_mnist_heterogeneous.R` | Fig. 4 | MNIST (70k) |
+| `04_fig5_wong_homogeneous.R` | Fig. 5 | Wong CyTOF (1.27M) |
+| `05_fig6_cdy_lines.R` | Fig. 6 | Multiple |
+| `06_fig7_table_IV_noise_tolerance.R` | Fig. 7 / Table IV | Gaussian blobs |
+| `07_fig8_coil20_topology.R` | Fig. 8 | COIL-20 (1440) |
+| `08_table_II_heterogeneous_ami.R` | Table II | Multiple |
+| `09_table_III_homogeneous_ami.R` | Table III | Multiple |
+| `11_extra_static_benchmark.R` | – | All datasets |
+| `12_extra_hyperparam_sensitivity.R` | – | songR_blobs |
+| `13_extra_runtime_benchmark.R` | – | Scaling test |
+
+Run all tutorials:
+
+``` r
+source("tutorials/00_install_dependencies.R")
+source("tutorials/01_prepare_data.R")
+# Then source any tutorial script
+```
+
+## Key Parameters
+
+| Parameter       | Default | Effect                                         |
+|-----------------|---------|------------------------------------------------|
+| `epochs`        | 50      | More = better convergence, slower              |
+| `epsilon`       | 0.9     | Edge decay rate (0–1); lower = sparser graph   |
+| `spread_factor` | 0.5     | Growth threshold; higher = more coding vectors |
+| `k`             | 3       | Neighborhood size for graph construction       |
+| `dispersion`    | TRUE    | UMAP refinement step for visual quality        |
+| `alpha`         | 1.0     | Initial learning rate                          |
+
+## Citation
+
+If you use `songR` in published research, please cite both this R
+package and the underlying SONG algorithm:
+
+**R package:**
+
+> Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
+> Dimensionality Reduction. R package version 0.1.0.
+> <https://github.com/r-heller/songR>
+
+**Underlying algorithm:**
+
+> Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).
+> Self-Organizing Nebulous Growths for Robust and Incremental Data
+> Visualization. *IEEE Transactions on Neural Networks and Learning
+> Systems*, 32(10), 4588-4602.
+> [doi:10.1109/TNNLS.2020.3023941](https://doi.org/10.1109/TNNLS.2020.3023941)
+
+``` r
+citation("songR")
+```
+
+## Acknowledgments
+
+This package is an independent R/C++ re-implementation of the SONG
+algorithm using
+[RcppArmadillo](https://cran.r-project.org/package=RcppArmadillo). The
+original algorithm was developed by Damith Senanayake, Wei Wang, Shalin
+Naik, and Saman Halgamuge at the University of Melbourne. The original
+Python implementation is available at
+[github.com/damithsenanayake/SONG](https://github.com/damithsenanayake/SONG).
+
+## License
+
+MIT (c) Raban Heller
+
+# Package index
+
+## Core Functions
+
+Fit a SONG model, incrementally update it with new data, and project
+unseen points into the learned embedding space.
+
+- [`song()`](https://r-heller.github.io/songR/reference/song.md) : Fit a
+  SONG Model for Dimensionality Reduction
+- [`update(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/update.song_model.md)
+  : Incrementally Update a SONG Model with New Data
+- [`predict(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/predict.song_model.md)
+  : Project New Points into a SONG Embedding
+
+## Visualization
+
+Plot SONG embeddings, codebook prototypes, and the learned topology
+graph using base R or ggplot2.
+
+- [`plot(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/plot.song_model.md)
+  : Plot a SONG Model
+- [`autoplot.song_model()`](https://r-heller.github.io/songR/reference/autoplot.song_model.md)
+  : Autoplot Method for SONG Models
+
+## Model Inspection
+
+Print and summarize SONG model objects, including codebook statistics,
+quantization error, and graph connectivity.
+
+- [`print(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/print.song_model.md)
+  : Print a SONG Model
+- [`summary(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/summary.song_model.md)
+  : Summarize a SONG Model
+
+## Interactive App
+
+Launch a Shiny app to compare SONG, t-SNE, and UMAP side-by-side with
+dark mode, custom data upload, and incremental update support.
+
+- [`run_songR_app()`](https://r-heller.github.io/songR/reference/run_songR_app.md)
+  : Launch Interactive Comparison App
+
+## Data
+
+Bundled datasets for examples, vignettes, and benchmarking.
+
+- [`songR_blobs`](https://r-heller.github.io/songR/reference/songR_blobs.md)
+  : Simulated Gaussian Blobs Dataset
+
+## Package
+
+- [`songR`](https://r-heller.github.io/songR/reference/songR-package.md)
+  [`songR-package`](https://r-heller.github.io/songR/reference/songR-package.md)
+  : songR: Self-Organizing Nebulous Growths for Dimensionality Reduction
+
+# Articles
+
+### Getting Started
+
+Learn the basics of songR: fitting models, incremental updates,
+prediction, and visualization.
+
+- [Introduction to
+  songR](https://r-heller.github.io/songR/articles/introduction.md):
+- [Getting Started with
+  songR](https://r-heller.github.io/songR/articles/songR_quickstart.md):
+
+### Advanced Topics
+
+Paper figure reproduction, benchmark comparisons, and the interactive
+Shiny app.
+
+- [Reproducing Paper Figures with
+  songR](https://r-heller.github.io/songR/articles/reproducing_paper_figures.md):
+- [Interactive Visualization with the songR Shiny
+  App](https://r-heller.github.io/songR/articles/songR_shiny_app.md):

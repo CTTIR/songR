@@ -1,0 +1,72 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+name: pkgdown
+
+permissions: read-all
+
+jobs:
+  pkgdown:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      _R_CHECK_FORCE_SUGGESTS_: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgdown, local::.
+          needs: website
+
+      - name: Install Bioconductor Suggests (optional)
+        run: |
+          if (!requireNamespace("BiocManager", quietly = TRUE))
+            install.packages("BiocManager")
+          bioc_pkgs <- c("DESeq2", "edgeR", "limma", "ShortRead", "Biostrings",
+                         "Rsamtools", "GenomicAlignments", "GenomicFeatures",
+                         "GenomicRanges", "SummarizedExperiment", "Biobase",
+                         "ComplexHeatmap")
+          # Only install packages that are actually in Suggests
+          desc_suggests <- strsplit(read.dcf("DESCRIPTION")[, "Suggests"], ",\\s*")[[1]]
+          desc_suggests <- trimws(gsub("\\s*\\(.*\\)", "", desc_suggests))
+          to_install <- intersect(bioc_pkgs, desc_suggests)
+          if (length(to_install) > 0) {
+            message("Installing Bioconductor packages: ", paste(to_install, collapse = ", "))
+            tryCatch(
+              BiocManager::install(to_install, update = FALSE),
+              error = function(e) message("Bioconductor install skipped: ", e$message)
+            )
+          } else {
+            message("No Bioconductor Suggests found - skipping.")
+          }
+        shell: Rscript {0}
+        continue-on-error: true
+
+      - name: Build site
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        shell: Rscript {0}
+
+      - name: Deploy to GitHub pages
+        if: github.event_name != 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          clean: false
+          branch: gh-pages
+          folder: docs

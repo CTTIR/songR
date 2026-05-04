@@ -1,0 +1,75 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: R-CMD-check
+
+permissions: read-all
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macOS-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'oldrel-1'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+      _R_CHECK_FORCE_SUGGESTS_: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - name: Install Bioconductor Suggests (optional)
+        run: |
+          if (!requireNamespace("BiocManager", quietly = TRUE))
+            install.packages("BiocManager")
+          bioc_pkgs <- c("DESeq2", "edgeR", "limma", "ShortRead", "Biostrings",
+                         "Rsamtools", "GenomicAlignments", "GenomicFeatures",
+                         "GenomicRanges", "SummarizedExperiment", "Biobase",
+                         "ComplexHeatmap")
+          # Only install packages that are actually in Suggests
+          desc_suggests <- strsplit(read.dcf("DESCRIPTION")[, "Suggests"], ",\\s*")[[1]]
+          desc_suggests <- trimws(gsub("\\s*\\(.*\\)", "", desc_suggests))
+          to_install <- intersect(bioc_pkgs, desc_suggests)
+          if (length(to_install) > 0) {
+            message("Installing Bioconductor packages: ", paste(to_install, collapse = ", "))
+            tryCatch(
+              BiocManager::install(to_install, update = FALSE),
+              error = function(e) message("Bioconductor install skipped: ", e$message)
+            )
+          } else {
+            message("No Bioconductor Suggests found - skipping.")
+          }
+        shell: Rscript {0}
+        continue-on-error: true
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'

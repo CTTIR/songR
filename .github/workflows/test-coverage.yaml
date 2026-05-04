@@ -1,0 +1,68 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: test-coverage
+
+permissions: read-all
+
+jobs:
+  test-coverage:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      _R_CHECK_FORCE_SUGGESTS_: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr, any::xml2
+          needs: coverage
+
+      - name: Install Bioconductor Suggests (optional)
+        run: |
+          if (!requireNamespace("BiocManager", quietly = TRUE))
+            install.packages("BiocManager")
+          bioc_pkgs <- c("DESeq2", "edgeR", "limma", "ShortRead", "Biostrings",
+                         "Rsamtools", "GenomicAlignments", "GenomicFeatures",
+                         "GenomicRanges", "SummarizedExperiment", "Biobase",
+                         "ComplexHeatmap")
+          desc_suggests <- strsplit(read.dcf("DESCRIPTION")[, "Suggests"], ",\\s*")[[1]]
+          desc_suggests <- trimws(gsub("\\s*\\(.*\\)", "", desc_suggests))
+          to_install <- intersect(bioc_pkgs, desc_suggests)
+          if (length(to_install) > 0) {
+            message("Installing Bioconductor packages: ", paste(to_install, collapse = ", "))
+            tryCatch(
+              BiocManager::install(to_install, update = FALSE),
+              error = function(e) message("Bioconductor install skipped: ", e$message)
+            )
+          } else {
+            message("No Bioconductor Suggests found - skipping.")
+          }
+        shell: Rscript {0}
+        continue-on-error: true
+
+      - name: Test coverage
+        run: |
+          cov <- covr::package_coverage(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+          )
+          covr::to_cobertura(cov)
+        shell: Rscript {0}
+
+      - uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: false
+          file: ./cobertura.xml
+          plugin: noop
+          token: ${{ secrets.CODECOV_TOKEN }}

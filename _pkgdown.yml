@@ -1,0 +1,91 @@
+url: https://r-heller.github.io/songR/
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+
+navbar:
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Get started"
+      href: articles/songR_quickstart.html
+    - text: "Vignettes"
+      menu:
+      - text: "Introduction to songR"
+        href: articles/introduction.html
+      - text: "Getting Started with songR"
+        href: articles/songR_quickstart.html
+      - text: "---"
+      - text: "Reproducing Paper Figures"
+        href: articles/reproducing_paper_figures.html
+      - text: "Interactive Shiny App"
+        href: articles/songR_shiny_app.html
+    - text: "Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/r-heller/songR/
+      aria-label: GitHub repository
+
+reference:
+- title: "Core Functions"
+  desc: >
+    Fit a SONG model, incrementally update it with new data, and project
+    unseen points into the learned embedding space.
+  contents:
+  - song
+  - update.song_model
+  - predict.song_model
+
+- title: "Visualization"
+  desc: >
+    Plot SONG embeddings, codebook prototypes, and the learned topology
+    graph using base R or ggplot2.
+  contents:
+  - plot.song_model
+  - autoplot.song_model
+
+- title: "Model Inspection"
+  desc: >
+    Print and summarize SONG model objects, including codebook statistics,
+    quantization error, and graph connectivity.
+  contents:
+  - print.song_model
+  - summary.song_model
+
+- title: "Interactive App"
+  desc: >
+    Launch a Shiny app to compare SONG, t-SNE, and UMAP side-by-side with
+    dark mode, custom data upload, and incremental update support.
+  contents:
+  - run_songR_app
+
+- title: "Data"
+  desc: >
+    Bundled datasets for examples, vignettes, and benchmarking.
+  contents:
+  - songR_blobs
+
+- title: "Package"
+  contents:
+  - songR-package
+
+articles:
+- title: "Getting Started"
+  desc: >
+    Learn the basics of songR: fitting models, incremental updates,
+    prediction, and visualization.
+  contents:
+  - introduction
+  - songR_quickstart
+
+- title: "Advanced Topics"
+  desc: >
+    Paper figure reproduction, benchmark comparisons, and the interactive
+    Shiny app.
+  contents:
+  - articles/reproducing_paper_figures
+  - articles/songR_shiny_app

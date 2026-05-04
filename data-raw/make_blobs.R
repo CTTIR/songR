@@ -1,0 +1,29 @@
+# Simulate Gaussian blobs dataset similar to the paper's Section IV-C
+set.seed(2021)
+n_per_cluster <- 200
+n_clusters <- 8
+D <- 20
+
+blobs_data <- do.call(rbind, lapply(seq_len(n_clusters), function(i) {
+  center <- stats::rnorm(D, mean = 0, sd = 10)
+  sweep(
+    matrix(stats::rnorm(n_per_cluster * D, sd = 2), ncol = D),
+    2, center, "+"
+  )
+}))
+
+blobs_labels <- factor(rep(paste0("cluster_", seq_len(n_clusters)),
+                           each = n_per_cluster))
+
+songR_blobs <- list(
+  data = blobs_data,
+  labels = blobs_labels,
+  description = paste(
+    "Simulated Gaussian blobs dataset with", n_clusters, "clusters,",
+    n_per_cluster, "points each, in", D, "dimensions.",
+    "Designed for benchmarking dimensionality reduction methods.",
+    "Inspired by the experimental setup in Senanayake et al. (2021)."
+  )
+)
+
+usethis::use_data(songR_blobs, overwrite = TRUE)

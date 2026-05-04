@@ -1,0 +1,43 @@
+Package: songR
+Type: Package
+Title: Self-Organizing Nebulous Growths for Dimensionality Reduction
+Version: 0.1.0
+Authors@R: person("Raban", "Heller", role = c("aut", "cre"),
+           email = "raban.heller@uni-ulm.de",
+           comment = c(ORCID = "0000-0001-8006-9742"))
+Description: Native R/C++ implementation of the Self-Organizing Nebulous
+    Growths (SONG) algorithm for nonlinear dimensionality reduction and data
+    visualization. SONG is a parametric method that supports incremental
+    addition of new data to existing visualizations without reinitialization,
+    handles both homogeneous and heterogeneous data increments, and is robust
+    to noise and highly mixed clusters. Based on the algorithm described in
+    Senanayake et al. (2021) <doi:10.1109/TNNLS.2020.3023941>. Includes an
+    interactive Shiny application for comparing SONG, t-SNE, and UMAP
+    visualizations side-by-side.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends: R (>= 4.0.0)
+Imports:
+    Rcpp (>= 1.0.0)
+Suggests:
+    Matrix,
+    ggplot2,
+    viridis,
+    shiny,
+    Rtsne,
+    uwot,
+    aricode,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+LinkingTo:
+    Rcpp,
+    RcppArmadillo
+Config/testthat/edition: 3
+Config/Needs/website: pkgdown
+VignetteBuilder: knitr
+URL: https://r-heller.github.io/songR/, https://github.com/r-heller/songR
+BugReports: https://github.com/r-heller/songR/issues
