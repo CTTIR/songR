@@ -728,7 +728,7 @@ DOI: 10.1109/TNNLS.2020.3023941"
 
           shiny::tags$hr(class = "sidebar-divider"),
           shiny::tags$h5("SONG"),
-          shiny::numericInput("song_k", "k (neighborhood)", value = 3, min = 1, max = 20, width = "100%"),
+          shiny::numericInput("song_k", "k (neighborhood)", value = 3, min = 3, max = 20, width = "100%"),
           shiny::sliderInput("song_sf", "spread_factor", min = 0.01, max = 0.99,
                              value = 0.5, step = 0.01, width = "100%"),
           shiny::numericInput("song_epochs", "epochs", value = 50, min = 5, max = 500, width = "100%"),
@@ -884,7 +884,7 @@ DOI: 10.1109/TNNLS.2020.3023941"
               shiny::tags$tr(
                 shiny::tags$td(shiny::tags$code("k")),
                 shiny::tags$td("3"),
-                shiny::tags$td("Neighborhood size. Use k=1 for sharpest cluster separation (matches Python default). Higher k = denser graph, more noise tolerance.")
+                shiny::tags$td("Neighborhood size for the coding-vector graph. Must be at least d + 1 (3 for a 2-D embedding). Higher k = denser graph, more noise tolerance.")
               ),
               shiny::tags$tr(
                 shiny::tags$td(shiny::tags$code("epsilon")),
@@ -913,8 +913,8 @@ DOI: 10.1109/TNNLS.2020.3023941"
               ),
               shiny::tags$tr(
                 shiny::tags$td(shiny::tags$code("epochs")),
-                shiny::tags$td("100"),
-                shiny::tags$td("Maximum SONG training passes. Stops early if topology converges.")
+                shiny::tags$td("50"),
+                shiny::tags$td("Number of SONG self-organization passes over the data. More passes = better convergence, slower.")
               )
             )
           )
@@ -1196,8 +1196,8 @@ server <- function(input, output, session) {
                 shiny::tags$strong("Quantization Error (QE): "),
                 "Mean distance from each input point to its nearest CV. Lower = better fit.",
                 shiny::tags$br(), shiny::tags$br(),
-                shiny::tags$strong("Convergence: "),
-                "Training stops early when the edge topology stabilizes epoch-to-epoch."
+                shiny::tags$strong("Epochs: "),
+                "SONG trains for a fixed number of self-organization passes over the data (default 50)."
               )
             )
           )

@@ -45,30 +45,6 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: Install Bioconductor Suggests (optional)
-        run: |
-          if (!requireNamespace("BiocManager", quietly = TRUE))
-            install.packages("BiocManager")
-          bioc_pkgs <- c("DESeq2", "edgeR", "limma", "ShortRead", "Biostrings",
-                         "Rsamtools", "GenomicAlignments", "GenomicFeatures",
-                         "GenomicRanges", "SummarizedExperiment", "Biobase",
-                         "ComplexHeatmap")
-          # Only install packages that are actually in Suggests
-          desc_suggests <- strsplit(read.dcf("DESCRIPTION")[, "Suggests"], ",\\s*")[[1]]
-          desc_suggests <- trimws(gsub("\\s*\\(.*\\)", "", desc_suggests))
-          to_install <- intersect(bioc_pkgs, desc_suggests)
-          if (length(to_install) > 0) {
-            message("Installing Bioconductor packages: ", paste(to_install, collapse = ", "))
-            tryCatch(
-              BiocManager::install(to_install, update = FALSE),
-              error = function(e) message("Bioconductor install skipped: ", e$message)
-            )
-          } else {
-            message("No Bioconductor Suggests found - skipping.")
-          }
-        shell: Rscript {0}
-        continue-on-error: true
-
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
