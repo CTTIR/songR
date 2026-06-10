@@ -22,13 +22,13 @@ package provides a native R/C++ implementation using RcppArmadillo.
 install.packages("songR")
 
 # Development version from GitHub:
-devtools::install_github("r-heller/songR")
+devtools::install_github("cttir/songR")
 ```
 
 ## Quick Start on Iris
 
 The simplest way to use songR is the
-[`song()`](https://r-heller.github.io/songR/reference/song.md) function,
+[`song()`](https://cttir.github.io/songR/reference/song.md) function,
 which fits a SONG model and returns an embedding:
 
 ``` r

@@ -12,18 +12,18 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/r-heller/songR/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/cttir/songR/blob/main/inst/CITATION)
 
 Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
 Dimensionality Reduction. R package version 0.1.0.
-https://github.com/r-heller/songR
+https://github.com/cttir/songR
 
     @Manual{,
       title = {songR: Self-Organizing Nebulous Growths for Dimensionality Reduction},
       author = {Raban Heller},
       year = {2026},
       note = {R package version 0.1.0},
-      url = {https://github.com/r-heller/songR},
+      url = {https://github.com/cttir/songR},
     }
 
 Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).

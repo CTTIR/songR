@@ -54,8 +54,8 @@ Systems*, 32(10), 4588–4602.
 
 ## See also
 
-[`song`](https://r-heller.github.io/songR/reference/song.md),
-[`predict.song_model`](https://r-heller.github.io/songR/reference/predict.song_model.md)
+[`song`](https://cttir.github.io/songR/reference/song.md),
+[`predict.song_model`](https://cttir.github.io/songR/reference/predict.song_model.md)
 
 ## Examples
 

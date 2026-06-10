@@ -1,6 +1,6 @@
 # Introduction to songR
 
-## What is SONG?
+### What is SONG?
 
 The Self-Organizing Nebulous Growths (SONG) algorithm is a parametric
 method for nonlinear dimensionality reduction. Unlike t-SNE and UMAP,
@@ -22,15 +22,15 @@ The algorithm is described in:
 > Self-Organizing Nebulous Growths for Robust and Incremental Data
 > Visualization. *IEEE TNNLS*, 32(10), 4588–4602.
 
-## Installation
+### Installation
 
 ``` r
 
 # Install from GitHub
-devtools::install_github("r-heller/songR")
+devtools::install_github("cttir/songR")
 ```
 
-## Quick Start with Iris
+### Quick Start with Iris
 
 ``` r
 
@@ -63,7 +63,7 @@ plot(model, color_by = iris$Species)
 
 ![](introduction_files/figure-html/quickstart-1.png)
 
-## Working with the Bundled Dataset
+### Working with the Bundled Dataset
 
 ``` r
 
@@ -74,7 +74,7 @@ plot(model_blobs, color_by = songR_blobs$labels)
 
 ![](introduction_files/figure-html/blobs-1.png)
 
-## Incremental Visualization
+### Incremental Visualization
 
 This is SONG’s key feature. We train on the first half of the data, then
 incrementally add the second half.
@@ -107,7 +107,7 @@ plot(model_v2$embedding, pch = 16, cex = 0.5,
 The codebook grows to accommodate new data while preserving the existing
 embedding structure.
 
-## Predicting New Points
+### Predicting New Points
 
 ``` r
 
@@ -128,7 +128,7 @@ points(new_coords[, 1], new_coords[, 2], col = "red", pch = 17, cex = 1.2)
 
 ![](introduction_files/figure-html/predict-1.png)
 
-## Comparison: SONG vs t-SNE vs UMAP
+### Comparison: SONG vs t-SNE vs UMAP
 
 ``` r
 
@@ -159,7 +159,7 @@ plot(umap_result, col = col, pch = 16, main = "UMAP",
 All three methods separate the Iris species, but only SONG supports
 incremental updates and retains a parametric codebook model.
 
-## Tuning Guide
+### Tuning Guide
 
 | Parameter | Default | Description |
 |----|----|----|
@@ -171,7 +171,7 @@ incremental updates and retains a parametric codebook model.
 | `a`, `b` | 1.577, 0.895 | Kernel shape parameters from the UMAP literature. |
 | `dispersion` | TRUE | UMAP refinement step for visual cluster separation. |
 
-## The Codebook Model
+### The Codebook Model
 
 SONG retains a codebook of coding vectors connected by a
 topology-preserving graph. This is what enables incremental updates and
@@ -199,7 +199,7 @@ plot(model, type = "graph", color_by = iris$Species)
 
 ![](introduction_files/figure-html/codebook-1.png)
 
-## Interactive Comparison App
+### Interactive Comparison App
 
 For interactive exploration, launch the Shiny comparison app:
 
@@ -211,7 +211,7 @@ run_songR_app()
 This opens a browser-based interface to compare SONG, t-SNE, and UMAP
 side-by-side on your own data.
 
-## Citation
+### Citation
 
 ``` r
 
@@ -220,7 +220,7 @@ citation("songR")
 #> 
 #>   Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
 #>   Dimensionality Reduction. R package version 0.1.0.
-#>   https://github.com/r-heller/songR
+#>   https://github.com/cttir/songR
 #> 
 #> To cite the underlying SONG algorithm, use:
 #> 
@@ -234,7 +234,25 @@ citation("songR")
 #> 'options(citation.bibtex.max=999)'.
 ```
 
-## Session Info
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large
+language model tooling for narrowly defined, non-authorial tasks:
+copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
+boilerplate files (CI configs, build scripts), code refactoring. The
+tools used were [Chat
+AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
+service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
+Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
+`ollamar` R package — local inference only, with no data sent to third
+parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses,
+interpretations, and conclusions are the author’s own. No LLM-generated
+text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.
+
+### Session Info
 
 ``` r
 

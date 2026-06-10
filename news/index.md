@@ -24,8 +24,8 @@
 
 ### Robustness
 
-- [`song()`](https://r-heller.github.io/songR/reference/song.md)
-  validates `max_age` and `max_prototypes`.
+- [`song()`](https://cttir.github.io/songR/reference/song.md) validates
+  `max_age` and `max_prototypes`.
 
 ## songR 0.1.0
 
@@ -56,7 +56,7 @@
 ### Interactive App
 
 - Interactive Shiny app
-  ([`run_songR_app()`](https://r-heller.github.io/songR/reference/run_songR_app.md))
+  ([`run_songR_app()`](https://cttir.github.io/songR/reference/run_songR_app.md))
   for comparing SONG, t-SNE, and UMAP side-by-side.
 - Dark mode toggle with localStorage persistence.
 - Upload custom CSV/RDS data or use built-in datasets.

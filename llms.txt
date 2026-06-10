@@ -28,7 +28,7 @@ install.packages("songR")
 
 # Or install the development version from GitHub
 # install.packages("devtools")
-devtools::install_github("r-heller/songR")
+devtools::install_github("cttir/songR")
 ```
 
 ## Quick Start
@@ -126,12 +126,12 @@ running incremental updates, and exporting embeddings and plots.
 ### pkgdown Articles
 
 - **[Reproducing Paper
-  Figures](https://r-heller.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
+  Figures](https://cttir.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
   – Reproduces key experiments from Senanayake et al. (2021) using songR
   (heterogeneous/homogeneous increments, CDY stability, noise tolerance,
   topology preservation, AMI scores)
 - **[Interactive Shiny
-  App](https://r-heller.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
+  App](https://cttir.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
   – Guide to the built-in comparison app with dark mode
 
 ### Full-Scale Tutorial Scripts
@@ -183,7 +183,7 @@ package and the underlying SONG algorithm:
 
 > Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
 > Dimensionality Reduction. R package version 0.1.0.
-> <https://github.com/r-heller/songR>
+> <https://github.com/cttir/songR>
 
 **Underlying algorithm:**
 
@@ -208,6 +208,24 @@ Naik, and Saman Halgamuge at the University of Melbourne. The original
 Python implementation is available at
 [github.com/damithsenanayake/SONG](https://github.com/damithsenanayake/SONG).
 
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large
+language model tooling for narrowly defined, non-authorial tasks:
+copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
+boilerplate files (CI configs, build scripts), code refactoring. The
+tools used were [Chat
+AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
+service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
+Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
+`ollamar` R package — local inference only, with no data sent to third
+parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses,
+interpretations, and conclusions are the author’s own. No LLM-generated
+text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.
+
 ## License
 
 MIT (c) Raban Heller
@@ -216,7 +234,7 @@ The SONG algorithm implemented here is derived from the reference
 implementation of Senanayake et al., which is licensed under the BSD
 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright
 notice and license are reproduced verbatim in
-[`inst/COPYRIGHTS`](https://r-heller.github.io/songR/inst/COPYRIGHTS).
+[`inst/COPYRIGHTS`](https://cttir.github.io/songR/inst/COPYRIGHTS).
 
 # Package index
 
@@ -225,11 +243,11 @@ notice and license are reproduced verbatim in
 Fit a SONG model, incrementally update it with new data, and project
 unseen points into the learned embedding space.
 
-- [`song()`](https://r-heller.github.io/songR/reference/song.md) : Fit a
+- [`song()`](https://cttir.github.io/songR/reference/song.md) : Fit a
   SONG Model for Dimensionality Reduction
-- [`update(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/update.song_model.md)
+- [`update(`*`<song_model>`*`)`](https://cttir.github.io/songR/reference/update.song_model.md)
   : Incrementally Update a SONG Model with New Data
-- [`predict(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/predict.song_model.md)
+- [`predict(`*`<song_model>`*`)`](https://cttir.github.io/songR/reference/predict.song_model.md)
   : Project New Points into a SONG Embedding
 
 ## Visualization
@@ -237,9 +255,9 @@ unseen points into the learned embedding space.
 Plot SONG embeddings, codebook prototypes, and the learned topology
 graph using base R or ggplot2.
 
-- [`plot(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/plot.song_model.md)
+- [`plot(`*`<song_model>`*`)`](https://cttir.github.io/songR/reference/plot.song_model.md)
   : Plot a SONG Model
-- [`autoplot.song_model()`](https://r-heller.github.io/songR/reference/autoplot.song_model.md)
+- [`autoplot.song_model()`](https://cttir.github.io/songR/reference/autoplot.song_model.md)
   : Autoplot Method for SONG Models
 
 ## Model Inspection
@@ -247,9 +265,9 @@ graph using base R or ggplot2.
 Print and summarize SONG model objects, including codebook statistics,
 quantization error, and graph connectivity.
 
-- [`print(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/print.song_model.md)
+- [`print(`*`<song_model>`*`)`](https://cttir.github.io/songR/reference/print.song_model.md)
   : Print a SONG Model
-- [`summary(`*`<song_model>`*`)`](https://r-heller.github.io/songR/reference/summary.song_model.md)
+- [`summary(`*`<song_model>`*`)`](https://cttir.github.io/songR/reference/summary.song_model.md)
   : Summarize a SONG Model
 
 ## Interactive App
@@ -257,20 +275,20 @@ quantization error, and graph connectivity.
 Launch a Shiny app to compare SONG, t-SNE, and UMAP side-by-side with
 dark mode, custom data upload, and incremental update support.
 
-- [`run_songR_app()`](https://r-heller.github.io/songR/reference/run_songR_app.md)
+- [`run_songR_app()`](https://cttir.github.io/songR/reference/run_songR_app.md)
   : Launch Interactive Comparison App
 
 ## Data
 
 Bundled datasets for examples, vignettes, and benchmarking.
 
-- [`songR_blobs`](https://r-heller.github.io/songR/reference/songR_blobs.md)
+- [`songR_blobs`](https://cttir.github.io/songR/reference/songR_blobs.md)
   : Simulated Gaussian Blobs Dataset
 
 ## Package
 
-- [`songR`](https://r-heller.github.io/songR/reference/songR-package.md)
-  [`songR-package`](https://r-heller.github.io/songR/reference/songR-package.md)
+- [`songR`](https://cttir.github.io/songR/reference/songR-package.md)
+  [`songR-package`](https://cttir.github.io/songR/reference/songR-package.md)
   : songR: Self-Organizing Nebulous Growths for Dimensionality Reduction
 
 # Articles
@@ -281,9 +299,9 @@ Learn the basics of songR: fitting models, incremental updates,
 prediction, and visualization.
 
 - [Introduction to
-  songR](https://r-heller.github.io/songR/articles/introduction.md):
+  songR](https://cttir.github.io/songR/articles/introduction.md):
 - [Getting Started with
-  songR](https://r-heller.github.io/songR/articles/songR_quickstart.md):
+  songR](https://cttir.github.io/songR/articles/songR_quickstart.md):
 
 ### Advanced Topics
 
@@ -291,6 +309,6 @@ Paper figure reproduction, benchmark comparisons, and the interactive
 Shiny app.
 
 - [Reproducing Paper Figures with
-  songR](https://r-heller.github.io/songR/articles/reproducing_paper_figures.md):
+  songR](https://cttir.github.io/songR/articles/reproducing_paper_figures.md):
 - [Interactive Visualization with the songR Shiny
-  App](https://r-heller.github.io/songR/articles/songR_shiny_app.md):
+  App](https://cttir.github.io/songR/articles/songR_shiny_app.md):

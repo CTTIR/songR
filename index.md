@@ -28,7 +28,7 @@ install.packages("songR")
 
 # Or install the development version from GitHub
 # install.packages("devtools")
-devtools::install_github("r-heller/songR")
+devtools::install_github("cttir/songR")
 ```
 
 ## Quick Start
@@ -126,12 +126,12 @@ running incremental updates, and exporting embeddings and plots.
 ### pkgdown Articles
 
 - **[Reproducing Paper
-  Figures](https://r-heller.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
+  Figures](https://cttir.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
   – Reproduces key experiments from Senanayake et al. (2021) using songR
   (heterogeneous/homogeneous increments, CDY stability, noise tolerance,
   topology preservation, AMI scores)
 - **[Interactive Shiny
-  App](https://r-heller.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
+  App](https://cttir.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
   – Guide to the built-in comparison app with dark mode
 
 ### Full-Scale Tutorial Scripts
@@ -183,7 +183,7 @@ package and the underlying SONG algorithm:
 
 > Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
 > Dimensionality Reduction. R package version 0.1.0.
-> <https://github.com/r-heller/songR>
+> <https://github.com/cttir/songR>
 
 **Underlying algorithm:**
 
@@ -208,6 +208,24 @@ Naik, and Saman Halgamuge at the University of Melbourne. The original
 Python implementation is available at
 [github.com/damithsenanayake/SONG](https://github.com/damithsenanayake/SONG).
 
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large
+language model tooling for narrowly defined, non-authorial tasks:
+copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
+boilerplate files (CI configs, build scripts), code refactoring. The
+tools used were [Chat
+AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
+service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
+Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
+`ollamar` R package — local inference only, with no data sent to third
+parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses,
+interpretations, and conclusions are the author’s own. No LLM-generated
+text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.
+
 ## License
 
 MIT (c) Raban Heller
@@ -216,4 +234,4 @@ The SONG algorithm implemented here is derived from the reference
 implementation of Senanayake et al., which is licensed under the BSD
 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright
 notice and license are reproduced verbatim in
-[`inst/COPYRIGHTS`](https://r-heller.github.io/songR/inst/COPYRIGHTS).
+[`inst/COPYRIGHTS`](https://cttir.github.io/songR/inst/COPYRIGHTS).
