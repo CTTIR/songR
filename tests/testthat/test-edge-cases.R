@@ -38,3 +38,18 @@ test_that("song() errors on Inf values", {
 test_that("song() errors on single row", {
   expect_error(song(matrix(1:4, nrow = 1)), "at least 2 rows")
 })
+
+test_that("song() errors on negative max_age", {
+  expect_error(
+    song(as.matrix(iris[, 1:4]), max_age = -1L, epochs = 3L, verbose = FALSE),
+    "max_age"
+  )
+})
+
+test_that("song() errors on non-positive max_prototypes", {
+  expect_error(
+    song(as.matrix(iris[, 1:4]), max_prototypes = 0L, epochs = 3L,
+         verbose = FALSE),
+    "max_prototypes"
+  )
+})

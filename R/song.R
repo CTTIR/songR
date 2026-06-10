@@ -112,6 +112,13 @@ song <- function(
   }
   max_prototypes <- as.integer(max_prototypes)
 
+  if (is.na(max_age) || max_age < 0L) {
+    stop("`max_age` must be a non-negative integer.", call. = FALSE)
+  }
+  if (is.na(max_prototypes) || max_prototypes < 1L) {
+    stop("`max_prototypes` must be a positive integer.", call. = FALSE)
+  }
+
   validate_params(d, k, epsilon, alpha, a, b, spread_factor,
                   neg_sample_rate, e_min, epochs)
 
