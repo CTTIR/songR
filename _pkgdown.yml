@@ -1,46 +1,14 @@
 url: https://cttir.github.io/songR/
 
+# Inherit the shared CTTIR suite theme (Hugo Coder palette, light/dark switch,
+# suite navbar + home sidebar). The accent defaults to the suite blue
+# (#1565c0); override with template.bslib.primary to give songR a distinct
+# accent. Per-package reference/articles content is merged over the template.
 template:
-  bootstrap: 5
-  light-switch: true
-  theme: gruvbox-light
-  theme-dark: gruvbox-dark
-  bslib:
-    # Hugo Coder colour theme — light mode
-    bg: "#fafafa"
-    fg: "#212121"
-    primary: "#1565c0"
-    navbar-light-bg: "#fafafa"
-    # Hugo Coder colour theme — dark mode (Bootstrap 5 light-switch)
-    navbar-dark-bg: "#212121"
-    base_font: {google: "Inter"}
-    heading_font: {google: "Inter"}
-    code_font: {google: "JetBrains Mono"}
-navbar:
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "Get started"
-      href: articles/songR_quickstart.html
-    - text: "Vignettes"
-      menu:
-      - text: "Introduction to songR"
-        href: articles/introduction.html
-      - text: "Getting Started with songR"
-        href: articles/songR_quickstart.html
-      - text: "---"
-      - text: "Reproducing Paper Figures"
-        href: articles/reproducing_paper_figures.html
-      - text: "Interactive Shiny App"
-        href: articles/songR_shiny_app.html
-    - text: "Functions"
-      href: reference/index.html
-    - text: "News"
-      href: news/index.html
-  right:
-    - icon: fa-github
-      href: https://github.com/cttir/songR/
-      aria-label: GitHub repository
+  package: themakR
+
+development:
+  mode: auto
 
 reference:
 - title: "Core Functions"

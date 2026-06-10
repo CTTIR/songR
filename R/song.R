@@ -72,23 +72,23 @@
 #' @seealso \code{\link{update.song_model}}, \code{\link{predict.song_model}},
 #'   \code{\link{plot.song_model}}
 song <- function(
-    X,
-    d = 2L,
-    k = 3L,
-    epsilon = 0.9,
-    epochs = 50L,
-    alpha = 1.0,
-    a = 1.577,
-    b = 0.895,
-    spread_factor = 0.5,
-    neg_sample_rate = 5L,
-    max_age = 3L,
-    e_min = NULL,
-    max_prototypes = NULL,
-    lr_sigma = 5.0,
-    dispersion = TRUE,
-    seed = NULL,
-    verbose = TRUE
+  X,
+  d = 2L,
+  k = 3L,
+  epsilon = 0.9,
+  epochs = 50L,
+  alpha = 1.0,
+  a = 1.577,
+  b = 0.895,
+  spread_factor = 0.5,
+  neg_sample_rate = 5L,
+  max_age = 3L,
+  e_min = NULL,
+  max_prototypes = NULL,
+  lr_sigma = 5.0,
+  dispersion = TRUE,
+  seed = NULL,
+  verbose = TRUE
 ) {
   # Input validation
   X <- validate_input(X)

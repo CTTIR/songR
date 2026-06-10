@@ -4,6 +4,32 @@ songR audited against the vendored reference (`.archive/SONG-master`,
 Senanayake et al.). Parity is judged on a fidelity ladder, not bit-identity
 (the reference is float32 + numba `fastmath` + dual PRNG streams).
 
+## How faithfully does songR reproduce the Python reference?
+
+Layer by layer, against the same inputs (see
+`data-raw/reproduction/repro_procrustes.R`):
+
+| Layer | Reproduction | Evidence |
+|-------|--------------|----------|
+| Deterministic kernels (distances, argmin, `(a, b)`, scalars) | **near bit-identical** | &le; 7.6e-08 / exact (float32-vs-double floor) |
+| Clustering (AMI) | **statistically identical** | nodisp 0.949 = 0.949 |
+| Default visualization (UMAP-dispersed) | **very close layout** | MNIST Procrustes R&sup2; &asymp; 0.85 |
+| Raw embedding coordinates (pre-dispersion) | **same structure, different layout** | blobs Procrustes R&sup2; &asymp; 0.22 |
+
+![Reference vs songR overlay](../../../vignettes/articles/reference_parity_overlay.png)
+
+**Why bit-identity of the embeddings is impossible — and not the goal.**
+The reference computes in `float32` with numba `fastmath` (which licenses
+non-IEEE reassociation/FMA) and draws randomness from **two** independent PRNG
+streams (numpy MT19937 for initialization/permutations and a custom XORShift
+for negative sampling). songR is `double`-precision with R's RNG, and carries
+three deliberate, documented divergences (D1 online vs chunk-stale distances,
+D3 drifter-slot reuse, D4 coincident-vector guard; see below). The embedding is
+a stochastic SGD result, so two faithful implementations land on the *same
+manifold structure* in *different absolute coordinates*. Accordingly, songR
+claims near-bit-identity only for the **deterministic** layer; the embeddings
+reproduce the reference's structure and clustering, not its exact coordinates.
+
 ## Results
 
 ### Tier A — deterministic (target ≤ 1e-5) — PASS

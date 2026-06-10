@@ -43,7 +43,7 @@ LinkingTo:
     Rcpp,
     RcppArmadillo
 Config/testthat/edition: 3
-Config/Needs/website: pkgdown
+Config/Needs/website: pkgdown, CTTIR/themakR
 VignetteBuilder: knitr
 URL: https://cttir.github.io/songR/, https://github.com/cttir/songR
 BugReports: https://github.com/cttir/songR/issues

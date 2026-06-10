@@ -381,6 +381,33 @@ source("tutorials/09_table_III_homogeneous_ami.R")
 All scripts have `FAST_MODE <- TRUE` at the top. Set to `FALSE` for
 full paper-scale experiments.
 
+## Reference Parity: How Close Is songR to the Original Python?
+
+songR is validated against the original Python implementation
+(Senanayake et al.) with a tiered set of golden-fixture tests
+(`tests/testthat/test-reference-parity.R`). The honest, layer-by-layer
+answer:
+
+| Layer | Reproduction | Evidence |
+|-------|--------------|----------|
+| Deterministic kernels (distances, argmin, kernel `(a, b)`, scalars) | near bit-identical | $\le$ 7.6e-08 / exact (float32-vs-double floor) |
+| Clustering (AMI) | statistically identical | nodisp 0.949 = 0.949 |
+| Default visualization (UMAP-dispersed) | very close layout | MNIST Procrustes $R^2 \approx 0.85$ |
+| Raw embedding coordinates (pre-dispersion) | same structure, different layout | blobs Procrustes $R^2 \approx 0.22$ |
+
+Bit-identity of the *embeddings* is neither achievable nor the goal: the
+reference runs in `float32` with numba `fastmath` and draws from two PRNG
+streams (numpy MT19937 + a custom XORShift), while songR is `double`-precision
+with R's RNG and carries a few deliberate, documented divergences. Two faithful
+SONG implementations therefore land on the **same manifold structure in
+different absolute coordinates**. The figure below overlays the reference and
+songR embeddings (the latter Procrustes-aligned for comparison); the analysis
+is reproducible via `data-raw/reproduction/repro_procrustes.R`.
+
+```{r parity-overlay, echo = FALSE, out.width = "100%"}
+knitr::include_graphics("reference_parity_overlay.png")
+```
+
 ## Citation
 
 ```{r citation, eval = FALSE}
