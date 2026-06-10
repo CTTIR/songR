@@ -42,7 +42,7 @@ RcppArmadillo.
 install.packages("songR")
 
 # Development version from GitHub:
-devtools::install_github("r-heller/songR")
+devtools::install_github("cttir/songR")
 ```
 
 ## Quick Start on Iris

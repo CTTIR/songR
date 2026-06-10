@@ -42,5 +42,5 @@ LinkingTo:
 Config/testthat/edition: 3
 Config/Needs/website: pkgdown
 VignetteBuilder: knitr
-URL: https://r-heller.github.io/songR/, https://github.com/r-heller/songR
-BugReports: https://github.com/r-heller/songR/issues
+URL: https://cttir.github.io/songR/, https://github.com/cttir/songR
+BugReports: https://github.com/cttir/songR/issues
