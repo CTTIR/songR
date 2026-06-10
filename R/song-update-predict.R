@@ -119,10 +119,5 @@ predict.song_model <- function(object, newdata, ...) {
   nn_idx <- batch_knn_search_cpp(newdata, object$C, 1L)
 
   # Map to embedding coordinates (nn_idx is 0-indexed from C++)
-  embedding <- matrix(0, nrow = nrow(newdata), ncol = object$parameters$d)
-  for (i in seq_len(nrow(newdata))) {
-    embedding[i, ] <- object$Y[nn_idx[i, 1] + 1L, ]
-  }
-
-  embedding
+  object$Y[nn_idx[, 1] + 1L, , drop = FALSE]
 }

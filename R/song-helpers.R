@@ -33,6 +33,50 @@ validate_input <- function(X) {
   X
 }
 
+#' Resolve and Validate a color_by Vector for Plotting
+#'
+#' For \code{"embedding"} plots, \code{color_by} must match the number of
+#' input points. For \code{"codebook"} and \code{"graph"} plots, it may match
+#' either the number of coding vectors (used directly) or the number of input
+#' points (mapped to each coding vector via the modal label of its assigned
+#' points).
+#'
+#' @param object A \code{"song_model"} object.
+#' @param type Plot type: \code{"embedding"}, \code{"codebook"}, or \code{"graph"}.
+#' @param n_coords Number of rows in the coordinate matrix being plotted.
+#' @param color_by The user-supplied coloring vector, or \code{NULL}.
+#' @return \code{NULL}, the original \code{color_by}, or a coding-vector-length
+#'   factor mapped from input-length labels. Throws on length mismatch.
+#' @noRd
+resolve_color_by <- function(object, type, n_coords, color_by) {
+  if (is.null(color_by)) return(NULL)
+
+  if (type == "embedding") {
+    if (length(color_by) != n_coords) {
+      stop("color_by must have length equal to number of input points (",
+           n_coords, ").", call. = FALSE)
+    }
+    return(color_by)
+  }
+
+  # codebook / graph: coding-vector length is used directly
+  if (length(color_by) == n_coords) return(color_by)
+
+  # input-point length is mapped to coding vectors via the modal label
+  if (length(color_by) == object$n_input) {
+    mapped <- vapply(seq_len(n_coords), function(i) {
+      pts <- which(object$assignments == i)
+      if (length(pts) == 0L) return(NA_character_)
+      tbl <- table(color_by[pts])
+      names(tbl)[which.max(tbl)]
+    }, character(1))
+    return(as.factor(mapped))
+  }
+
+  stop("color_by must have length equal to number of coding vectors (",
+       n_coords, ") or input points (", object$n_input, ").", call. = FALSE)
+}
+
 #' Validate SONG Hyperparameters
 #'
 #' @param d Output dimensionality.

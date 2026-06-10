@@ -208,18 +208,21 @@ Rcpp::List song_fit_cpp(
       int sample_idx = data_order(ki);
       arma::rowvec x = X.row(sample_idx);
 
-      // ── k-NN search ──
-      arma::mat W_active = W.rows(0, n_coding - 1);
-      arma::uvec neilist = knn_search_cpp(x, W_active, nei_len);
-      int b = neilist(0);  // BMU
-
-      // Squared distances to ALL active CVs
+      // ── Squared distances to ALL active CVs ──
       // Python: pdists = sq_eucl_opt(X_chunk, W); dist_H = pdists[k]
       arma::vec dist_H(n_coding);
       for (int j = 0; j < n_coding; j++) {
         arma::rowvec diff = x - W.row(j);
         dist_H(j) = arma::dot(diff, diff);
       }
+
+      // ── k-NN ordering derived from dist_H ──
+      // Identical result to knn_search_cpp(x, W.rows(0,n_coding-1), nei_len)
+      // but avoids a second distance pass and a full copy of the active
+      // codebook on every sample.
+      arma::uvec order = arma::sort_index(dist_H);
+      arma::uvec neilist = order.head(nei_len);
+      int b = neilist(0);  // BMU
 
       total_qe += std::sqrt(dist_H(b));
 
@@ -528,15 +531,18 @@ Rcpp::List song_update_cpp(
     for (int ki = 0; ki < batch_size; ki++) {
       int sample_idx = data_order(ki);
       arma::rowvec x = X_new.row(sample_idx);
-      arma::mat W_active = W.rows(0, n_coding - 1);
-      arma::uvec neilist = knn_search_cpp(x, W_active, nei_len);
-      int b = neilist(0);
 
       arma::vec dist_H(n_coding);
       for (int j = 0; j < n_coding; j++) {
         arma::rowvec diff = x - W.row(j);
         dist_H(j) = arma::dot(diff, diff);
       }
+
+      // k-NN ordering derived from dist_H (see song_fit_cpp for rationale)
+      arma::uvec order = arma::sort_index(dist_H);
+      arma::uvec neilist = order.head(nei_len);
+      int b = neilist(0);
+
       total_qe += std::sqrt(dist_H(b));
 
       // Edge curation

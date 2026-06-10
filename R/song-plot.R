@@ -31,33 +31,11 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
   if (type == "embedding") {
     coords <- x$embedding
     main <- "SONG Embedding"
-    if (!is.null(color_by) && length(color_by) != nrow(coords)) {
-      stop("color_by must have length equal to number of input points (",
-           nrow(coords), ").", call. = FALSE)
-    }
   } else {
     coords <- x$Y
     main <- if (type == "codebook") "SONG Codebook" else "SONG Codebook Graph"
-    if (!is.null(color_by) && length(color_by) != nrow(coords)) {
-      # For codebook/graph, also accept input-length color_by and map via assignments
-      if (length(color_by) == x$n_input) {
-        # Map to coding vectors: use the mode of assignments
-        uq <- sort(unique(x$assignments))
-        mapped <- vapply(seq_len(nrow(coords)), function(i) {
-          pts <- which(x$assignments == i)
-          if (length(pts) == 0) return(NA)
-          tbl <- table(color_by[pts])
-          names(tbl)[which.max(tbl)]
-        }, character(1))
-        color_by <- as.factor(mapped)
-      } else {
-        stop("color_by must have length equal to number of ",
-             if (type == "codebook") "coding vectors" else "coding vectors",
-             " (", nrow(coords), ") or input points (", x$n_input, ").",
-             call. = FALSE)
-      }
-    }
   }
+  color_by <- resolve_color_by(x, type, nrow(coords), color_by)
 
   # Determine colors
   if (is.null(color_by)) {
@@ -88,17 +66,20 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
 
   if (type == "graph") {
     E_s <- x$E_s
-    for (i in seq_len(nrow(E_s) - 1)) {
-      for (j in (i + 1):ncol(E_s)) {
-        if (E_s[i, j] > 0) {
-          graphics::segments(
-            coords[i, 1], coords[i, 2],
-            coords[j, 1], coords[j, 2],
-            col = grDevices::adjustcolor("gray40", alpha.f = E_s[i, j]),
-            lwd = E_s[i, j] * 2
-          )
-        }
-      }
+    edges <- which(upper.tri(E_s) & E_s > 0, arr.ind = TRUE)
+    if (nrow(edges) > 0L) {
+      w <- E_s[edges]
+      edge_col <- vapply(
+        pmin(w, 1),
+        function(a) grDevices::adjustcolor("gray40", alpha.f = a),
+        character(1)
+      )
+      graphics::segments(
+        coords[edges[, 1], 1], coords[edges[, 1], 2],
+        coords[edges[, 2], 1], coords[edges[, 2], 2],
+        col = edge_col,
+        lwd = w * 2
+      )
     }
     # Redraw points on top
     graphics::points(coords[, 1], coords[, 2], col = col, pch = 16, cex = 0.8)
@@ -151,6 +132,7 @@ autoplot.song_model <- function(object,
     title <- if (type == "codebook") "SONG Codebook" else "SONG Codebook Graph"
   }
 
+  color_by <- resolve_color_by(object, type, nrow(coords), color_by)
   df <- data.frame(x = coords[, 1], y = coords[, 2])
   if (!is.null(color_by)) {
     df$color <- color_by
@@ -164,22 +146,13 @@ autoplot.song_model <- function(object,
   if (type == "graph") {
     # Add edges
     E_s <- object$E_s
-    edges <- list()
-    idx <- 1
-    for (i in seq_len(nrow(E_s) - 1)) {
-      for (j in (i + 1):ncol(E_s)) {
-        if (E_s[i, j] > 0) {
-          edges[[idx]] <- data.frame(
-            x = coords[i, 1], y = coords[i, 2],
-            xend = coords[j, 1], yend = coords[j, 2],
-            weight = E_s[i, j]
-          )
-          idx <- idx + 1
-        }
-      }
-    }
-    if (length(edges) > 0) {
-      edge_df <- do.call(rbind, edges)
+    edges <- which(upper.tri(E_s) & E_s > 0, arr.ind = TRUE)
+    if (nrow(edges) > 0L) {
+      edge_df <- data.frame(
+        x = coords[edges[, 1], 1], y = coords[edges[, 1], 2],
+        xend = coords[edges[, 2], 1], yend = coords[edges[, 2], 2],
+        weight = E_s[edges]
+      )
       p <- p + ggplot2::geom_segment(
         data = edge_df,
         ggplot2::aes(x = x, y = y, xend = xend, yend = yend,
