@@ -1,5 +1,32 @@
 # Changelog
 
+## songR (development version)
+
+### Performance
+
+- Faster core training: the per-sample k-nearest-coding-vector search
+  now reuses the distances already computed for the quantization step
+  instead of recomputing them and copying the active codebook on every
+  sample. Embeddings are unchanged (bit-identical).
+- [`predict()`](https://rdrr.io/r/stats/predict.html) and the
+  codebook-graph plotting paths
+  ([`plot()`](https://rdrr.io/r/graphics/plot.default.html) /
+  `autoplot()`) are vectorized.
+
+### Bug fixes
+
+- `autoplot()` no longer errors for `type = "codebook"` or
+  `type = "graph"` when `color_by` has input-point length; like
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html), it now maps
+  the labels to coding vectors.
+- The Shiny comparison app no longer claims SONG stops training early,
+  and its documented `k` and `epochs` defaults match the implementation.
+
+### Robustness
+
+- [`song()`](https://r-heller.github.io/songR/reference/song.md)
+  validates `max_age` and `max_prototypes`.
+
 ## songR 0.1.0
 
 ### Core Features

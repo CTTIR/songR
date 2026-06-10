@@ -40,6 +40,26 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="songr-development-version">songR (development version)<a class="anchor" aria-label="anchor" href="#songr-development-version"></a></h2>
+<div class="section level3">
+<h3 id="performance-development-version">Performance<a class="anchor" aria-label="anchor" href="#performance-development-version"></a></h3>
+<ul><li>Faster core training: the per-sample k-nearest-coding-vector search now reuses the distances already computed for the quantization step instead of recomputing them and copying the active codebook on every sample. Embeddings are unchanged (bit-identical).</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> and the codebook-graph plotting paths (<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> / <code>autoplot()</code>) are vectorized.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>
+<code>autoplot()</code> no longer errors for <code>type = "codebook"</code> or <code>type = "graph"</code> when <code>color_by</code> has input-point length; like <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, it now maps the labels to coding vectors.</li>
+<li>The Shiny comparison app no longer claims SONG stops training early, and its documented <code>k</code> and <code>epochs</code> defaults match the implementation.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="robustness-development-version">Robustness<a class="anchor" aria-label="anchor" href="#robustness-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/song.html">song()</a></code> validates <code>max_age</code> and <code>max_prototypes</code>.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="songr-010">songR 0.1.0<a class="anchor" aria-label="anchor" href="#songr-010"></a></h2>
 <div class="section level3">
 <h3 id="core-features-0-1-0">Core Features<a class="anchor" aria-label="anchor" href="#core-features-0-1-0"></a></h3>
