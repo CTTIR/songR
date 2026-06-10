@@ -69,3 +69,42 @@ test_that("Tier B: songR AMI is statistically equivalent to the reference", {
   expect_gt(ref_ami, 0.7)                       # sanity: reference clusters well
   expect_lt(abs(ref_ami - song_ami), 0.10)      # Tier-B equivalence band
 })
+
+test_that("Tier B (dispersed): songR UMAP-dispersed AMI tracks the reference", {
+  # END-TO-END PIPELINE check, NOT a SONG-numerics check: this crosses
+  # uwot (songR) <-> umap-learn (reference), which have different SGD, RNG, and
+  # nearest-neighbor backends, so the band is necessarily looser than the
+  # nodisp Tier-B. The SONG core is frozen; only the dispersion wiring
+  # (n_epochs=11, lr=0.01, min_dist=0.001, x10-scaled init) is exercised here.
+  skip_on_cran()
+  skip_if_not_installed("aricode")
+  skip_if_not_installed("uwot")
+  skip_if_not(have_fx("tierB_mnist_emb_umap.csv"), "reference fixtures not generated")
+
+  ami <- function(emb, y, k) {
+    mean(vapply(1:5, function(s) {
+      set.seed(s)
+      cl <- stats::kmeans(emb, centers = k, nstart = 5, iter.max = 100)$cluster
+      aricode::AMI(cl, y)
+    }, numeric(1)))
+  }
+
+  for (name in c("mnist", "fmnist")) {
+    X <- as.matrix(utils::read.csv(file.path("fixtures","reference",
+            paste0("tierB_", name, "_X.csv")), header = FALSE))
+    y <- factor(scan(file.path("fixtures","reference",
+            paste0("tierB_", name, "_y.csv")), quiet = TRUE))
+    ref_emb <- as.matrix(utils::read.csv(file.path("fixtures","reference",
+            paste0("tierB_", name, "_emb_umap.csv")), header = FALSE))
+    k <- nlevels(y)
+
+    m <- song(X, d = 2L, k = 3L, epsilon = 0.99, epochs = 100L, a = 1.577, b = 0.895,
+              spread_factor = 0.5, seed = 1L, dispersion = TRUE, verbose = FALSE)
+
+    ref_ami <- ami(ref_emb, y, k)
+    song_ami <- ami(m$embedding, y, k)
+    expect_gt(ref_ami, 0.4)                        # sanity
+    expect_gt(song_ami, 0.4)                       # sanity
+    expect_lt(abs(ref_ami - song_ami), 0.12)       # loose cross-library band
+  }
+})

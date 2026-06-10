@@ -4,5 +4,5 @@
   "reduction": "None",
   "dispersion": "None",
   "n_coding_nodisp": 93,
-  "note": "AMI computed in R (songref LAPACK broken); raw-space SONG, no PCA, no UMAP"
+  "note": "AMI computed in R; raw-space SONG, no PCA, no UMAP"
 }

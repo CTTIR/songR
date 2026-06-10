@@ -23,6 +23,21 @@ Shared 800×20 blobs, raw-space SONG (no UMAP), reference-matched params
 | AMI (k-means, 5 seeds) | 0.949 | 0.949 |
 | coding vectors | 93 | 86 |
 
+### Tier B (dispersed) — end-to-end pipeline (uwot ↔ umap-learn) — PASS
+UMAP-dispersed reference (`dispersion_method='UMAP'`, `um_epochs=11, um_lr=0.01,
+um_min_dist=0.001`) vs songR `dispersion=TRUE`, on 1500-row PCA→20 subsamples:
+
+| dataset | reference (umap-learn) | songR (uwot) | \|Δ\| |
+|---------|------------------------|--------------|-----|
+| MNIST | 0.618 | 0.598 | 0.020 |
+| Fashion-MNIST | 0.560 | 0.502 | 0.058 |
+
+This is a **pipeline** check, not a SONG-numerics check: it crosses two
+different UMAP libraries (different SGD/RNG/NN), so the band (|Δ| < 0.12) is
+deliberately looser than the nodisp test. The dispersion wiring matches the
+reference (epochs/lr/min_dist and the ×10-scaled SONG-embedding init); the
+residual gap is uwot vs umap-learn, not a songR defect.
+
 Tests: `tests/testthat/test-reference-parity.R`.
 
 ## Stages

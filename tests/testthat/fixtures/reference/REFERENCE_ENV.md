@@ -4,45 +4,52 @@ The fixtures in this directory are generated from the vendored reference
 implementation at `.archive/SONG-master/SONG-master/song/` (`song.py`,
 `util.py`) — Senanayake et al., BSD-3-Clause.
 
-## Generators
+## Single pinned environment
 
-| Script | Interpreter | Produces |
-|--------|-------------|----------|
-| `gen_spread.py` | miniforge **base** (numpy/scipy only) | `tierA_spread_tightness.csv`, `tierA_scalars.json` |
-| `gen_fixtures.py` | conda env **`songref`** (numba/umap/sklearn) | `tierA_{A,B,sqdist,argmin}.csv`, `tierB_blobs_*.csv/.json` |
-
-Run from the package root:
+All fixtures are generated from **one** conda env, `songref`, pinned in
+[`data-raw/reproduction/environment.yml`](../../../../data-raw/reproduction/environment.yml).
 
 ```bash
-"<miniforge>/python.exe"                tests/testthat/fixtures/reference/gen_spread.py
-"<miniforge>/envs/songref/python.exe"   tests/testthat/fixtures/reference/gen_fixtures.py
+conda env create -f data-raw/reproduction/environment.yml      # or: conda env update
+"<miniforge>/envs/songref/python.exe" tests/testthat/fixtures/reference/smoke_test.py    # must print SMOKE_OK
+"<miniforge>/envs/songref/python.exe" tests/testthat/fixtures/reference/gen_fixtures.py  # regenerates every fixture
 ```
 
-## Package versions
+Key versions: python 3.11, numpy 2.4.6, scipy 1.17.1, scikit-learn 1.9.0,
+numba 0.65.1, llvmlite 0.47.0, umap-learn 0.5.12, pynndescent 0.5.13, all on
+**OpenBLAS** (`libopenblas 0.3.33`, `libblas/liblapack 3.11.0 *_openblas`).
 
-**`songref` env** (numba-backed kernels + end-to-end SONG):
-- python 3.11.15
-- numpy 2.4.6, scipy 1.17.1
-- scikit-learn 1.9.0
-- numba 0.65.1, llvmlite 0.47.0
-- umap-learn 0.5.12, pynndescent 0.5.13
+## BLAS root cause and fix
 
-**base env** (`find_spread_tightness` / scalars only):
-- numpy 2.3.5, scipy 1.17.1
+The first build of `songref` aborted (`exit 127`, no traceback) on every
+LAPACK call — `scipy.optimize.curve_fit`, `sklearn` PCA/KMeans, and
+`umap-learn`. Root cause: a **mixed BLAS** env — `numpy`/`scikit-learn`/`numba`
+were conda-forge builds linked against **MKL** (`libblas 3.11.0 *_mkl`,
+`mkl 2026.0.0`), while `scipy` was a **pip** wheel bundling its own **OpenBLAS**.
+Two BLAS runtimes (MKL + OpenBLAS) loaded into one process abort on the first
+LAPACK entry.
 
-## Determinism & environment caveats (Windows)
+Fix: recreate the env from conda-forge only with the BLAS variant pinned to
+OpenBLAS (`libblas=*=*openblas`), so numpy/scipy/scikit-learn all resolve to a
+single OpenBLAS. The `smoke_test.py` gate (curve_fit + PCA + KMeans + UMAP)
+must pass before generating fixtures.
+
+## Determinism
 
 - `random_seed=1` for SONG; `np.random.seed(0)` for the Tier-A sample matrices.
 - `NUMBA_NUM_THREADS=1`, `THREADING_LAYER='workqueue'`, `OMP/MKL_NUM_THREADS=1`,
-  and `KMP_DUPLICATE_LIB_OK=TRUE` are set to suppress intermittent native
-  (exit-127) crashes from duplicate OpenMP runtimes.
-- The `songref` env's OpenBLAS/LAPACK is broken in this setup: `scipy.curve_fit`,
-  `sklearn` PCA/KMeans, and `umap-learn` all abort. Workarounds used:
-  - Tier-A scipy oracles are generated in the **base** env.
-  - The Tier-B reference is run with `reduction=None` (LAPACK-free, raw-space
-    SONG — the apples-to-apples match for songR `dispersion=FALSE`); its
-    nearest-CV mapping is done directly via `get_closest_for_inputs` to avoid
-    `SONG.transform()`'s dense-input `.toarray()` bug.
-  - AMI is computed in **R** (`aricode`), not `sklearn`.
-  - **UMAP-dispersed** reference embeddings could not be generated (umap-learn
-    aborts here); the nodisp path is the rigorous SONG-fidelity comparison.
+  `KMP_DUPLICATE_LIB_OK=TRUE` to keep the numba paths deterministic and suppress
+  any residual duplicate-OpenMP aborts on Windows.
+
+## What each fixture is
+
+- `tierA_*` — `find_spread_tightness` (scipy), the `thresh_g/prototypes/...`
+  scalars, and the numba `sq_eucl_opt` / `get_closest` kernels.
+- `tierB_blobs_*` — raw-space SONG (`reduction=None`, no UMAP) on an 800×20
+  blobs set; the apples-to-apples match for songR `dispersion=FALSE`. Nearest-CV
+  mapping is done directly via `get_closest_for_inputs` to avoid
+  `SONG.transform()`'s dense-input `.toarray()` bug.
+- `tierB_{mnist,fmnist}_*` — UMAP-dispersed reference embeddings
+  (`dispersion_method='UMAP'`, `um_epochs=11, um_lr=0.01, um_min_dist=0.001`) on
+  1500-row PCA→20 subsamples (exported from R). AMI is computed in R (`aricode`)
+  for both reference and songR so the metric is identical on both sides.
