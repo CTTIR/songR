@@ -273,13 +273,13 @@ sessionInfo()
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.51         rlang_1.2.0       
-#>  [5] xfun_0.57          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 
+#>  [5] xfun_0.58          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 
 #>  [9] jsonlite_2.0.0     glue_1.8.1         htmltools_0.5.9    ragg_1.5.2        
 #> [13] sass_0.4.10        uwot_0.2.4         scales_1.4.0       rmarkdown_2.31    
 #> [17] grid_4.6.0         evaluate_1.0.5     jquerylib_0.1.4    fastmap_1.2.0     
 #> [21] yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1        compiler_4.6.0    
 #> [25] RColorBrewer_1.1-3 fs_2.1.0           Rcpp_1.1.1-1.1     lattice_0.22-9    
 #> [29] farver_2.1.2       systemfonts_1.3.2  digest_0.6.39      R6_2.6.1          
-#> [33] Matrix_1.7-5       bslib_0.10.0       gtable_0.3.6       tools_4.6.0       
+#> [33] Matrix_1.7-5       bslib_0.11.0       gtable_0.3.6       tools_4.6.0       
 #> [37] pkgdown_2.2.0      ggplot2_4.0.3      cachem_1.1.0       desc_1.4.3
 ```
