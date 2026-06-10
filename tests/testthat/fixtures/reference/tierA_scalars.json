@@ -1,0 +1,20 @@
+{
+  "N150_D4": {
+    "thresh_g": 0.9609060278364028,
+    "prototypes": 28,
+    "min_strength": 0.5904900000000001,
+    "im_neix": 3
+  },
+  "N1600_D20": {
+    "thresh_g": 2.0764833791263837,
+    "prototypes": 136,
+    "min_strength": 0.5904900000000001,
+    "im_neix": 3
+  },
+  "N70000_D20": {
+    "thresh_g": 2.0764833791263837,
+    "prototypes": 1698,
+    "min_strength": 0.5904900000000001,
+    "im_neix": 3
+  }
+}

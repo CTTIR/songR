@@ -207,3 +207,9 @@ The original Python implementation is available at
 ## License
 
 MIT (c) Raban Heller
+
+The SONG algorithm implemented here is derived from the reference
+implementation of Senanayake et al., which is licensed under the
+BSD 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright
+notice and license are reproduced verbatim in
+[`inst/COPYRIGHTS`](inst/COPYRIGHTS).

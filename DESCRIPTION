@@ -2,9 +2,12 @@ Package: songR
 Type: Package
 Title: Self-Organizing Nebulous Growths for Dimensionality Reduction
 Version: 0.1.0
-Authors@R: person("Raban", "Heller", role = c("aut", "cre"),
+Authors@R: c(
+    person("Raban", "Heller", role = c("aut", "cre", "cph"),
            email = "raban.heller@uni-ulm.de",
-           comment = c(ORCID = "0000-0001-8006-9742"))
+           comment = c(ORCID = "0000-0001-8006-9742")),
+    person("Damith A.", "Senanayake", role = "cph",
+           comment = "Author of the original SONG algorithm and its BSD-3-Clause Python implementation; see inst/COPYRIGHTS"))
 Description: Native R/C++ implementation of the Self-Organizing Nebulous
     Growths (SONG) algorithm for nonlinear dimensionality reduction and data
     visualization. SONG is a parametric method that supports incremental

@@ -1,0 +1,8 @@
+{
+  "dataset": "make_blobs(800,8,20D,std3,seed1)->[0,1]",
+  "ref_params": "epsilon=0.99,n_neighbors=1,so_steps=100,a=1.577,b=0.895,seed=1,sf=0.5",
+  "reduction": "None",
+  "dispersion": "None",
+  "n_coding_nodisp": 93,
+  "note": "AMI computed in R (songref LAPACK broken); raw-space SONG, no PCA, no UMAP"
+}
