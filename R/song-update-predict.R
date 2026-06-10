@@ -34,8 +34,7 @@ update.song_model <- function(object, X_new, epochs = 50L,
   epochs <- as.integer(epochs)
 
   if (ncol(X_new) != object$D) {
-    stop("New data must have ", object$D, " columns (got ", ncol(X_new), ").",
-         call. = FALSE)
+    cli::cli_abort("New data must have {object$D} columns (got {ncol(X_new)}).")
   }
 
   if (is.null(alpha)) {
@@ -111,8 +110,7 @@ predict.song_model <- function(object, newdata, ...) {
   newdata <- validate_input(newdata)
 
   if (ncol(newdata) != object$D) {
-    stop("newdata must have ", object$D, " columns (got ", ncol(newdata), ").",
-         call. = FALSE)
+    cli::cli_abort("newdata must have {object$D} columns (got {ncol(newdata)}).")
   }
 
   # Find nearest coding vector for each new point

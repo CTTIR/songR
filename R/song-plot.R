@@ -50,7 +50,7 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
 
   d <- ncol(coords)
   if (d < 2) {
-    stop("Cannot plot with output dimensionality < 2.", call. = FALSE)
+    cli::cli_abort("Cannot plot with output dimensionality < 2.")
   }
 
   # 2D plot
@@ -118,8 +118,10 @@ autoplot.song_model <- function(object,
                                 type = c("embedding", "codebook", "graph"),
                                 color_by = NULL, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("Package 'ggplot2' is required for autoplot. ",
-         "Install it with install.packages('ggplot2').", call. = FALSE)
+    cli::cli_abort(c(
+      "Package {.pkg ggplot2} is required for {.fn autoplot}.",
+      "i" = 'Install it with {.run install.packages("ggplot2")}.'
+    ))
   }
 
   type <- match.arg(type)

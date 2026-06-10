@@ -113,18 +113,17 @@ song <- function(
   max_prototypes <- as.integer(max_prototypes)
 
   if (is.na(max_age) || max_age < 0L) {
-    stop("`max_age` must be a non-negative integer.", call. = FALSE)
+    cli::cli_abort("`max_age` must be a non-negative integer.")
   }
   if (is.na(max_prototypes) || max_prototypes < 1L) {
-    stop("`max_prototypes` must be a positive integer.", call. = FALSE)
+    cli::cli_abort("`max_prototypes` must be a positive integer.")
   }
 
   validate_params(d, k, epsilon, alpha, a, b, spread_factor,
                   neg_sample_rate, e_min, epochs)
 
   if (n < d + 1L) {
-    stop("Need at least d + 1 = ", d + 1L, " data points, got ", n, ".",
-         call. = FALSE)
+    cli::cli_abort("Need at least d + 1 = {d + 1L} data points, got {n}.")
   }
 
   if (!is.null(seed)) {
@@ -155,7 +154,7 @@ song <- function(
 
   # ── UMAP dispersion step (matches Python transform()) ───────────────────
   if (isTRUE(dispersion) && requireNamespace("uwot", quietly = TRUE)) {
-    if (verbose) message("Running UMAP dispersion step...")
+    if (verbose) cli::cli_inform("Running UMAP dispersion step...")
 
     y_raw   <- result$embedding
     y_min   <- apply(y_raw, 2L, min)
@@ -176,8 +175,10 @@ song <- function(
         n_threads     = 1L
       ),
       error = function(e) {
-        warning("UMAP dispersion failed (", conditionMessage(e),
-                "); returning raw SONG embedding.", call. = FALSE)
+        cli::cli_warn(
+          "UMAP dispersion failed ({conditionMessage(e)}); \\
+           returning raw SONG embedding."
+        )
         NULL
       }
     )

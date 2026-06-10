@@ -23,26 +23,19 @@
 #' Visualization. \emph{IEEE Transactions on Neural Networks and Learning
 #' Systems}, 32(10), 4588--4602. \doi{10.1109/TNNLS.2020.3023941}
 run_songR_app <- function(launch.browser = TRUE) {
-  if (!requireNamespace("shiny", quietly = TRUE)) {
-    stop("Package 'shiny' is required. Install it with install.packages('shiny').",
-         call. = FALSE)
+  require_pkg <- function(pkg) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      cli::cli_abort(c(
+        "Package {.pkg {pkg}} is required for the comparison app.",
+        "i" = "Install it with {.code install.packages(\"{pkg}\")}."
+      ))
+    }
   }
-  if (!requireNamespace("Rtsne", quietly = TRUE)) {
-    stop("Package 'Rtsne' is required for the comparison app. ",
-         "Install it with install.packages('Rtsne').", call. = FALSE)
-  }
-  if (!requireNamespace("uwot", quietly = TRUE)) {
-    stop("Package 'uwot' is required for the comparison app. ",
-         "Install it with install.packages('uwot').", call. = FALSE)
-  }
-  if (!requireNamespace("viridis", quietly = TRUE)) {
-    stop("Package 'viridis' is required for the comparison app. ",
-         "Install it with install.packages('viridis').", call. = FALSE)
-  }
+  for (pkg in c("shiny", "Rtsne", "uwot", "viridis")) require_pkg(pkg)
+
   app_dir <- system.file("shiny", "comparison_app", package = "songR")
   if (app_dir == "") {
-    stop("Could not find the Shiny app directory. Try re-installing 'songR'.",
-         call. = FALSE)
+    cli::cli_abort("Could not find the Shiny app directory. Try re-installing {.pkg songR}.")
   }
   shiny::runApp(app_dir, launch.browser = launch.browser,
                 display.mode = "normal")

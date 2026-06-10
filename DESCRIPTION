@@ -19,12 +19,15 @@ Description: Native R/C++ implementation of the Self-Organizing Nebulous
     visualizations side-by-side.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Depends: R (>= 4.0.0)
 Imports:
-    Rcpp (>= 1.0.0)
+    cli,
+    Rcpp (>= 1.0.0),
+    rlang
 Suggests:
     Matrix,
     ggplot2,

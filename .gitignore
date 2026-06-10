@@ -13,3 +13,5 @@ tutorials/output
 .httr-oauth
 .DS_Store
 _build.R
+.remember
+data-raw/reproduction/output/*.log
