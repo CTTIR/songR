@@ -26,6 +26,16 @@
 
 - [`song()`](https://cttir.github.io/songR/reference/song.md) validates
   `max_age` and `max_prototypes`.
+- All user-facing messages now use `cli`, with errors signalled at the
+  calling function for clearer tracebacks. Messages and behavior are
+  otherwise unchanged.
+
+### Verification
+
+- Added reference-parity tests against the original Python
+  implementation (`tests/testthat/test-reference-parity.R`), covering
+  deterministic kernels (Tier A, ≤ 1e-5) and clustering equivalence
+  (Tier B, AMI).
 
 ## songR 0.1.0
 
