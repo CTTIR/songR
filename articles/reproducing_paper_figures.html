@@ -11,13 +11,15 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Inter-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reproducing Paper Figures with songR">
+<meta name="theme-color" content="#1565c0">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -25,9 +27,9 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">songR</a>
+    <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">songR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,24 +37,23 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-<li class="nav-item"><a class="nav-link" href="../articles/songR_quickstart.html">Get started</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
-<li><a class="dropdown-item" href="../articles/introduction.html">Introduction to songR</a></li>
-    <li><a class="dropdown-item" href="../articles/songR_quickstart.html">Getting Started with songR</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/reproducing_paper_figures.html">Reproducing Paper Figures</a></li>
-    <li><a class="dropdown-item" href="../articles/songR_shiny_app.html">Interactive Shiny App</a></li>
+      <ul class="navbar-nav me-auto"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/songR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Functions</a></li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
-      </ul>
-<ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/songR/" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -441,6 +442,66 @@ dataset:</p>
 <code>FALSE</code> for full paper-scale experiments.</p>
 </div>
 <div class="section level2">
+<h2 id="reference-parity-how-close-is-songr-to-the-original-python">Reference Parity: How Close Is songR to the Original Python?<a class="anchor" aria-label="anchor" href="#reference-parity-how-close-is-songr-to-the-original-python"></a>
+</h2>
+<p>songR is validated against the original Python implementation
+(Senanayake et al.) with a tiered set of golden-fixture tests
+(<code>tests/testthat/test-reference-parity.R</code>). The honest,
+layer-by-layer answer:</p>
+<table class="table">
+<colgroup>
+<col width="22%">
+<col width="45%">
+<col width="32%">
+</colgroup>
+<thead><tr class="header">
+<th>Layer</th>
+<th>Reproduction</th>
+<th>Evidence</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Deterministic kernels (distances, argmin, kernel
+<code>(a, b)</code>, scalars)</td>
+<td>near bit-identical</td>
+<td>
+<span class="math inline">\le</span> 7.6e-08 / exact
+(float32-vs-double floor)</td>
+</tr>
+<tr class="even">
+<td>Clustering (AMI)</td>
+<td>statistically identical</td>
+<td>nodisp 0.949 = 0.949</td>
+</tr>
+<tr class="odd">
+<td>Default visualization (UMAP-dispersed)</td>
+<td>very close layout</td>
+<td>MNIST Procrustes <span class="math inline">R^2 \approx
+0.85</span>
+</td>
+</tr>
+<tr class="even">
+<td>Raw embedding coordinates (pre-dispersion)</td>
+<td>same structure, different layout</td>
+<td>blobs Procrustes <span class="math inline">R^2 \approx
+0.22</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Bit-identity of the <em>embeddings</em> is neither achievable nor the
+goal: the reference runs in <code>float32</code> with numba
+<code>fastmath</code> and draws from two PRNG streams (numpy MT19937 + a
+custom XORShift), while songR is <code>double</code>-precision with R’s
+RNG and carries a few deliberate, documented divergences. Two faithful
+SONG implementations therefore land on the <strong>same manifold
+structure in different absolute coordinates</strong>. The figure below
+overlays the reference and songR embeddings (the latter
+Procrustes-aligned for comparison); the analysis is reproducible via
+<code>data-raw/reproduction/repro_procrustes.R</code>.</p>
+<p><img src="reference_parity_overlay.png" class="r-plt" alt="" width="100%" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -500,6 +561,10 @@ Visualization. <em>IEEE TNNLS</em>, 32(10), 4588-4602. <a href="https://doi.org/
 
     <footer><div class="pkgdown-footer-left">
   <p>Developed by Raban Heller.</p>
+</div>
+
+<div class="pkgdown-footer-center themakr-footer-suite">
+  <p><span class="themakr-footer-pkg">songR</span> is part of the <a href="https://cttir.github.io/website/" class="external-link">CTTIR</a> suite · <a href="https://github.com/CTTIR" class="external-link">GitHub</a></p>
 </div>
 
 <div class="pkgdown-footer-right">
