@@ -2,8 +2,12 @@
 
 ## Authors
 
-- **Raban Heller**. Author, maintainer.
+- **Raban Heller**. Author, maintainer, copyright holder.
   [](https://orcid.org/0000-0001-8006-9742)
+
+- **Damith A. Senanayake**. Copyright holder.  
+  Author of the original SONG algorithm and its BSD-3-Clause Python
+  implementation; see inst/COPYRIGHTS
 
 ## Citation
 
