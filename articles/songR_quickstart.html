@@ -89,8 +89,15 @@ reinitializing the entire embedding. This makes SONG ideal for streaming
 data, incremental analysis, and noisy datasets.</p>
 <p>The algorithm was developed by <a href="https://doi.org/10.1109/TNNLS.2020.3023941" class="external-link">Senanayake et
 al. (2021)</a> and published in IEEE Transactions on Neural Networks and
-Learning Systems. The <code>songR</code> package provides a native R/C++
-implementation using RcppArmadillo.</p>
+Learning Systems. <code>songR</code> is a SONG-inspired tool that
+implements this algorithm natively in R and C++ (via RcppArmadillo),
+staying as close to the reference implementation as is feasible. Its
+deterministic components match the reference to within 1e-5 and its
+clustering quality is statistically identical; the default
+UMAP-dispersed visualization is close in global structure but not
+identical in absolute layout. See the
+<code>Reproducing Paper Figures</code> article for the full,
+evidence-backed fidelity comparison.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>

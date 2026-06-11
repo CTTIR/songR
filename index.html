@@ -19,8 +19,8 @@
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Self-Organizing Nebulous Growths for Dimensionality Reduction">
-<meta name="description" content="Native R/C++ implementation of the Self-Organizing Nebulous Growths (SONG) algorithm for nonlinear dimensionality reduction and data visualization. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Based on the algorithm described in Senanayake et al. (2021) &lt;doi:10.1109/TNNLS.2020.3023941&gt;. Includes an interactive Shiny application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.">
-<meta property="og:description" content="Native R/C++ implementation of the Self-Organizing Nebulous Growths (SONG) algorithm for nonlinear dimensionality reduction and data visualization. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Based on the algorithm described in Senanayake et al. (2021) &lt;doi:10.1109/TNNLS.2020.3023941&gt;. Includes an interactive Shiny application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.">
+<meta name="description" content="A SONG-inspired tool for nonlinear dimensionality reduction and data visualization in R, implementing the Self-Organizing Nebulous Growths (SONG) algorithm of Senanayake et al. (2021) &lt;doi:10.1109/TNNLS.2020.3023941&gt; natively in R and C++ and staying as close to the reference implementation as is feasible across the two ecosystems. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Clustering quality matches the reference closely (validated by reference-parity tests); the default visualization is close in global structure but not identical in absolute layout. Includes an interactive Shiny application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.">
+<meta property="og:description" content="A SONG-inspired tool for nonlinear dimensionality reduction and data visualization in R, implementing the Self-Organizing Nebulous Growths (SONG) algorithm of Senanayake et al. (2021) &lt;doi:10.1109/TNNLS.2020.3023941&gt; natively in R and C++ and staying as close to the reference implementation as is feasible across the two ecosystems. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Clustering quality matches the reference closely (validated by reference-parity tests); the default visualization is close in global structure but not identical in absolute layout. Includes an interactive Shiny application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.">
 <meta property="og:image" content="https://cttir.github.io/songR/logo.svg">
 <meta name="theme-color" content="#1565c0">
 </head>
@@ -74,7 +74,7 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><strong>songR</strong> provides a native R/C++ implementation of the <a href="https://doi.org/10.1109/TNNLS.2020.3023941" class="external-link">Self-Organizing Nebulous Growths (SONG)</a> algorithm for nonlinear dimensionality reduction and data visualization.</p>
+<p><strong>songR</strong> is a SONG-inspired dimensionality-reduction tool for R. It implements the <a href="https://doi.org/10.1109/TNNLS.2020.3023941" class="external-link">Self-Organizing Nebulous Growths (SONG)</a> algorithm of Senanayake et al. (2021) natively in R and C++ (no Python or <code>reticulate</code>), staying as close to the reference implementation as is feasible.</p>
 <p>SONG’s key advantages over t-SNE and UMAP:</p>
 <table class="table">
 <thead><tr>
@@ -111,6 +111,24 @@
 </tbody>
 </table>
 <p>New data can be added to an existing embedding without reinitializing or retraining the model, making SONG ideal for streaming data, growing datasets, and experiments where data arrives in batches.</p>
+</div>
+<div class="section level2">
+<h2 id="fidelity-to-the-reference-implementation">Fidelity to the reference implementation<a class="anchor" aria-label="anchor" href="#fidelity-to-the-reference-implementation"></a>
+</h2>
+<p>songR is validated against the original Python SONG with a tiered set of golden-fixture parity tests. The honest, layer-by-layer picture:</p>
+<ul>
+<li>
+<strong>Deterministic components</strong> (distances, nearest-coding-vector assignment, the rational-quadratic kernel <code>(a, b)</code>, growth thresholds) reproduce the reference to <strong>≤ 1e-5</strong> (the float32-vs-double floor).</li>
+<li>
+<strong>Clustering quality (AMI)</strong> is <strong>statistically identical</strong> to the reference — e.g. 0.949 = 0.949 on the raw embedding, and 0.560/0.551 and 0.618/0.596 on the UMAP-dispersed Fashion-MNIST and MNIST runs.</li>
+<li>
+<strong>The default UMAP-dispersed visualization</strong> is <strong>close in global structure</strong> (Procrustes R² ≈ 0.79–0.85) but <strong>not identical in absolute layout</strong>, because of (1) the different stochastic optimizers in <code>uwot</code> vs. <code>umap-learn</code> and
+<ol start="2" style="list-style-type: decimal">
+<li>a small set of documented, AMI-neutral algorithmic divergences.</li>
+</ol>
+</li>
+</ul>
+<p>Bit-identical embeddings are neither targeted nor achievable (the reference is <code>float32</code> + numba <code>fastmath</code> + two PRNG streams). See the <a href="tests/testthat/fixtures/reference/PARITY.html">reference-parity summary</a> and the side-by-side <a href="tests/reproduction-report/">reproduction report</a> for the full evidence.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>

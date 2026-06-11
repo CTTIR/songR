@@ -11,8 +11,14 @@ analysis, and noisy datasets.
 
 The algorithm was developed by [Senanayake et
 al. (2021)](https://doi.org/10.1109/TNNLS.2020.3023941) and published in
-IEEE Transactions on Neural Networks and Learning Systems. The `songR`
-package provides a native R/C++ implementation using RcppArmadillo.
+IEEE Transactions on Neural Networks and Learning Systems. `songR` is a
+SONG-inspired tool that implements this algorithm natively in R and C++
+(via RcppArmadillo), staying as close to the reference implementation as
+is feasible. Its deterministic components match the reference to within
+1e-5 and its clustering quality is statistically identical; the default
+UMAP-dispersed visualization is close in global structure but not
+identical in absolute layout. See the `Reproducing Paper Figures`
+article for the full, evidence-backed fidelity comparison.
 
 ## Installation
 

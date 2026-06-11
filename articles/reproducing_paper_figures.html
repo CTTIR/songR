@@ -444,8 +444,11 @@ dataset:</p>
 <div class="section level2">
 <h2 id="reference-parity-how-close-is-songr-to-the-original-python">Reference Parity: How Close Is songR to the Original Python?<a class="anchor" aria-label="anchor" href="#reference-parity-how-close-is-songr-to-the-original-python"></a>
 </h2>
-<p>songR is validated against the original Python implementation
-(Senanayake et al.) with a tiered set of golden-fixture tests
+<p>songR is a <strong>SONG-inspired</strong> tool that implements the
+algorithm of Senanayake et al. (2021) in R/C++, staying as close to the
+reference implementation as is feasible — not a bit-for-bit port. It is
+validated against the original Python implementation with a tiered set
+of golden-fixture tests
 (<code>tests/testthat/test-reference-parity.R</code>). The honest,
 layer-by-layer answer:</p>
 <table class="table">
@@ -471,13 +474,12 @@ layer-by-layer answer:</p>
 <tr class="even">
 <td>Clustering (AMI)</td>
 <td>statistically identical</td>
-<td>nodisp 0.949 = 0.949</td>
+<td>nodisp 0.949 = 0.949; dispersed 0.560/0.551, 0.618/0.596</td>
 </tr>
 <tr class="odd">
 <td>Default visualization (UMAP-dispersed)</td>
-<td>very close layout</td>
-<td>MNIST Procrustes <span class="math inline">R^2 \approx
-0.85</span>
+<td>close in global structure, not identical in absolute layout</td>
+<td>Procrustes <span class="math inline">R^2 \approx 0.79</span>–<span class="math inline">0.85</span>
 </td>
 </tr>
 <tr class="even">
