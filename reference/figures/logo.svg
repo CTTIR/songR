@@ -93,6 +93,6 @@
   </g>
 
   <polygon points="250,30 455,145 455,375 250,490 45,375 45,145" fill="none" stroke="#534AB7" stroke-width="11" stroke-linejoin="round"/>
-  <polygon points="250,44 441,153 441,367 250,476 59,367 59,153" fill="none" stroke="#3C3489" stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>
-  <text font-family="monospace" font-weight="700" font-size="28" fill="#CECBF6" text-anchor="middle" x="250" y="545" letter-spacing="1">songR</text>
+  <polygon points="250,44 441,153 441,367 250,476 59,367 59,153" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>
+  
 </svg>
