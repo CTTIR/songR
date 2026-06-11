@@ -1,0 +1,5 @@
+"quantity","value"
+"sq-euclidean max abs err","7.55e-08"
+"nearest-CV argmin identical","TRUE"
+"kernel a (ref 1.57694)","1.577"
+"kernel b (ref 0.89506)","0.895"
