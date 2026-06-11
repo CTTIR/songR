@@ -60,9 +60,51 @@ um_min_dist=0.001`) vs songR `dispersion=TRUE`, on 1500-row PCA→20 subsamples:
 
 This is a **pipeline** check, not a SONG-numerics check: it crosses two
 different UMAP libraries (different SGD/RNG/NN), so the band (|Δ| < 0.12) is
-deliberately looser than the nodisp test. The dispersion wiring matches the
-reference (epochs/lr/min_dist and the ×10-scaled SONG-embedding init); the
-residual gap is uwot vs umap-learn, not a songR defect.
+deliberately looser than the nodisp test.
+
+**Dispersion parameter parity.** Every argument of songR's `uwot::umap` call
+matches the reference `umap.UMAP` call (`song.py:334`) and umap-learn's
+defaults — verified, not assumed:
+
+| Parameter | Reference (umap-learn) | songR (uwot) | Match |
+|-----------|------------------------|--------------|-------|
+| `n_components` | 2 | 2 | ✓ |
+| `n_epochs` | 11 | 11 (honored: "optimization for 11 epochs") | ✓ |
+| `learning_rate` | 0.01 (`um_lr`) | 0.01 | ✓ |
+| `min_dist` | 0.001 (`um_min_dist`) | 0.001 | ✓ |
+| effective `a`, `b` | 1.929073, 0.791505 (fit for min_dist=0.001) | 1.929073, 0.791505 (uwot fits identically) | ✓ |
+| `init` | `[0,10]`-scaled SONG embedding | same (`init_sdev = NULL`, no rescale) | ✓ |
+| `n_neighbors` | 15 (default) | 15 (default) | ✓ |
+| `negative_sample_rate` | 5 | 5 | ✓ |
+| `set_op_mix_ratio` | 1.0 | 1.0 | ✓ |
+| `local_connectivity` | 1.0 | 1.0 | ✓ |
+| `repulsion_strength` | 1.0 | 1.0 | ✓ |
+| `metric` | euclidean | euclidean | ✓ |
+| SGD determinism | seeded | `n_sgd_threads = 1` (reproducible) | ✓ |
+
+There is **no wiring mismatch**. The only songR-specific deviation is the
+*winsorized* init (clip to the 2nd–98th percentile before the `[0,10]`
+scaling): songR's pre-dispersion embedding carries a drifter coding vector
+(the reference recycles drifters — divergence D3 — so its embedding has none),
+and a plain min-max scaling would let that single outlier dominate the init.
+
+The residual layout difference (Procrustes R² ≈ 0.79 FMNIST, 0.85 MNIST) has
+**two components**:
+
+1. **Irreducible — cross-library SGD/RNG.** uwot and umap-learn implement the
+   same objective with different stochastic optimizers and random streams;
+   their outputs cannot coincide coordinate-for-coordinate.
+2. **Reducible but deferred — D3 (drifter reuse) in the frozen core.** With
+   `lr = 0.01` and 11 epochs, UMAP barely moves from its init, so each
+   library's output mirrors its own pre-dispersion SONG embedding — and
+   songR's differs from the reference's by the documented divergence D3
+   (ΔAMI = 0.000). Implementing drifter reuse would require a core change and
+   full re-parity, and is deferred; see "Intentional divergences" below.
+
+Raising the epoch count makes FMNIST's layout match more closely but MNIST's
+*less* closely (and diverges from the reference's `um_epochs = 11`), so it is
+not a fix. AMI parity remains the quantitative fidelity measure; the layout
+figure is illustrative.
 
 Tests: `tests/testthat/test-reference-parity.R`.
 
@@ -85,7 +127,13 @@ Tests: `tests/testthat/test-reference-parity.R`.
 - **D3 — no drifter-slot reuse; `E_q` not zeroed after fit.** The reference
   recycles disconnected ("drifter") node slots and resets `E_q` at the end of
   `fit`. songR appends new coding vectors and carries `E_q` into `update()`.
-  Effect: small coding-vector-count difference (93 vs 86), no AMI effect.
+  Effect: small coding-vector-count difference (93 vs 86), **ΔAMI = 0.000**.
+  *Tracked as a possible future enhancement:* implementing drifter reuse is
+  the honest path to a natively reference-matching pre-dispersion embedding
+  (and hence dispersed layout), but it changes the frozen core and therefore
+  requires a full re-parity pass. Deferred by the current positioning contract
+  (songR is a SONG-inspired tool, statistically equivalent, not a bit-faithful
+  port).
 - **D4 — coincident-vector guard.** songR clamps `ldist_sq ≥ 1e-10` before the
   rational-quadratic kernel; the reference does not, so `pow(0, β−1)=∞` is
   reachable at coincident/self vectors. songR's guard is strictly more robust.

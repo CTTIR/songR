@@ -174,6 +174,16 @@ song <- function(
     }
     y_init  <- 10.0 * sweep(sweep(y_clip, 2L, y_lo, "-"), 2L, y_range, "/")
 
+    # uwot's defaults already match the reference's umap-learn dispersion call
+    # for every parameter that affects the layout: n_neighbors = 15,
+    # negative_sample_rate = 5, set_op_mix_ratio = 1, local_connectivity = 1,
+    # repulsion_strength = 1, and the rational-quadratic (a, b) fit for
+    # min_dist = 0.001 (a = 1.929, b = 0.792, identical to umap-learn). The
+    # init is the [0, 10]-scaled SONG embedding with init_sdev = NULL (no
+    # rescale). n_sgd_threads = 1L pins the SGD to be deterministic regardless
+    # of n_threads. Any residual layout difference vs the reference is the
+    # cross-library uwot/umap-learn SGD/RNG plus the (frozen) pre-dispersion
+    # SONG embedding, not a parameter mismatch.
     umap_result <- tryCatch(
       uwot::umap(
         X,
@@ -183,7 +193,8 @@ song <- function(
         min_dist      = 0.001,   # Python default um_min_dist
         learning_rate = 0.01,    # Python default um_lr
         verbose       = FALSE,
-        n_threads     = 1L
+        n_threads     = 1L,
+        n_sgd_threads = 1L       # deterministic SGD regardless of n_threads
       ),
       error = function(e) {
         cli::cli_warn(
