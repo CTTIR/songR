@@ -3,7 +3,7 @@ Type: Package
 Title: Self-Organizing Nebulous Growths for Dimensionality Reduction
 Version: 0.1.0
 Authors@R: c(
-    person("Raban", "Heller", role = c("aut", "cre", "cph"),
+    person("R.", "Heller", role = c("aut", "cre", "cph"),
            email = "raban.heller@uni-ulm.de",
            comment = c(ORCID = "0000-0001-8006-9742")),
     person("Damith A.", "Senanayake", role = "cph",
