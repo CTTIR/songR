@@ -55,8 +55,8 @@ um_min_dist=0.001`) vs songR `dispersion=TRUE`, on 1500-row PCA→20 subsamples:
 
 | dataset | reference (umap-learn) | songR (uwot) | \|Δ\| |
 |---------|------------------------|--------------|-----|
-| MNIST | 0.618 | 0.598 | 0.020 |
-| Fashion-MNIST | 0.560 | 0.502 | 0.058 |
+| MNIST | 0.618 | 0.596 | 0.022 |
+| Fashion-MNIST | 0.560 | 0.551 | 0.009 |
 
 This is a **pipeline** check, not a SONG-numerics check: it crosses two
 different UMAP libraries (different SGD/RNG/NN), so the band (|Δ| < 0.12) is

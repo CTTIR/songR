@@ -157,11 +157,22 @@ song <- function(
     if (verbose) cli::cli_inform("Running UMAP dispersion step...")
 
     y_raw   <- result$embedding
-    y_min   <- apply(y_raw, 2L, min)
-    y_max   <- apply(y_raw, 2L, max)
-    y_range <- pmax(y_max - y_min, 1e-10)
-    # Python: Y_init = 10 * (Y - Y.min(0)) / (Y.max(0) - Y.min(0))
-    y_init  <- 10.0 * sweep(sweep(y_raw, 2L, y_min, "-"), 2L, y_range, "/")
+    # Python uses a plain min-max scaling to [0, 10] for the UMAP init
+    # (Y_init = 10 * (Y - Y.min(0)) / (Y.max(0) - Y.min(0))). That is fragile:
+    # SONG's repulsion can let a rarely-attracted ("drifter") coding vector
+    # drift far, and min-max is then dominated by that single outlier -- it
+    # squashes the real structure into a sliver and parks the outlier's points
+    # at the edge, where the short (11-epoch) UMAP refinement cannot recover
+    # them. Winsorize to the 2nd-98th percentile per dimension so the bulk
+    # fills the init range and any outlier merely starts at its edge.
+    y_lo    <- apply(y_raw, 2L, stats::quantile, probs = 0.02)
+    y_hi    <- apply(y_raw, 2L, stats::quantile, probs = 0.98)
+    y_range <- pmax(y_hi - y_lo, 1e-10)
+    y_clip  <- y_raw
+    for (j in seq_len(ncol(y_raw))) {
+      y_clip[, j] <- pmin(pmax(y_raw[, j], y_lo[j]), y_hi[j])
+    }
+    y_init  <- 10.0 * sweep(sweep(y_clip, 2L, y_lo, "-"), 2L, y_range, "/")
 
     umap_result <- tryCatch(
       uwot::umap(

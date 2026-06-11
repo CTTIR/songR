@@ -14,6 +14,12 @@
 * `autoplot()` no longer errors for `type = "codebook"` or `type = "graph"`
   when `color_by` has input-point length; like `plot()`, it now maps the
   labels to coding vectors.
+* The UMAP dispersion step now winsorizes the embedding before building the
+  UMAP init, so a single drifted coding vector can no longer dominate the
+  min-max scaling and strand its points as a far outlier. This removes
+  occasional outliers and improves cluster separation (e.g. Fashion-MNIST
+  reproduction AMI 0.50 -> 0.55). Only the `dispersion = TRUE` path is affected;
+  the core SONG embedding is unchanged.
 * The Shiny comparison app no longer claims SONG stops training early, and its
   documented `k` and `epochs` defaults match the implementation.
 
