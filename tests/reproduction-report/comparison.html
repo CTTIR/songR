@@ -2394,7 +2394,7 @@ window.Quarto = {
 
 <section id="what-this-compares" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-compares">What this compares</h2>
-<p>songR is a native R/C++ (RcppArmadillo) re-implementation of the Self-Organizing Nebulous Growths (SONG) algorithm of Senanayake et al. (2021). This report places the <strong>original Python implementation</strong> and <strong>songR</strong> side by side on identical inputs, so the reproduction can be judged visually and quantitatively.</p>
+<p>songR is a SONG-inspired dimensionality-reduction tool for R that implements the Self-Organizing Nebulous Growths (SONG) algorithm of Senanayake et al. (2021) in R/C++ (RcppArmadillo), staying as close to the reference as is feasible. This report places the <strong>original Python implementation</strong> and <strong>songR</strong> side by side on identical inputs, so the reproduction can be judged visually and quantitatively.</p>
 <p>The Python embeddings are the committed golden fixtures (<code>tests/testthat/fixtures/reference/</code>), generated from the reference <code>SONG</code> against the same data songR is run on here. Clustering quality is scored with Adjusted Mutual Information (AMI; k-means on the embedding vs. ground-truth labels, mean over 5 seeds). Embedding <em>layout</em> similarity is the Procrustes <span class="math inline">\(R^2\)</span> after optimal rotation/scale/translation.</p>
 </section>
 <section id="headline-how-faithfully-does-songr-reproduce-the-reference" class="level2">
@@ -2425,8 +2425,8 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Default visualization (UMAP-dispersed)</td>
-<td><strong>very close layout</strong></td>
-<td>MNIST Procrustes <span class="math inline">\(R^2 \approx 0.85\)</span></td>
+<td><strong>close in global structure, not identical in absolute layout</strong></td>
+<td>Procrustes <span class="math inline">\(R^2 \approx 0.79\)</span>–<span class="math inline">\(0.85\)</span></td>
 </tr>
 <tr class="even">
 <td>Raw embedding coordinates (pre-dispersion)</td>

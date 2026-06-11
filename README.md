@@ -10,9 +10,11 @@
 
 ## Overview
 
-**songR** provides a native R/C++ implementation of the
+**songR** is a SONG-inspired dimensionality-reduction tool for R. It
+implements the
 [Self-Organizing Nebulous Growths (SONG)](https://doi.org/10.1109/TNNLS.2020.3023941)
-algorithm for nonlinear dimensionality reduction and data visualization.
+algorithm of Senanayake et al. (2021) natively in R and C++ (no Python or
+`reticulate`), staying as close to the reference implementation as is feasible.
 
 SONG's key advantages over t-SNE and UMAP:
 
@@ -26,6 +28,28 @@ SONG's key advantages over t-SNE and UMAP:
 New data can be added to an existing embedding without reinitializing or
 retraining the model, making SONG ideal for streaming data, growing
 datasets, and experiments where data arrives in batches.
+
+## Fidelity to the reference implementation
+
+songR is validated against the original Python SONG with a tiered set of
+golden-fixture parity tests. The honest, layer-by-layer picture:
+
+- **Deterministic components** (distances, nearest-coding-vector assignment,
+  the rational-quadratic kernel `(a, b)`, growth thresholds) reproduce the
+  reference to **≤ 1e-5** (the float32-vs-double floor).
+- **Clustering quality (AMI)** is **statistically identical** to the reference
+  — e.g. 0.949 = 0.949 on the raw embedding, and 0.560/0.551 and 0.618/0.596
+  on the UMAP-dispersed Fashion-MNIST and MNIST runs.
+- **The default UMAP-dispersed visualization** is **close in global structure**
+  (Procrustes R² ≈ 0.79–0.85) but **not identical in absolute layout**, because
+  of (1) the different stochastic optimizers in `uwot` vs. `umap-learn` and
+  (2) a small set of documented, AMI-neutral algorithmic divergences.
+
+Bit-identical embeddings are neither targeted nor achievable (the reference is
+`float32` + numba `fastmath` + two PRNG streams). See the
+[reference-parity summary](tests/testthat/fixtures/reference/PARITY.md) and the
+side-by-side [reproduction report](tests/reproduction-report/) for the full
+evidence.
 
 ## Installation
 

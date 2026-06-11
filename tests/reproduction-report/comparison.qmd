@@ -30,10 +30,12 @@ tierB <- read.csv(here("results_tierB.csv"))
 
 ## What this compares
 
-songR is a native R/C++ (RcppArmadillo) re-implementation of the Self-Organizing
-Nebulous Growths (SONG) algorithm of Senanayake et al. (2021). This report places
-the **original Python implementation** and **songR** side by side on identical
-inputs, so the reproduction can be judged visually and quantitatively.
+songR is a SONG-inspired dimensionality-reduction tool for R that implements the
+Self-Organizing Nebulous Growths (SONG) algorithm of Senanayake et al. (2021)
+in R/C++ (RcppArmadillo), staying as close to the reference as is feasible. This
+report places the **original Python implementation** and **songR** side by side
+on identical inputs, so the reproduction can be judged visually and
+quantitatively.
 
 The Python embeddings are the committed golden fixtures
 (`tests/testthat/fixtures/reference/`), generated from the reference
@@ -48,7 +50,7 @@ $R^2$ after optimal rotation/scale/translation.
 |-------|--------------|----------|
 | Deterministic kernels (distances, argmin, kernel $(a,b)$, scalars) | **near bit-identical** | $\le 7.6\times10^{-8}$ / exact |
 | Clustering (AMI) | **statistically identical** | nodisp 0.949 = 0.949 |
-| Default visualization (UMAP-dispersed) | **very close layout** | MNIST Procrustes $R^2 \approx 0.85$ |
+| Default visualization (UMAP-dispersed) | **close in global structure, not identical in absolute layout** | Procrustes $R^2 \approx 0.79$–$0.85$ |
 | Raw embedding coordinates (pre-dispersion) | **same structure, different layout** | blobs $R^2 \approx 0.22$ |
 
 **Bit-identity of the embeddings is impossible and is not the goal.** The

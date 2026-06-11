@@ -13,7 +13,7 @@ Layer by layer, against the same inputs (see
 |-------|--------------|----------|
 | Deterministic kernels (distances, argmin, `(a, b)`, scalars) | **near bit-identical** | &le; 7.6e-08 / exact (float32-vs-double floor) |
 | Clustering (AMI) | **statistically identical** | nodisp 0.949 = 0.949 |
-| Default visualization (UMAP-dispersed) | **very close layout** | MNIST Procrustes R&sup2; &asymp; 0.85 |
+| Default visualization (UMAP-dispersed) | **close in global structure, not identical in absolute layout** | Procrustes R&sup2; &asymp; 0.79–0.85 |
 | Raw embedding coordinates (pre-dispersion) | **same structure, different layout** | blobs Procrustes R&sup2; &asymp; 0.22 |
 
 ![Reference vs songR overlay](../../../vignettes/articles/reference_parity_overlay.png)
