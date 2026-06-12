@@ -43,9 +43,8 @@ Bit-identical embeddings are neither targeted nor achievable (the
 reference is `float32` + numba `fastmath` + two PRNG streams). See the
 [reference-parity
 summary](https://cttir.github.io/songR/tests/testthat/fixtures/reference/PARITY.md)
-and the side-by-side [reproduction
-report](https://cttir.github.io/songR/tests/reproduction-report/) for
-the full evidence.
+and the parity tests (`tests/testthat/test-reference-parity.R`) for the
+evidence.
 
 ## Installation
 
