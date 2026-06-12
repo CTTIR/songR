@@ -120,13 +120,9 @@
 <li>
 <strong>Deterministic components</strong> (distances, nearest-coding-vector assignment, the rational-quadratic kernel <code>(a, b)</code>, growth thresholds) reproduce the reference to <strong>≤ 1e-5</strong> (the float32-vs-double floor).</li>
 <li>
-<strong>Clustering quality (AMI)</strong> is <strong>statistically identical</strong> to the reference — e.g. 0.949 = 0.949 on the raw embedding, and 0.560/0.551 and 0.618/0.596 on the UMAP-dispersed Fashion-MNIST and MNIST runs.</li>
+<strong>The core SONG embedding</strong> (<code>dispersion = FALSE</code>) is <strong>statistically identical</strong> to the reference — e.g. AMI 0.949 = 0.949.</li>
 <li>
-<strong>The default UMAP-dispersed visualization</strong> is <strong>close in global structure</strong> (Procrustes R² ≈ 0.79–0.85) but <strong>not identical in absolute layout</strong>, because of (1) the different stochastic optimizers in <code>uwot</code> vs. <code>umap-learn</code> and
-<ol start="2" style="list-style-type: decimal">
-<li>a small set of documented, AMI-neutral algorithmic divergences.</li>
-</ol>
-</li>
+<strong>The default visualization</strong> (<code>dispersion = TRUE</code>) uses a <strong>stronger UMAP refinement</strong> than the reference’s gentle one. songR’s raw embedding is more collapsed on hard, multi-class data, so the stronger refinement is needed to use the full plane — and it <strong>matches or beats the reference’s AMI on every benchmarked dataset</strong> (MNIST, Fashion-MNIST, COIL-20, Samusik, Wong), while staying competitive with t-SNE and UMAP.</li>
 </ul>
 <p>Bit-identical embeddings are neither targeted nor achievable (the reference is <code>float32</code> + numba <code>fastmath</code> + two PRNG streams). See the <a href="tests/testthat/fixtures/reference/PARITY.html">reference-parity summary</a> and the parity tests (<code>tests/testthat/test-reference-parity.R</code>) for the evidence.</p>
 </div>

@@ -386,7 +386,7 @@ dataset:</p>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Install aricode for AMI computation: install.packages('aricode')\n"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="co">#&gt; SONG AMI on songR_blobs: 91.3%</span></span>
+<span><span class="co">#&gt; SONG AMI on songR_blobs: 100.0%</span></span>
 <span><span class="co">#&gt; UMAP AMI on songR_blobs: 100.0%</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -472,15 +472,16 @@ layer-by-layer answer:</p>
 (float32-vs-double floor)</td>
 </tr>
 <tr class="even">
-<td>Clustering (AMI)</td>
+<td>Core SONG embedding (<code>dispersion = FALSE</code>) — clustering
+(AMI)</td>
 <td>statistically identical</td>
-<td>nodisp 0.949 = 0.949; dispersed 0.560/0.551, 0.618/0.596</td>
+<td>nodisp 0.949 = 0.949</td>
 </tr>
 <tr class="odd">
-<td>Default visualization (UMAP-dispersed)</td>
-<td>close in global structure, not identical in absolute layout</td>
-<td>Procrustes <span class="math inline">R^2 \approx 0.79</span>–<span class="math inline">0.85</span>
-</td>
+<td>Default visualization (<code>dispersion = TRUE</code>)</td>
+<td>songR uses a <strong>stronger UMAP refinement</strong>; matches or
+beats the reference’s AMI</td>
+<td>e.g. MNIST 0.62→0.71, on every benchmark dataset</td>
 </tr>
 <tr class="even">
 <td>Raw embedding coordinates (pre-dispersion)</td>

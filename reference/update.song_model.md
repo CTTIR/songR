@@ -68,9 +68,9 @@ model <- song(as.matrix(iris[1:100, 1:4]), epochs = 5L, seed = 42)
 #> Epoch 5/5 | CVs: 21 | QE: 0.3056 | so_lr: 0.0408 | lr: 0.2000
 #> Running UMAP dispersion step...
 model <- update(model, as.matrix(iris[101:150, 1:4]), epochs = 5L)
-#> Update Epoch 1/5 | CVs: 21 | QE: 0.5691 | so_lr: 1.0000
-#> Update Epoch 2/5 | CVs: 32 | QE: 0.4294 | so_lr: 0.8187
-#> Update Epoch 3/5 | CVs: 32 | QE: 0.3796 | so_lr: 0.4493
-#> Update Epoch 4/5 | CVs: 32 | QE: 0.3452 | so_lr: 0.1653
-#> Update Epoch 5/5 | CVs: 32 | QE: 0.3151 | so_lr: 0.0408
+#> Update Epoch 1/5 | CVs: 21 | QE: 0.5903 | so_lr: 1.0000
+#> Update Epoch 2/5 | CVs: 32 | QE: 0.4040 | so_lr: 0.8187
+#> Update Epoch 3/5 | CVs: 32 | QE: 0.3603 | so_lr: 0.4493
+#> Update Epoch 4/5 | CVs: 32 | QE: 0.3495 | so_lr: 0.1653
+#> Update Epoch 5/5 | CVs: 32 | QE: 0.3294 | so_lr: 0.0408
 ```
