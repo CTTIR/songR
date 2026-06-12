@@ -1,6 +1,0 @@
-"figure","dataset","n","clusters","AMI"
-"Fig 4","MNIST (PCA-20)",15000,10,0.625313514062708
-"Fig 3","Fashion-MNIST (PCA-20)",15000,10,0.549488350455868
-"Fig 8","COIL-20 (PCA-300)",1440,20,0.952620437473222
-"Fig 7","Blobs (30c/60D)",6000,30,0.922577043235707
-"Fig 3/4","MNIST heterogeneous incremental",10000,10,0.461916742504009

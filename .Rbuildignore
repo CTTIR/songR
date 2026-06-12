@@ -19,5 +19,3 @@
 ^vignettes/articles$
 ^tests/testthat/fixtures$
 ^\.remember$
-^tests/reproduction-report$
-^tests/paper-figures$

@@ -48,8 +48,7 @@ golden-fixture parity tests. The honest, layer-by-layer picture:
 Bit-identical embeddings are neither targeted nor achievable (the reference is
 `float32` + numba `fastmath` + two PRNG streams). See the
 [reference-parity summary](tests/testthat/fixtures/reference/PARITY.md) and the
-side-by-side [reproduction report](tests/reproduction-report/) for the full
-evidence.
+parity tests (`tests/testthat/test-reference-parity.R`) for the evidence.
 
 ## Installation
 
