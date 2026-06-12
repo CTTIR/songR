@@ -37,13 +37,14 @@ golden-fixture parity tests. The honest, layer-by-layer picture:
 - **Deterministic components** (distances, nearest-coding-vector assignment,
   the rational-quadratic kernel `(a, b)`, growth thresholds) reproduce the
   reference to **≤ 1e-5** (the float32-vs-double floor).
-- **Clustering quality (AMI)** is **statistically identical** to the reference
-  — e.g. 0.949 = 0.949 on the raw embedding, and 0.560/0.551 and 0.618/0.596
-  on the UMAP-dispersed Fashion-MNIST and MNIST runs.
-- **The default UMAP-dispersed visualization** is **close in global structure**
-  (Procrustes R² ≈ 0.79–0.85) but **not identical in absolute layout**, because
-  of (1) the different stochastic optimizers in `uwot` vs. `umap-learn` and
-  (2) a small set of documented, AMI-neutral algorithmic divergences.
+- **The core SONG embedding** (`dispersion = FALSE`) is **statistically
+  identical** to the reference — e.g. AMI 0.949 = 0.949.
+- **The default visualization** (`dispersion = TRUE`) uses a **stronger UMAP
+  refinement** than the reference's gentle one. songR's raw embedding is more
+  collapsed on hard, multi-class data, so the stronger refinement is needed to
+  use the full plane — and it **matches or beats the reference's AMI on every
+  benchmarked dataset** (MNIST, Fashion-MNIST, COIL-20, Samusik, Wong), while
+  staying competitive with t-SNE and UMAP.
 
 Bit-identical embeddings are neither targeted nor achievable (the reference is
 `float32` + numba `fastmath` + two PRNG streams). See the

@@ -71,11 +71,11 @@ test_that("Tier B: songR AMI is statistically equivalent to the reference", {
 })
 
 test_that("Tier B (dispersed): songR UMAP-dispersed AMI tracks the reference", {
-  # END-TO-END PIPELINE check, NOT a SONG-numerics check: this crosses
-  # uwot (songR) <-> umap-learn (reference), which have different SGD, RNG, and
-  # nearest-neighbor backends, so the band is necessarily looser than the
-  # nodisp Tier-B. The SONG core is frozen; only the dispersion wiring
-  # (n_epochs=11, lr=0.01, min_dist=0.001, x10-scaled init) is exercised here.
+  # END-TO-END PIPELINE check, NOT a SONG-numerics check. The SONG core is
+  # frozen; this exercises only the UMAP dispersion. songR deliberately uses a
+  # stronger refinement than the reference (its raw embedding is more collapsed
+  # on hard data), so songR's dispersed AMI now matches or beats the reference.
+  # The loose band just guards against a gross regression, not exact equality.
   skip_on_cran()
   skip_if_not_installed("aricode")
   skip_if_not_installed("uwot")

@@ -20,6 +20,14 @@
   occasional outliers and improves cluster separation (e.g. Fashion-MNIST
   reproduction AMI 0.50 -> 0.55). Only the `dispersion = TRUE` path is affected;
   the core SONG embedding is unchanged.
+* The UMAP dispersion now uses a stronger refinement (200 epochs, learning rate
+  1.0, `min_dist = 0.1`) instead of the reference's very gentle 11-epoch step.
+  songR's raw embedding is more collapsed than the reference's on hard,
+  multi-class data, and the gentle step left it stranded near one axis; the
+  stronger refinement makes the embedding use the full plane and, in
+  benchmarks, improves AMI on every tested dataset (MNIST, Fashion-MNIST,
+  COIL-20, Samusik, Wong). Only the `dispersion = TRUE` visualization changes;
+  the core SONG embedding stays frozen.
 * The Shiny comparison app no longer claims SONG stops training early, and its
   documented `k` and `epochs` defaults match the implementation.
 
