@@ -460,7 +460,7 @@ sessionInfo()
 #> [13] fastmap_1.2.0      uwot_0.2.4         aricode_1.1.0      lattice_0.22-9    
 #> [17] ggplot2_4.0.3      R6_2.6.1           knitr_1.51         Rtsne_0.17        
 #> [21] desc_1.4.3         bslib_0.11.0       RColorBrewer_1.1-3 rlang_1.2.0       
-#> [25] cachem_1.1.0       xfun_0.58          fs_2.1.0           sass_0.4.10       
+#> [25] cachem_1.1.0       xfun_0.59          fs_2.1.0           sass_0.4.10       
 #> [29] S7_0.2.2           otel_0.2.0         cli_3.6.6          pkgdown_2.2.0     
 #> [33] digest_0.6.39      grid_4.6.0         irlba_2.3.7        lifecycle_1.0.5   
 #> [37] vctrs_0.7.3        evaluate_1.0.5     glue_1.8.1         farver_2.1.2      
