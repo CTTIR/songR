@@ -1,0 +1,17 @@
+comment: false
+
+coverage:
+  status:
+    project:
+      default:
+        target: 85%
+        threshold: 1%
+    patch:
+      default:
+        target: 85%
+        threshold: 1%
+
+ignore:
+  - "inst/shiny/**"      # interactive Shiny comparison app (not unit-testable)
+  - "R/RcppExports.R"    # auto-generated Rcpp bindings
+  - "src/RcppExports.cpp"

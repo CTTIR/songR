@@ -20,3 +20,4 @@ data-raw/reproduction/output/*.log
 *.bak
 *.orig
 *.Rcheck/
+_coverage/

@@ -1,11 +1,14 @@
 # songR <img src="man/figures/logo.png" align="right" height="139" alt="songR logo" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/cttir/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cttir/songR/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/cttir/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/songR/)
+[![R-CMD-check](https://github.com/r-heller/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/songR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/r-heller/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/songR/)
 [![CRAN status](https://www.r-pkg.org/badges/version/songR)](https://CRAN.R-project.org/package=songR)
-[![Codecov test coverage](https://codecov.io/gh/cttir/songR/graph/badge.svg)](https://codecov.io/gh/cttir/songR)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Codecov test coverage](https://codecov.io/gh/r-heller/songR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/songR?branch=main)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/songR)](https://cran.r-project.org/package=songR)
+[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/songR)](https://cran.r-project.org/package=songR)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 ## Overview
