@@ -1,11 +1,11 @@
 # Interactive Visualization with the songR Shiny App
 
-[![R-CMD-check](https://github.com/r-heller/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/songR/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/r-heller/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/songR/)
+[![R-CMD-check](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/songR/)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/songR)](https://CRAN.R-project.org/package=songR)
 [![Codecov test
-coverage](https://codecov.io/gh/r-heller/songR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/songR?branch=main)
+coverage](https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/songR?branch=main)
 [![CRAN
 downloads](https://cranlogs.r-pkg.org/badges/songR)](https://cran.r-project.org/package=songR)
 [![CRAN downloads
