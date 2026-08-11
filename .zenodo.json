@@ -1,0 +1,40 @@
+{
+  "upload_type": "software",
+  "title": "songR: Self-organizing nebulous growths for nonlinear dimensionality reduction",
+  "version": "0.1.0",
+  "publication_date": "2026-08-11",
+  "description": "<p>songR implements the Self-Organizing Nebulous Growths algorithm for nonlinear dimensionality reduction and data visualisation, written natively in R and C++ and kept as close to the reference implementation as the two ecosystems allow. The method is parametric, which means new observations can be added to an existing low-dimensional layout without recomputing it from scratch, and it accommodates both homogeneous and heterogeneous data increments. It is robust to noise and to highly mixed clusters, and reports clustering quality alongside the embedding. It is aimed at analysts working with growing datasets where a stable, incrementally updatable visualisation is preferable to repeated re-embedding.</p>",
+  "creators": [
+    {
+      "name": "Heller, Raban",
+      "orcid": "0000-0001-8006-9742"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Senanayake, Damith A.",
+      "type": "RightsHolder"
+    }
+  ],
+  "license": "mit",
+  "access_right": "open",
+  "language": "eng",
+  "keywords": [
+    "dimensionality-reduction",
+    "embedding",
+    "visualisation",
+    "machine-learning",
+    "single-cell",
+    "r-package",
+    "rstats"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/CTTIR/songR",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    }
+  ],
+  "notes": "Prepared draft. Not yet published."
+}
