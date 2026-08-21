@@ -28,7 +28,7 @@ bibentry(
   volume   = "32",
   number   = "10",
   pages    = "4588--4602",
-  doi      = "10.5281/zenodo.21889964",
+  doi      = "10.1109/TNNLS.2020.3023941",
   header   = "To cite the underlying SONG algorithm, use:",
   textVersion = paste(
     "Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).",
