@@ -17,6 +17,5 @@
 ^codecov\.yml$
 ^\.lintr$
 ^vignettes/articles$
-^tests/testthat/fixtures$
 ^\.remember$
 ^_coverage$
