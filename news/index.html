@@ -41,6 +41,10 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="songr-development-version">songR (development version)<a class="anchor" aria-label="anchor" href="#songr-development-version"></a></h2>
 <div class="section level3">
+<h3 id="feature-contracts-development-version">Feature contracts<a class="anchor" aria-label="anchor" href="#feature-contracts-development-version"></a></h3>
+<ul><li>Bind named training features and optional declared measurement metadata to models; prediction and updates reject incompatible feature order or metadata. Unnamed and legacy models retain positional compatibility.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="performance-development-version">Performance<a class="anchor" aria-label="anchor" href="#performance-development-version"></a></h3>
 <ul><li>Faster core training: the per-sample k-nearest-coding-vector search now reuses the distances already computed for the quantization step instead of recomputing them and copying the active codebook on every sample. Embeddings are unchanged (bit-identical).</li>
 <li>

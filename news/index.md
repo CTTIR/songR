@@ -2,6 +2,13 @@
 
 ## songR (development version)
 
+### Feature contracts
+
+- Bind named training features and optional declared measurement
+  metadata to models; prediction and updates reject incompatible feature
+  order or metadata. Unnamed and legacy models retain positional
+  compatibility.
+
 ### Performance
 
 - Faster core training: the per-sample k-nearest-coding-vector search

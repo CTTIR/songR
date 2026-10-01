@@ -8,7 +8,7 @@ embedding coordinates.
 
 ``` r
 # S3 method for class 'song_model'
-predict(object, newdata, ...)
+predict(object, newdata, ..., feature_manifest = NULL)
 ```
 
 ## Arguments
@@ -24,6 +24,13 @@ predict(object, newdata, ...)
 - ...:
 
   Ignored.
+
+- feature_manifest:
+
+  The unchanged manifest supplied at training, if any. Named features
+  must follow training order. See
+  [`song()`](https://cttir.github.io/songR/reference/song.md) for the
+  contract.
 
 ## Value
 

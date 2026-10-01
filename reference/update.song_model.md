@@ -8,7 +8,15 @@ new coding vectors and edges are grown to accommodate the new data.
 
 ``` r
 # S3 method for class 'song_model'
-update(object, X_new, epochs = 50L, alpha = NULL, verbose = TRUE, ...)
+update(
+  object,
+  X_new,
+  epochs = 50L,
+  alpha = NULL,
+  verbose = TRUE,
+  ...,
+  feature_manifest = NULL
+)
 ```
 
 ## Arguments
@@ -38,6 +46,13 @@ update(object, X_new, epochs = 50L, alpha = NULL, verbose = TRUE, ...)
 - ...:
 
   Ignored.
+
+- feature_manifest:
+
+  The unchanged manifest supplied at training, if any. Named features
+  must follow training order. See
+  [`song()`](https://cttir.github.io/songR/reference/song.md) for the
+  contract.
 
 ## Value
 

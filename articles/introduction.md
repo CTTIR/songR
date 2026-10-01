@@ -274,7 +274,7 @@ was verified against its DOI, arXiv ID, or ISBN.
 sessionInfo()
 #> R version 4.6.1 (2026-06-24)
 #> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 24.04.4 LTS
+#> Running under: Ubuntu 24.04.5 LTS
 #> 
 #> Matrix products: default
 #> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -296,11 +296,11 @@ sessionInfo()
 #> [1] songR_0.1.0
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.51         rlang_1.3.0       
-#>  [5] xfun_0.60          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 
+#>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.52         rlang_1.3.0       
+#>  [5] xfun_0.61          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 
 #>  [9] jsonlite_2.0.0     glue_1.8.1         Rtsne_0.17         htmltools_0.5.9   
-#> [13] ragg_1.5.2         sass_0.4.10        uwot_0.2.4         scales_1.4.0      
-#> [17] rmarkdown_2.31     grid_4.6.1         evaluate_1.0.5     jquerylib_0.1.4   
+#> [13] ragg_1.5.2         sass_0.4.10        uwot_0.2.5         scales_1.4.0      
+#> [17] rmarkdown_2.32     grid_4.6.1         evaluate_1.0.5     jquerylib_0.1.4   
 #> [21] fastmap_1.2.0      yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1       
 #> [25] compiler_4.6.1     RColorBrewer_1.1-3 fs_2.1.0           Rcpp_1.1.2        
 #> [29] farver_2.1.2       systemfonts_1.3.2  lattice_0.22-9     digest_0.6.39     

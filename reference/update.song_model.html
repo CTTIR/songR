@@ -52,7 +52,15 @@ new coding vectors and edges are grown to accommodate the new data.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'song_model'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">X_new</span>, epochs <span class="op">=</span> <span class="fl">50L</span>, alpha <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">X_new</span>,</span>
+<span>  epochs <span class="op">=</span> <span class="fl">50L</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  feature_manifest <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -83,6 +91,11 @@ If <code>NULL</code>, uses the original learning rate (default: NULL).</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Ignored.</p></dd>
+
+
+<dt id="arg-feature-manifest">feature_manifest<a class="anchor" aria-label="anchor" href="#arg-feature-manifest"></a></dt>
+<dd><p>The unchanged manifest supplied at training, if any.
+Named features must follow training order. See <code><a href="song.html">song()</a></code> for the contract.</p></dd>
 
 </dl></div>
     <div class="section level2">
