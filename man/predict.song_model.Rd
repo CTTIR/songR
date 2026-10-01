@@ -4,7 +4,7 @@
 \alias{predict.song_model}
 \title{Project New Points into a SONG Embedding}
 \usage{
-\method{predict}{song_model}(object, newdata, ...)
+\method{predict}{song_model}(object, newdata, ..., feature_manifest = NULL)
 }
 \arguments{
 \item{object}{A trained \code{"song_model"} object.}
@@ -12,6 +12,9 @@
 \item{newdata}{Numeric matrix of new data (\code{n_new x D}).}
 
 \item{...}{Ignored.}
+
+\item{feature_manifest}{The unchanged manifest supplied at training, if any.
+Named features must follow training order. See \code{\link[=song]{song()}} for the contract.}
 }
 \value{
 A numeric matrix (\code{n_new x d}) of embedding coordinates.

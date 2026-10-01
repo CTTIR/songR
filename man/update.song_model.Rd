@@ -4,7 +4,15 @@
 \alias{update.song_model}
 \title{Incrementally Update a SONG Model with New Data}
 \usage{
-\method{update}{song_model}(object, X_new, epochs = 50L, alpha = NULL, verbose = TRUE, ...)
+\method{update}{song_model}(
+  object,
+  X_new,
+  epochs = 50L,
+  alpha = NULL,
+  verbose = TRUE,
+  ...,
+  feature_manifest = NULL
+)
 }
 \arguments{
 \item{object}{A \code{"song_model"} object to update.}
@@ -20,6 +28,9 @@ If \code{NULL}, uses the original learning rate (default: NULL).}
 \item{verbose}{Logical. Whether to print progress (default: TRUE).}
 
 \item{...}{Ignored.}
+
+\item{feature_manifest}{The unchanged manifest supplied at training, if any.
+Named features must follow training order. See \code{\link[=song]{song()}} for the contract.}
 }
 \value{
 An updated \code{"song_model"} object with grown codebook

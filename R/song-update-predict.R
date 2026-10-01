@@ -12,6 +12,8 @@
 #'   If \code{NULL}, uses the original learning rate (default: NULL).
 #' @param verbose Logical. Whether to print progress (default: TRUE).
 #' @param ... Ignored.
+#' @param feature_manifest The unchanged manifest supplied at training, if any.
+#'   Named features must follow training order. See [song()] for the contract.
 #'
 #' @return An updated \code{"song_model"} object with grown codebook
 #'   incorporating the new data.
@@ -29,7 +31,7 @@
 #'
 #' @seealso \code{\link{song}}, \code{\link{predict.song_model}}
 update.song_model <- function(object, X_new, epochs = 50L,
-                              alpha = NULL, verbose = TRUE, ...) {
+                              alpha = NULL, verbose = TRUE, ..., feature_manifest = NULL) {
   X_new <- validate_input(X_new)
   epochs <- as.integer(epochs)
 
@@ -40,6 +42,8 @@ update.song_model <- function(object, X_new, epochs = 50L,
   if (is.null(alpha)) {
     alpha <- object$parameters$alpha
   }
+
+  .song_check_features(object, X_new, feature_manifest)
 
   params <- object$parameters
   n_new  <- nrow(X_new)
@@ -79,7 +83,8 @@ update.song_model <- function(object, X_new, epochs = 50L,
   )
 
   params$epochs <- params$epochs + epochs
-  new_song_model(result, params, object$n_input + n_new, object$D)
+  new_song_model(result, params, object$n_input + n_new, object$D,
+                 object$feature_contract)
 }
 
 #' Project New Points into a SONG Embedding
@@ -91,6 +96,8 @@ update.song_model <- function(object, X_new, epochs = 50L,
 #' @param object A trained \code{"song_model"} object.
 #' @param newdata Numeric matrix of new data (\code{n_new x D}).
 #' @param ... Ignored.
+#' @param feature_manifest The unchanged manifest supplied at training, if any.
+#'   Named features must follow training order. See [song()] for the contract.
 #'
 #' @return A numeric matrix (\code{n_new x d}) of embedding coordinates.
 #'
@@ -106,12 +113,14 @@ update.song_model <- function(object, X_new, epochs = 50L,
 #' Systems}, 32(10), 4588--4602. \doi{10.1109/TNNLS.2020.3023941}
 #'
 #' @seealso \code{\link{song}}, \code{\link{update.song_model}}
-predict.song_model <- function(object, newdata, ...) {
+predict.song_model <- function(object, newdata, ..., feature_manifest = NULL) {
   newdata <- validate_input(newdata)
 
   if (ncol(newdata) != object$D) {
     cli::cli_abort("newdata must have {object$D} columns (got {ncol(newdata)}).")
   }
+
+  .song_check_features(object, newdata, feature_manifest)
 
   # Find nearest coding vector for each new point
   nn_idx <- batch_knn_search_cpp(newdata, object$C, 1L)

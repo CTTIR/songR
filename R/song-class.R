@@ -7,9 +7,10 @@
 #' @param parameters List of hyperparameters used.
 #' @param n_input Number of input data points.
 #' @param D Input dimensionality.
+#' @param feature_contract Validated feature contract or NULL for legacy models.
 #' @return An S3 object of class \code{"song_model"}.
 #' @noRd
-new_song_model <- function(result, parameters, n_input, D) {
+new_song_model <- function(result, parameters, n_input, D, feature_contract = NULL) {
   structure(
     list(
       Y = result$Y,
@@ -24,7 +25,8 @@ new_song_model <- function(result, parameters, n_input, D) {
       n_epochs = result$n_epochs,
       converged = if (!is.null(result$converged)) result$converged else FALSE,
       n_input = n_input,
-      D = D
+      D = D,
+      feature_contract = feature_contract
     ),
     class = "song_model"
   )

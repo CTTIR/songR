@@ -46,6 +46,21 @@
 #' @param seed Integer or \code{NULL}. Random seed for reproducibility.
 #' @param verbose Logical. Whether to print progress per epoch (default: TRUE).
 #'
+#' @param feature_manifest Optional data frame with exactly these character
+#'   columns, in order: `feature`, `compartment`, `statistic`, `unit`, `transform`,
+#'   `normalization`. Rows must follow the named input columns. Describe complete
+#'   externally applied transform/normalization recipes, including parameters or
+#'   a versioned reference identifier; use `"identity"`/`"none"` when applicable.
+#'   The manifest records declarations; it does not apply transformations or
+#'   establish that supplied measurements have the declared physical meaning.
+#' @details
+#' Named training columns are bound in exact order and must also be named in
+#' prediction and updates. An explicit manifest must be supplied again, unchanged,
+#' to predict or update a model trained with one. Missing/nonfinite measurements
+#' are rejected; no feature is silently reordered or imputed. Unnamed training
+#' data retains positional compatibility and cannot verify feature semantics.
+#' Legacy models without a contract also retain positional behavior.
+#'
 #' @return An S3 object of class \code{"song_model"} containing:
 #' \describe{
 #'   \item{Y}{Embedding coordinates of coding vectors (\code{n_coding x d}).}
@@ -55,6 +70,7 @@
 #'   \item{assignments}{Integer vector of length \code{n}: nearest CV index.}
 #'   \item{embedding}{Embedding coordinates for all input points (\code{n x d}).}
 #'   \item{parameters}{List of all hyperparameters used.}
+#'   \item{feature_contract}{Versioned feature order, declared metadata and missing-value policy.}
 #'   \item{n_epochs}{Number of epochs actually run.}
 #' }
 #'
@@ -88,10 +104,12 @@ song <- function(
   lr_sigma = 5.0,
   dispersion = TRUE,
   seed = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  feature_manifest = NULL
 ) {
   # Input validation
   X <- validate_input(X)
+  feature_contract <- .song_feature_contract(X, feature_manifest)
   d  <- as.integer(d)
   k  <- as.integer(k)
   epochs <- as.integer(epochs)
@@ -233,5 +251,5 @@ song <- function(
     lr_sigma = lr_sigma, dispersion = dispersion, seed = seed
   )
 
-  new_song_model(result, parameters, n, D)
+  new_song_model(result, parameters, n, D, feature_contract)
 }
