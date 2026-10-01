@@ -21,7 +21,8 @@ song(
   lr_sigma = 5,
   dispersion = TRUE,
   seed = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  feature_manifest = NULL
 )
 }
 \arguments{
@@ -79,6 +80,14 @@ separation.}
 \item{seed}{Integer or \code{NULL}. Random seed for reproducibility.}
 
 \item{verbose}{Logical. Whether to print progress per epoch (default: TRUE).}
+
+\item{feature_manifest}{Optional data frame with exactly these character
+columns, in order: \code{feature}, \code{compartment}, \code{statistic}, \code{unit}, \code{transform},
+\code{normalization}. Rows must follow the named input columns. Describe complete
+externally applied transform/normalization recipes, including parameters or
+a versioned reference identifier; use \code{"identity"}/\code{"none"} when applicable.
+The manifest records declarations; it does not apply transformations or
+establish that supplied measurements have the declared physical meaning.}
 }
 \value{
 An S3 object of class \code{"song_model"} containing:
@@ -90,6 +99,7 @@ An S3 object of class \code{"song_model"} containing:
 \item{assignments}{Integer vector of length \code{n}: nearest CV index.}
 \item{embedding}{Embedding coordinates for all input points (\code{n x d}).}
 \item{parameters}{List of all hyperparameters used.}
+\item{feature_contract}{Versioned feature order, declared metadata and missing-value policy.}
 \item{n_epochs}{Number of epochs actually run.}
 }
 }
@@ -100,6 +110,14 @@ vectors connected by a topology-preserving graph, then maps the graph
 into a low-dimensional embedding space. Unlike t-SNE and UMAP, the
 resulting model supports incremental updates with new data via
 \code{\link{update.song_model}}.
+}
+\details{
+Named training columns are bound in exact order and must also be named in
+prediction and updates. An explicit manifest must be supplied again, unchanged,
+to predict or update a model trained with one. Missing/nonfinite measurements
+are rejected; no feature is silently reordered or imputed. Unnamed training
+data retains positional compatibility and cannot verify feature semantics.
+Legacy models without a contract also retain positional behavior.
 }
 \examples{
 model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)

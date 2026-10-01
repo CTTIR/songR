@@ -19,3 +19,8 @@
 ^vignettes/articles$
 ^\.remember$
 ^_coverage$
+^instructions$
+^\.git$
+^\.zenodo\.json$
+^\.rpackagesaudit$
+^CITATION\.cff$
