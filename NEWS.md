@@ -1,3 +1,10 @@
+# songR development
+
+- Record projection revisions, parent lineage and explicit reprojection policy
+  on incremental updates. Clarify update-batch outputs and frozen prediction.
+- Add an explicit optional update seed for reproducible retraining; the default
+  continues to use the current random stream.
+
 # songR (development version)
 
 ## Feature contracts

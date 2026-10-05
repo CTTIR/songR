@@ -1,8 +1,9 @@
 #' Incrementally Update a SONG Model with New Data
 #'
 #' Adds new data to an existing SONG model. This is the key differentiator
-#' of SONG over t-SNE and UMAP: the existing embedding is preserved while
-#' new coding vectors and edges are grown to accommodate the new data.
+#' of SONG over t-SNE and UMAP: training continues from the existing model.
+#' Coding vectors, edges and embedding positions may change. The supplied
+#' object is unchanged; use [predict.song_model()] for frozen projection.
 #'
 #' @param object A \code{"song_model"} object to update.
 #' @param X_new Numeric matrix of new data (\code{n_new x D}). Must have
@@ -12,11 +13,27 @@
 #'   If \code{NULL}, uses the original learning rate (default: NULL).
 #' @param verbose Logical. Whether to print progress (default: TRUE).
 #' @param ... Ignored.
+#' @param seed Optional integer seed for update training. `NULL` preserves the
+#'   existing random-stream behavior; the original fit seed is not reused.
 #' @param feature_manifest The unchanged manifest supplied at training, if any.
 #'   Named features must follow training order. See [song()] for the contract.
 #'
 #' @return An updated \code{"song_model"} object with grown codebook
-#'   incorporating the new data.
+#'   incorporating the new data. `embedding` and `assignments` describe only
+#'   `X_new`; `n_input` counts all training rows across updates.
+#' @details
+#' `lineage` schema 1.0.0 records a revision, a deterministic SHA-256 model
+#' identifier and its parent identifier. Identifiers bind the ordered projection
+#' codebook, coordinates, feature contract and revision ancestry, not the full
+#' training history or authenticity of a manually modified object.
+#' Each update requires reprojection of all earlier observations with the new
+#' model before combining coordinates. Earlier input rows are not retained or
+#' automatically reprojected. Initial revisions start at 1. Updates to legacy
+#' models start a new revision history at 1 with `parent_history` set to
+#' `legacy_unversioned` and a parent projection fingerprint. Save the model
+#' together with any exported projection to retain its version.
+#' Coincident embedding positions reflect prototype assignment; they do not
+#' establish cell contact or physical spatial distance.
 #'
 #' @export
 #' @examples
@@ -31,7 +48,9 @@
 #'
 #' @seealso \code{\link{song}}, \code{\link{predict.song_model}}
 update.song_model <- function(object, X_new, epochs = 50L,
-                              alpha = NULL, verbose = TRUE, ..., feature_manifest = NULL) {
+                              alpha = NULL, verbose = TRUE, ..., feature_manifest = NULL,
+                              seed = NULL) {
+  .song_check_lineage(object)
   X_new <- validate_input(X_new)
   epochs <- as.integer(epochs)
 
@@ -60,6 +79,14 @@ update.song_model <- function(object, X_new, epochs = 50L,
     a
   }
 
+  if (!is.null(seed)) {
+    if (!is.numeric(seed) || length(seed) != 1L || is.na(seed) ||
+          !is.finite(seed) || seed != trunc(seed) || abs(seed) > .Machine$integer.max) {
+      cli::cli_abort("`seed` must be NULL or a finite integer.")
+    }
+    set.seed(as.integer(seed))
+  }
+
   result <- song_update_cpp(
     X_new          = X_new,
     W              = object$C,
@@ -79,19 +106,24 @@ update.song_model <- function(object, X_new, epochs = 50L,
     max_prototypes = max_protos,
     lr_sigma       = if (!is.null(params$lr_sigma)) params$lr_sigma else 5.0,
     verbose        = verbose,
-    seed           = if (!is.null(params$seed)) as.integer(params$seed) else -1L
+    seed           = if (!is.null(seed)) as.integer(seed) else -1L
   )
 
   params$epochs <- params$epochs + epochs
-  new_song_model(result, params, object$n_input + n_new, object$D,
-                 object$feature_contract)
+  params$update_seed <- seed
+  model <- new_song_model(result, params, object$n_input + n_new, object$D,
+                          object$feature_contract)
+  model$lineage <- .song_model_lineage(model, parent = object)
+  model
 }
 
 #' Project New Points into a SONG Embedding
 #'
 #' Maps new data points into an existing SONG embedding by assigning each
 #' point to its nearest coding vector and returning that coding vector's
-#' embedding coordinates.
+#' embedding coordinates. This does not train or mutate the model.
+#' Multiple points assigned to one prototype have identical coordinates; these
+#' coordinates are not physical locations or evidence of contact.
 #'
 #' @param object A trained \code{"song_model"} object.
 #' @param newdata Numeric matrix of new data (\code{n_new x D}).
