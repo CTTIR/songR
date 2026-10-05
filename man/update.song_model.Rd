@@ -11,7 +11,8 @@
   alpha = NULL,
   verbose = TRUE,
   ...,
-  feature_manifest = NULL
+  feature_manifest = NULL,
+  seed = NULL
 )
 }
 \arguments{
@@ -31,15 +32,34 @@ If \code{NULL}, uses the original learning rate (default: NULL).}
 
 \item{feature_manifest}{The unchanged manifest supplied at training, if any.
 Named features must follow training order. See \code{\link[=song]{song()}} for the contract.}
+
+\item{seed}{Optional integer seed for update training. \code{NULL} preserves the
+existing random-stream behavior; the original fit seed is not reused.}
 }
 \value{
 An updated \code{"song_model"} object with grown codebook
-incorporating the new data.
+incorporating the new data. \code{embedding} and \code{assignments} describe only
+\code{X_new}; \code{n_input} counts all training rows across updates.
 }
 \description{
 Adds new data to an existing SONG model. This is the key differentiator
-of SONG over t-SNE and UMAP: the existing embedding is preserved while
-new coding vectors and edges are grown to accommodate the new data.
+of SONG over t-SNE and UMAP: training continues from the existing model.
+Coding vectors, edges and embedding positions may change. The supplied
+object is unchanged; use \code{\link[=predict.song_model]{predict.song_model()}} for frozen projection.
+}
+\details{
+\code{lineage} schema 1.0.0 records a revision, a deterministic SHA-256 model
+identifier and its parent identifier. Identifiers bind the ordered projection
+codebook, coordinates, feature contract and revision ancestry, not the full
+training history or authenticity of a manually modified object.
+Each update requires reprojection of all earlier observations with the new
+model before combining coordinates. Earlier input rows are not retained or
+automatically reprojected. Initial revisions start at 1. Updates to legacy
+models start a new revision history at 1 with \code{parent_history} set to
+\code{legacy_unversioned} and a parent projection fingerprint. Save the model
+together with any exported projection to retain its version.
+Coincident embedding positions reflect prototype assignment; they do not
+establish cell contact or physical spatial distance.
 }
 \examples{
 model <- song(as.matrix(iris[1:100, 1:4]), epochs = 5L, seed = 42)

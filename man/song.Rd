@@ -100,6 +100,7 @@ An S3 object of class \code{"song_model"} containing:
 \item{embedding}{Embedding coordinates for all input points (\code{n x d}).}
 \item{parameters}{List of all hyperparameters used.}
 \item{feature_contract}{Versioned feature order, declared metadata and missing-value policy.}
+\item{lineage}{Projection version, parent identifier and reprojection policy.}
 \item{n_epochs}{Number of epochs actually run.}
 }
 }
