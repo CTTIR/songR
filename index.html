@@ -125,7 +125,7 @@
 <li>
 <strong>The default visualization</strong> (<code>dispersion = TRUE</code>) uses a <strong>stronger UMAP refinement</strong> than the reference’s gentle one. songR’s raw embedding is more collapsed on hard, multi-class data, so the stronger refinement is needed to use the full plane — and it <strong>matches or beats the reference’s AMI on every benchmarked dataset</strong> (MNIST, Fashion-MNIST, COIL-20, Samusik, Wong), while staying competitive with t-SNE and UMAP.</li>
 </ul>
-<p>Bit-identical embeddings are neither targeted nor achievable (the reference is <code>float32</code> + numba <code>fastmath</code> + two PRNG streams). See the <a href="tests/testthat/fixtures/reference/PARITY.html">reference-parity summary</a> and the parity tests (<code>tests/testthat/test-reference-parity.R</code>) for the evidence.</p>
+<p>Bit-identical embeddings are neither targeted nor achievable (the reference is <code>float32</code> + numba <code>fastmath</code> + two PRNG streams). See the <a href="https://github.com/CTTIR/songR/blob/main/tests/testthat/fixtures/reference/PARITY.md" class="external-link">reference-parity summary</a> and the parity tests (<code>tests/testthat/test-reference-parity.R</code>) for the evidence.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -230,9 +230,9 @@
 </h3>
 <ul>
 <li>
-<strong><a href="vignettes/articles/reproducing_paper_figures.Rmd">Reproducing Paper Figures</a></strong> – Reproduces key experiments from Senanayake et al. (2021) using songR (heterogeneous/homogeneous increments, CDY stability, noise tolerance, topology preservation, AMI scores)</li>
+<strong><a href="https://github.com/CTTIR/songR/blob/main/vignettes/articles/reproducing_paper_figures.Rmd" class="external-link">Reproducing Paper Figures</a></strong> – Reproduces key experiments from Senanayake et al. (2021) using songR (heterogeneous/homogeneous increments, CDY stability, noise tolerance, topology preservation, AMI scores)</li>
 <li>
-<strong><a href="vignettes/articles/songR_shiny_app.Rmd">Interactive Shiny App</a></strong> – Guide to the built-in comparison app with dark mode</li>
+<strong><a href="https://github.com/CTTIR/songR/blob/main/vignettes/articles/songR_shiny_app.Rmd" class="external-link">Interactive Shiny App</a></strong> – Guide to the built-in comparison app with dark mode</li>
 </ul>
 </div>
 <div class="section level3">
@@ -387,7 +387,14 @@
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
 <p>MIT (c) Raban Heller</p>
-<p>The SONG algorithm implemented here is derived from the reference implementation of Senanayake et al., which is licensed under the BSD 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright notice and license are reproduced verbatim in <a href="inst/COPYRIGHTS"><code>inst/COPYRIGHTS</code></a>.</p>
+<p>The SONG algorithm implemented here is derived from the reference implementation of Senanayake et al., which is licensed under the BSD 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright notice and license are reproduced verbatim in <a href="https://github.com/CTTIR/songR/blob/main/inst/COPYRIGHTS" class="external-link"><code>inst/COPYRIGHTS</code></a>.</p>
+</div>
+<div class="section level2">
+<h2 id="use-of-llm-tools">Use of LLM tools<a class="anchor" aria-label="anchor" href="#use-of-llm-tools"></a>
+</h2>
+<p>Where applicable, LLM tools were used for narrowly defined, non-authorial tasks: copyediting, prose refinement, Markdown/LaTeX formatting, boilerplate scaffolding (such as CI configurations and build scripts), and code refactoring. Tools included <a href="https://kisski.gwdg.de/leistungen/2-02-llm-service/" class="external-link">Chat AI</a>, the KISSKI (GWDG) service, and self-hosted <strong>Mistral Small (24B, Apache-2.0)</strong> served through a local <strong>vLLM architecture</strong> on an Ubuntu Linux workstation with Intel processors and NVIDIA GPUs. The self-hosted model ran locally, with no data sent to third parties.</p>
+<p>All scientific claims, methodological choices, analyses, interpretations and conclusions remain the authors’ own. Where applicable, LLM-generated material must be reviewed and revised before inclusion, and references must be verified against their DOI, arXiv ID or ISBN.</p>
+<p>Local software setup: vLLM with Python/PyTorch, plus R and RStudio.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

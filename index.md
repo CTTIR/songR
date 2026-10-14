@@ -45,7 +45,7 @@ golden-fixture parity tests. The honest, layer-by-layer picture:
 Bit-identical embeddings are neither targeted nor achievable (the
 reference is `float32` + numba `fastmath` + two PRNG streams). See the
 [reference-parity
-summary](https://cttir.github.io/songR/tests/testthat/fixtures/reference/PARITY.md)
+summary](https://github.com/CTTIR/songR/blob/main/tests/testthat/fixtures/reference/PARITY.md)
 and the parity tests (`tests/testthat/test-reference-parity.R`) for the
 evidence.
 
@@ -156,12 +156,12 @@ running incremental updates, and exporting embeddings and plots.
 ### pkgdown Articles
 
 - **[Reproducing Paper
-  Figures](https://cttir.github.io/songR/vignettes/articles/reproducing_paper_figures.Rmd)**
+  Figures](https://github.com/CTTIR/songR/blob/main/vignettes/articles/reproducing_paper_figures.Rmd)**
   – Reproduces key experiments from Senanayake et al. (2021) using songR
   (heterogeneous/homogeneous increments, CDY stability, noise tolerance,
   topology preservation, AMI scores)
 - **[Interactive Shiny
-  App](https://cttir.github.io/songR/vignettes/articles/songR_shiny_app.Rmd)**
+  App](https://github.com/CTTIR/songR/blob/main/vignettes/articles/songR_shiny_app.Rmd)**
   – Guide to the built-in comparison app with dark mode
 
 ### Full-Scale Tutorial Scripts
@@ -246,4 +246,23 @@ The SONG algorithm implemented here is derived from the reference
 implementation of Senanayake et al., which is licensed under the BSD
 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright
 notice and license are reproduced verbatim in
-[`inst/COPYRIGHTS`](https://cttir.github.io/songR/inst/COPYRIGHTS).
+[`inst/COPYRIGHTS`](https://github.com/CTTIR/songR/blob/main/inst/COPYRIGHTS).
+
+## Use of LLM tools
+
+Where applicable, LLM tools were used for narrowly defined,
+non-authorial tasks: copyediting, prose refinement, Markdown/LaTeX
+formatting, boilerplate scaffolding (such as CI configurations and build
+scripts), and code refactoring. Tools included [Chat
+AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the KISSKI
+(GWDG) service, and self-hosted **Mistral Small (24B, Apache-2.0)**
+served through a local **vLLM architecture** on an Ubuntu Linux
+workstation with Intel processors and NVIDIA GPUs. The self-hosted model
+ran locally, with no data sent to third parties.
+
+All scientific claims, methodological choices, analyses, interpretations
+and conclusions remain the authors’ own. Where applicable, LLM-generated
+material must be reviewed and revised before inclusion, and references
+must be verified against their DOI, arXiv ID or ISBN.
+
+Local software setup: vLLM with Python/PyTorch, plus R and RStudio.
