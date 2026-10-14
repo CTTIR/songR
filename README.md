@@ -53,7 +53,7 @@ golden-fixture parity tests. The honest, layer-by-layer picture:
 
 Bit-identical embeddings are neither targeted nor achievable (the reference is
 `float32` + numba `fastmath` + two PRNG streams). See the
-[reference-parity summary](tests/testthat/fixtures/reference/PARITY.md) and the
+[reference-parity summary](https://github.com/CTTIR/songR/blob/main/tests/testthat/fixtures/reference/PARITY.md) and the
 parity tests (`tests/testthat/test-reference-parity.R`) for the evidence.
 
 ## Installation
@@ -156,11 +156,11 @@ running incremental updates, and exporting embeddings and plots.
 
 ### pkgdown Articles
 
-- **[Reproducing Paper Figures](vignettes/articles/reproducing_paper_figures.Rmd)** --
+- **[Reproducing Paper Figures](https://github.com/CTTIR/songR/blob/main/vignettes/articles/reproducing_paper_figures.Rmd)** --
   Reproduces key experiments from Senanayake et al. (2021) using songR
   (heterogeneous/homogeneous increments, CDY stability, noise tolerance,
   topology preservation, AMI scores)
-- **[Interactive Shiny App](vignettes/articles/songR_shiny_app.Rmd)** --
+- **[Interactive Shiny App](https://github.com/CTTIR/songR/blob/main/vignettes/articles/songR_shiny_app.Rmd)** --
   Guide to the built-in comparison app with dark mode
 
 ### Full-Scale Tutorial Scripts
@@ -241,7 +241,7 @@ The SONG algorithm implemented here is derived from the reference
 implementation of Senanayake et al., which is licensed under the
 BSD 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright
 notice and license are reproduced verbatim in
-[`inst/COPYRIGHTS`](inst/COPYRIGHTS).
+[`inst/COPYRIGHTS`](https://github.com/CTTIR/songR/blob/main/inst/COPYRIGHTS).
 
 ## Use of LLM tools
 
