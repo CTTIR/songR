@@ -70,7 +70,7 @@
                         <h4 data-toc-skip class="author">Raban
 Heller</h4>
             
-            <h4 data-toc-skip class="date">2026-10-01</h4>
+            <h4 data-toc-skip class="date">2026-10-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cttir/songR/blob/main/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -80,9 +80,9 @@ Heller</h4>
     
 <!-- badges: start -->
 <p><a href="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/songR/"><img src="https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=songR" class="external-link"><img src="https://www.r-pkg.org/badges/version/songR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/songR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/songR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/songR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
-<div class="section level3">
-<h3 id="what-is-song">What is SONG?<a class="anchor" aria-label="anchor" href="#what-is-song"></a>
-</h3>
+<div class="section level2">
+<h2 id="what-is-song">What is SONG?<a class="anchor" aria-label="anchor" href="#what-is-song"></a>
+</h2>
 <p>The Self-Organizing Nebulous Growths (SONG) algorithm is a parametric
 method for nonlinear dimensionality reduction. Unlike t-SNE and UMAP,
 SONG supports <strong>incremental visualization</strong>: new data can
@@ -135,16 +135,16 @@ Self-Organizing Nebulous Growths for Robust and Incremental Data
 Visualization. <em>IEEE TNNLS</em>, 32(10), 4588–4602.</p>
 </blockquote>
 </div>
-<div class="section level3">
-<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h3>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install from GitHub</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"cttir/songR"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="quick-start-with-iris">Quick Start with Iris<a class="anchor" aria-label="anchor" href="#quick-start-with-iris"></a>
-</h3>
+<div class="section level2">
+<h2 id="quick-start-with-iris">Quick Start with Iris<a class="anchor" aria-label="anchor" href="#quick-start-with-iris"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cttir.github.io/songR/">songR</a></span><span class="op">)</span></span>
 <span></span>
@@ -173,18 +173,18 @@ Visualization. <em>IEEE TNNLS</em>, 32(10), 4588–4602.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model</span>, color_by <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/quickstart-1.png" class="r-plt" alt="" width="672"></p>
 </div>
-<div class="section level3">
-<h3 id="working-with-the-bundled-dataset">Working with the Bundled Dataset<a class="anchor" aria-label="anchor" href="#working-with-the-bundled-dataset"></a>
-</h3>
+<div class="section level2">
+<h2 id="working-with-the-bundled-dataset">Working with the Bundled Dataset<a class="anchor" aria-label="anchor" href="#working-with-the-bundled-dataset"></a>
+</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">songR_blobs</span><span class="op">)</span></span>
 <span><span class="va">model_blobs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/song.html">song</a></span><span class="op">(</span><span class="va">songR_blobs</span><span class="op">$</span><span class="va">data</span>, seed <span class="op">=</span> <span class="fl">42</span>, epochs <span class="op">=</span> <span class="fl">15L</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_blobs</span>, color_by <span class="op">=</span> <span class="va">songR_blobs</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/blobs-1.png" class="r-plt" alt="" width="672"></p>
 </div>
-<div class="section level3">
-<h3 id="incremental-visualization">Incremental Visualization<a class="anchor" aria-label="anchor" href="#incremental-visualization"></a>
-</h3>
+<div class="section level2">
+<h2 id="incremental-visualization">Incremental Visualization<a class="anchor" aria-label="anchor" href="#incremental-visualization"></a>
+</h2>
 <p>This is SONG’s key feature. We train on the first half of the data,
 then incrementally add the second half.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -211,9 +211,9 @@ then incrementally add the second half.</p>
 <p>The codebook grows to accommodate new data while preserving the
 existing embedding structure.</p>
 </div>
-<div class="section level3">
-<h3 id="predicting-new-points">Predicting New Points<a class="anchor" aria-label="anchor" href="#predicting-new-points"></a>
-</h3>
+<div class="section level2">
+<h2 id="predicting-new-points">Predicting New Points<a class="anchor" aria-label="anchor" href="#predicting-new-points"></a>
+</h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Train on 90%, predict on 10%</span></span>
 <span><span class="va">train_idx</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">135</span></span>
@@ -230,9 +230,9 @@ existing embedding structure.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">new_coords</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">new_coords</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, pch <span class="op">=</span> <span class="fl">17</span>, cex <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/predict-1.png" class="r-plt" alt="" width="672"></p>
 </div>
-<div class="section level3">
-<h3 id="comparison-song-vs-t-sne-vs-umap">Comparison: SONG vs t-SNE vs UMAP<a class="anchor" aria-label="anchor" href="#comparison-song-vs-t-sne-vs-umap"></a>
-</h3>
+<div class="section level2">
+<h2 id="comparison-song-vs-t-sne-vs-umap">Comparison: SONG vs t-SNE vs UMAP<a class="anchor" aria-label="anchor" href="#comparison-song-vs-t-sne-vs-umap"></a>
+</h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
@@ -258,9 +258,9 @@ existing embedding structure.</p>
 <p>All three methods separate the Iris species, but only SONG supports
 incremental updates and retains a parametric codebook model.</p>
 </div>
-<div class="section level3">
-<h3 id="tuning-guide">Tuning Guide<a class="anchor" aria-label="anchor" href="#tuning-guide"></a>
-</h3>
+<div class="section level2">
+<h2 id="tuning-guide">Tuning Guide<a class="anchor" aria-label="anchor" href="#tuning-guide"></a>
+</h2>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="33%">
@@ -315,9 +315,9 @@ convergence.</td>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="the-codebook-model">The Codebook Model<a class="anchor" aria-label="anchor" href="#the-codebook-model"></a>
-</h3>
+<div class="section level2">
+<h2 id="the-codebook-model">The Codebook Model<a class="anchor" aria-label="anchor" href="#the-codebook-model"></a>
+</h2>
 <p>SONG retains a codebook of coding vectors connected by a
 topology-preserving graph. This is what enables incremental updates and
 fast projection.</p>
@@ -340,18 +340,18 @@ fast projection.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="st">"graph"</span>, color_by <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/codebook-1.png" class="r-plt" alt="" width="672"></p>
 </div>
-<div class="section level3">
-<h3 id="interactive-comparison-app">Interactive Comparison App<a class="anchor" aria-label="anchor" href="#interactive-comparison-app"></a>
-</h3>
+<div class="section level2">
+<h2 id="interactive-comparison-app">Interactive Comparison App<a class="anchor" aria-label="anchor" href="#interactive-comparison-app"></a>
+</h2>
 <p>For interactive exploration, launch the Shiny comparison app:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/run_songR_app.html">run_songR_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>This opens a browser-based interface to compare SONG, t-SNE, and UMAP
 side-by-side on your own data.</p>
 </div>
-<div class="section level3">
-<h3 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
-</h3>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"songR"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; To cite the songR R package, use:</span></span>
@@ -370,64 +370,6 @@ side-by-side on your own data.</p>
 <span><span class="co">#&gt; To see these entries in BibTeX format, use 'print(&lt;citation&gt;,</span></span>
 <span><span class="co">#&gt; bibtex=TRUE)', 'toBibtex(.)', or set</span></span>
 <span><span class="co">#&gt; 'options(citation.bibtex.max=999)'.</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="use-of-llm-tools">Use of LLM tools<a class="anchor" aria-label="anchor" href="#use-of-llm-tools"></a>
-</h2>
-<p>Portions of this package were prepared with assistance from large
-language model tooling for narrowly defined, non-authorial tasks:
-copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
-boilerplate files (CI configs, build scripts), code refactoring. The
-tools used were <a href="https://kisski.gwdg.de/leistungen/2-02-llm-service/" class="external-link">Chat AI</a>,
-the LLM service of KISSKI (GWDG), and a self-hosted <strong>Mistral
-Small (24B, Apache-2.0)</strong> run locally via <a href="https://ollama.com/" class="external-link">Ollama</a> and the <code>ollamar</code> R
-package — local inference only, with no data sent to third parties for
-the self-hosted model.</p>
-<p>All scientific claims, methodological choices, analyses,
-interpretations, and conclusions are the author’s own. No LLM-generated
-text was incorporated without review and revision, and every reference
-was verified against its DOI, arXiv ID, or ISBN.</p>
-<div class="section level3">
-<h3 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span>
-<span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">#&gt; Running under: Ubuntu 24.04.5 LTS</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Matrix products: default</span></span>
-<span><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; locale:</span></span>
-<span><span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
-<span><span class="co">#&gt;  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
-<span><span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
-<span><span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; time zone: UTC</span></span>
-<span><span class="co">#&gt; tzcode source: system (glibc)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attached base packages:</span></span>
-<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] songR_0.1.0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.52         rlang_1.3.0       </span></span>
-<span><span class="co">#&gt;  [5] xfun_0.61          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 </span></span>
-<span><span class="co">#&gt;  [9] jsonlite_2.0.0     glue_1.8.1         Rtsne_0.17         htmltools_0.5.9   </span></span>
-<span><span class="co">#&gt; [13] ragg_1.5.2         sass_0.4.10        uwot_0.2.5         scales_1.4.0      </span></span>
-<span><span class="co">#&gt; [17] rmarkdown_2.32     grid_4.6.1         evaluate_1.0.5     jquerylib_0.1.4   </span></span>
-<span><span class="co">#&gt; [21] fastmap_1.2.0      yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1       </span></span>
-<span><span class="co">#&gt; [25] compiler_4.6.1     RColorBrewer_1.1-3 fs_2.1.0           Rcpp_1.1.2        </span></span>
-<span><span class="co">#&gt; [29] farver_2.1.2       systemfonts_1.3.2  lattice_0.22-9     digest_0.6.39     </span></span>
-<span><span class="co">#&gt; [33] R6_2.6.1           bslib_0.12.0       Matrix_1.7-5       gtable_0.3.6      </span></span>
-<span><span class="co">#&gt; [37] tools_4.6.1        ggplot2_4.0.3      pkgdown_2.2.1      cachem_1.1.0      </span></span>
-<span><span class="co">#&gt; [41] desc_1.4.3</span></span></code></pre></div>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

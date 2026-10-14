@@ -15,7 +15,7 @@ MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.or
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
-### What is SONG?
+## What is SONG?
 
 The Self-Organizing Nebulous Growths (SONG) algorithm is a parametric
 method for nonlinear dimensionality reduction. Unlike t-SNE and UMAP,
@@ -37,7 +37,7 @@ The algorithm is described in:
 > Self-Organizing Nebulous Growths for Robust and Incremental Data
 > Visualization. *IEEE TNNLS*, 32(10), 4588–4602.
 
-### Installation
+## Installation
 
 ``` r
 
@@ -45,7 +45,7 @@ The algorithm is described in:
 devtools::install_github("cttir/songR")
 ```
 
-### Quick Start with Iris
+## Quick Start with Iris
 
 ``` r
 
@@ -78,7 +78,7 @@ plot(model, color_by = iris$Species)
 
 ![](introduction_files/figure-html/quickstart-1.png)
 
-### Working with the Bundled Dataset
+## Working with the Bundled Dataset
 
 ``` r
 
@@ -89,7 +89,7 @@ plot(model_blobs, color_by = songR_blobs$labels)
 
 ![](introduction_files/figure-html/blobs-1.png)
 
-### Incremental Visualization
+## Incremental Visualization
 
 This is SONG’s key feature. We train on the first half of the data, then
 incrementally add the second half.
@@ -122,7 +122,7 @@ plot(model_v2$embedding, pch = 16, cex = 0.5,
 The codebook grows to accommodate new data while preserving the existing
 embedding structure.
 
-### Predicting New Points
+## Predicting New Points
 
 ``` r
 
@@ -143,7 +143,7 @@ points(new_coords[, 1], new_coords[, 2], col = "red", pch = 17, cex = 1.2)
 
 ![](introduction_files/figure-html/predict-1.png)
 
-### Comparison: SONG vs t-SNE vs UMAP
+## Comparison: SONG vs t-SNE vs UMAP
 
 ``` r
 
@@ -174,7 +174,7 @@ plot(umap_result, col = col, pch = 16, main = "UMAP",
 All three methods separate the Iris species, but only SONG supports
 incremental updates and retains a parametric codebook model.
 
-### Tuning Guide
+## Tuning Guide
 
 | Parameter | Default | Description |
 |----|----|----|
@@ -186,7 +186,7 @@ incremental updates and retains a parametric codebook model.
 | `a`, `b` | 1.577, 0.895 | Kernel shape parameters from the UMAP literature. |
 | `dispersion` | TRUE | UMAP refinement step for visual cluster separation. |
 
-### The Codebook Model
+## The Codebook Model
 
 SONG retains a codebook of coding vectors connected by a
 topology-preserving graph. This is what enables incremental updates and
@@ -214,7 +214,7 @@ plot(model, type = "graph", color_by = iris$Species)
 
 ![](introduction_files/figure-html/codebook-1.png)
 
-### Interactive Comparison App
+## Interactive Comparison App
 
 For interactive exploration, launch the Shiny comparison app:
 
@@ -226,7 +226,7 @@ run_songR_app()
 This opens a browser-based interface to compare SONG, t-SNE, and UMAP
 side-by-side on your own data.
 
-### Citation
+## Citation
 
 ``` r
 
@@ -247,64 +247,4 @@ citation("songR")
 #> To see these entries in BibTeX format, use 'print(<citation>,
 #> bibtex=TRUE)', 'toBibtex(.)', or set
 #> 'options(citation.bibtex.max=999)'.
-```
-
-## Use of LLM tools
-
-Portions of this package were prepared with assistance from large
-language model tooling for narrowly defined, non-authorial tasks:
-copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
-boilerplate files (CI configs, build scripts), code refactoring. The
-tools used were [Chat
-AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
-service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
-Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
-`ollamar` R package — local inference only, with no data sent to third
-parties for the self-hosted model.
-
-All scientific claims, methodological choices, analyses,
-interpretations, and conclusions are the author’s own. No LLM-generated
-text was incorporated without review and revision, and every reference
-was verified against its DOI, arXiv ID, or ISBN.
-
-### Session Info
-
-``` r
-
-sessionInfo()
-#> R version 4.6.1 (2026-06-24)
-#> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 24.04.5 LTS
-#> 
-#> Matrix products: default
-#> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
-#> 
-#> locale:
-#>  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
-#>  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
-#>  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-#> [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
-#> 
-#> time zone: UTC
-#> tzcode source: system (glibc)
-#> 
-#> attached base packages:
-#> [1] stats     graphics  grDevices utils     datasets  methods   base     
-#> 
-#> other attached packages:
-#> [1] songR_0.1.0
-#> 
-#> loaded via a namespace (and not attached):
-#>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.52         rlang_1.3.0       
-#>  [5] xfun_0.61          otel_0.2.0         S7_0.2.2           textshaping_1.0.5 
-#>  [9] jsonlite_2.0.0     glue_1.8.1         Rtsne_0.17         htmltools_0.5.9   
-#> [13] ragg_1.5.2         sass_0.4.10        uwot_0.2.5         scales_1.4.0      
-#> [17] rmarkdown_2.32     grid_4.6.1         evaluate_1.0.5     jquerylib_0.1.4   
-#> [21] fastmap_1.2.0      yaml_2.3.12        lifecycle_1.0.5    FNN_1.1.4.1       
-#> [25] compiler_4.6.1     RColorBrewer_1.1-3 fs_2.1.0           Rcpp_1.1.2        
-#> [29] farver_2.1.2       systemfonts_1.3.2  lattice_0.22-9     digest_0.6.39     
-#> [33] R6_2.6.1           bslib_0.12.0       Matrix_1.7-5       gtable_0.3.6      
-#> [37] tools_4.6.1        ggplot2_4.0.3      pkgdown_2.2.1      cachem_1.1.0      
-#> [41] desc_1.4.3
 ```
