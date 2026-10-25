@@ -24,3 +24,4 @@
 ^\.zenodo\.json$
 ^\.rpackagesaudit$
 ^CITATION\.cff$
+^tools/branding$
