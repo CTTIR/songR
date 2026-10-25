@@ -339,7 +339,7 @@ if (requireNamespace("aricode", quietly = TRUE)) {
 } else {
   cat("Install aricode for AMI computation: install.packages('aricode')\n")
 }
-#> SONG AMI on songR_blobs: 100.0%
+#> SONG AMI on songR_blobs: 91.6%
 #> UMAP AMI on songR_blobs: 100.0%
 ```
 
@@ -447,11 +447,11 @@ citation("songR")
 sessionInfo()
 #> R version 4.6.1 (2026-06-24)
 #> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 24.04.5 LTS
+#> Running under: Ubuntu 26.04.1 LTS
 #> 
 #> Matrix products: default
 #> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.32.so;  LAPACK version 3.12.0
 #> 
 #> locale:
 #>  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
@@ -475,7 +475,7 @@ sessionInfo()
 #> [13] fastmap_1.2.0      uwot_0.2.5         aricode_1.1.0      lattice_0.22-9    
 #> [17] ggplot2_4.0.3      R6_2.6.1           knitr_1.52         Rtsne_0.17        
 #> [21] desc_1.4.3         bslib_0.12.0       RColorBrewer_1.1-3 rlang_1.3.0       
-#> [25] cachem_1.1.0       xfun_0.61          fs_2.1.0           sass_0.4.10       
+#> [25] cachem_1.1.0       xfun_0.62          fs_2.1.0           sass_0.4.10       
 #> [29] S7_0.2.2           otel_0.2.0         cli_3.6.6          pkgdown_2.2.1     
 #> [33] digest_0.6.39      grid_4.6.1         irlba_2.4.1        lifecycle_1.0.5   
 #> [37] vctrs_0.7.3        evaluate_1.0.5     glue_1.8.1         farver_2.1.2      

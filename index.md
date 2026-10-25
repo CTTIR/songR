@@ -266,3 +266,8 @@ material must be reviewed and revised before inclusion, and references
 must be verified against their DOI, arXiv ID or ISBN.
 
 Local software setup: vLLM with Python/PyTorch, plus R and RStudio.
+
+## Branding
+
+Editable R artwork and regeneration instructions are in
+[tools/branding](https://github.com/CTTIR/songR/blob/main/tools/branding/README.md).
