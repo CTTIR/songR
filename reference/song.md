@@ -169,6 +169,10 @@ An S3 object of class `"song_model"` containing:
 
   Versioned feature order, declared metadata and missing-value policy.
 
+- lineage:
+
+  Projection version, parent identifier and reprojection policy.
+
 - n_epochs:
 
   Number of epochs actually run.

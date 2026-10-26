@@ -1,8 +1,11 @@
 # Incrementally Update a SONG Model with New Data
 
 Adds new data to an existing SONG model. This is the key differentiator
-of SONG over t-SNE and UMAP: the existing embedding is preserved while
-new coding vectors and edges are grown to accommodate the new data.
+of SONG over t-SNE and UMAP: training continues from the existing model.
+Coding vectors, edges and embedding positions may change. The supplied
+object is unchanged; use
+[`predict.song_model()`](https://cttir.github.io/songR/reference/predict.song_model.md)
+for frozen projection.
 
 ## Usage
 
@@ -15,7 +18,8 @@ update(
   alpha = NULL,
   verbose = TRUE,
   ...,
-  feature_manifest = NULL
+  feature_manifest = NULL,
+  seed = NULL
 )
 ```
 
@@ -54,10 +58,32 @@ update(
   [`song()`](https://cttir.github.io/songR/reference/song.md) for the
   contract.
 
+- seed:
+
+  Optional integer seed for update training. `NULL` preserves the
+  existing random-stream behavior; the original fit seed is not reused.
+
 ## Value
 
 An updated `"song_model"` object with grown codebook incorporating the
-new data.
+new data. `embedding` and `assignments` describe only `X_new`; `n_input`
+counts all training rows across updates.
+
+## Details
+
+`lineage` schema 1.0.0 records a revision, a deterministic SHA-256 model
+identifier and its parent identifier. Identifiers bind the ordered
+projection codebook, coordinates, feature contract and revision
+ancestry, not the full training history or authenticity of a manually
+modified object. Each update requires reprojection of all earlier
+observations with the new model before combining coordinates. Earlier
+input rows are not retained or automatically reprojected. Initial
+revisions start at 1. Updates to legacy models start a new revision
+history at 1 with `parent_history` set to `legacy_unversioned` and a
+parent projection fingerprint. Save the model together with any exported
+projection to retain its version. Coincident embedding positions reflect
+prototype assignment; they do not establish cell contact or physical
+spatial distance.
 
 ## References
 
