@@ -41,5 +41,19 @@ The shared themakR template consumes the same v5 token and brand component
 styles. Standalone vignette styling needs explicit adoption; installing a
 package does not change its documentation theme or the user's font settings.
 
+After building pkgdown, synchronize the current branding in its output:
+
+```sh
+Rscript tools/branding/sync-site.R docs
+```
+
+This refreshes branding images and the web manifest at the output root and
+its existing `dev/` directory. Every HTML page receives browser-tab, touch-icon
+and manifest links relative to its own directory, including nested articles.
+The links include an artwork revision so browsers refresh changed icons.
+Only icon declarations in the page head change; article content and examples
+are preserved. Symbolic links in the output tree are rejected. The pkgdown
+workflow runs this step before deployment.
+
 Source archive SHA-256:
 `420401d00ab4c5eefdd74440d826b76282f3c1e5262c1f044fc0c6a052f6890e`
