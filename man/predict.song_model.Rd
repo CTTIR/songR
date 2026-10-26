@@ -22,7 +22,9 @@ A numeric matrix (\code{n_new x d}) of embedding coordinates.
 \description{
 Maps new data points into an existing SONG embedding by assigning each
 point to its nearest coding vector and returning that coding vector's
-embedding coordinates.
+embedding coordinates. This does not train or mutate the model.
+Multiple points assigned to one prototype have identical coordinates; these
+coordinates are not physical locations or evidence of contact.
 }
 \examples{
 model <- song(as.matrix(iris[1:120, 1:4]), epochs = 5L, seed = 42)
