@@ -71,6 +71,7 @@
 #'   \item{embedding}{Embedding coordinates for all input points (\code{n x d}).}
 #'   \item{parameters}{List of all hyperparameters used.}
 #'   \item{feature_contract}{Versioned feature order, declared metadata and missing-value policy.}
+#'   \item{lineage}{Projection version, parent identifier and reprojection policy.}
 #'   \item{n_epochs}{Number of epochs actually run.}
 #' }
 #'
@@ -251,5 +252,7 @@ song <- function(
     lr_sigma = lr_sigma, dispersion = dispersion, seed = seed
   )
 
-  new_song_model(result, parameters, n, D, feature_contract)
+  model <- new_song_model(result, parameters, n, D, feature_contract)
+  model$lineage <- .song_model_lineage(model)
+  model
 }

@@ -29,6 +29,7 @@ Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.0.0)
 Imports:
     cli,
+    digest,
     Rcpp (>= 1.0.0),
     rlang
 Suggests:
@@ -51,4 +52,4 @@ Config/Needs/website: pkgdown, CTTIR/themakR
 VignetteBuilder: knitr
 URL: https://cttir.github.io/songR/, https://github.com/cttir/songR
 BugReports: https://github.com/cttir/songR/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
