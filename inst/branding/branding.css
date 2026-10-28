@@ -1,0 +1,45 @@
+/* Named logos follow the application's theme; browser icons stay compact. */
+.cttir-app-brand {
+  display: inline-flex !important;
+  align-items: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  line-height: 0;
+  margin-right: .55rem;
+  width: var(--cttir-brand-width) !important;
+  height: var(--cttir-brand-height) !important;
+  background: transparent !important;
+}
+.cttir-app-brand > img {
+  height: 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.cttir-app-brand > .cttir-app-brand-light { display: block !important; }
+.cttir-app-brand > .cttir-app-brand-dark { display: none !important; }
+.cttir-app-brand[data-cttir-mode=dark] > .cttir-app-brand-light,
+[data-bs-theme=dark] .cttir-app-brand[data-cttir-mode=auto] > .cttir-app-brand-light,
+.dark-mode .cttir-app-brand[data-cttir-mode=auto] > .cttir-app-brand-light,
+[data-theme=dark] .cttir-app-brand[data-cttir-mode=auto] > .cttir-app-brand-light {
+  display: none !important;
+}
+.cttir-app-brand[data-cttir-mode=dark] > .cttir-app-brand-dark,
+[data-bs-theme=dark] .cttir-app-brand[data-cttir-mode=auto] > .cttir-app-brand-dark,
+.dark-mode .cttir-app-brand[data-cttir-mode=auto] > .cttir-app-brand-dark,
+[data-theme=dark] .cttir-app-brand[data-cttir-mode=auto] > .cttir-app-brand-dark {
+  display: block !important;
+}
+.navbar-brand:has(.cttir-app-brand) {
+  display: inline-flex;
+  align-items: center;
+  height: auto;
+  white-space: normal;
+}
+.navbar:has(.cttir-app-brand) { min-height: 76px; }
