@@ -1,5 +1,9 @@
 # songR development
 
+* Standardize the named v5 package logo across README, documentation pages
+  and available application headers, with matching light and dark artwork.
+
+
 - Record projection revisions, parent lineage and explicit reprojection policy
   on incremental updates. Clarify update-batch outputs and frozen prediction.
 - Add an explicit optional update seed for reproducible retraining; the default

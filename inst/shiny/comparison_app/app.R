@@ -19,13 +19,18 @@ body {
   padding: 0 32px;
   display: flex;
   align-items: center;
-  height: 60px;
+  min-height: 80px;
+  height: auto;
+  flex-wrap: wrap;
+  gap: 8px;
   position: sticky;
   top: 0;
   z-index: 999;
   box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 .navbar-brand-songr {
+  display: inline-flex;
+  align-items: center;
   font-size: 1.25rem;
   font-weight: 700;
   color: #2563eb;
@@ -47,7 +52,10 @@ body {
   display: flex;
   align-items: center;
   padding: 0 16px;
-  height: 60px;
+  min-height: 80px;
+  height: auto;
+  flex-wrap: wrap;
+  gap: 8px;
   font-size: 0.88rem;
   font-weight: 500;
   color: #6b7280;
@@ -459,7 +467,7 @@ ui <- shiny::tagList(
   # Top navbar
   shiny::tags$nav(class = "navbar-songr",
     shiny::tags$span(class = "navbar-brand-songr",
-      "songR ", shiny::tags$span("Explorer")),
+      utils::getFromNamespace(".cttir_brand_logo", "songR")(), "songR ", shiny::tags$span("Explorer")),
     shiny::tags$ul(class = "nav-tabs-songr", id = "main-nav",
       shiny::tags$li(class = "active", id = "nav-about",
         shiny::tags$a(onclick = "showPage('about')", "About")),
