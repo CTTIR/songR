@@ -1,5 +1,7 @@
 # Getting Started with songR
 
+![songR logo](figures/logo.svg)![songR logo](figures/logo-dark.svg)
+
 [![R-CMD-check](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/songR/)
 [![CRAN

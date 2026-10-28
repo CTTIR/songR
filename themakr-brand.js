@@ -38,8 +38,10 @@
           navbarImages.push({ element: element, light: light.href, dark: dark.href });
           // pkgdown repeats the same artwork beside the homepage heading.
           document.querySelectorAll(".page-header > img.logo").forEach(function (logo) {
-            if (logo.src === light.href) {
-              navbarImages.push({ element: logo, light: light.href, dark: dark.href });
+            var heading = new URL(logo.src, document.baseURI);
+            if (heading.origin === light.origin &&
+                /\/logo\.(svg|png)$/i.test(heading.pathname)) {
+              navbarImages.push({ element: logo, light: heading.href, dark: dark.href });
             }
           });
           updateImages();
