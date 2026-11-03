@@ -447,7 +447,7 @@ citation("songR")
 ``` r
 
 sessionInfo()
-#> R version 4.6.1 (2026-06-24)
+#> R version 4.6.2 (2026-10-29)
 #> Platform: x86_64-pc-linux-gnu
 #> Running under: Ubuntu 26.04.1 LTS
 #> 
@@ -471,15 +471,15 @@ sessionInfo()
 #> [1] viridis_0.6.5     viridisLite_0.4.3 songR_0.1.0      
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] Matrix_1.7-5       gtable_0.3.6       jsonlite_2.0.0     compiler_4.6.1    
+#>  [1] Matrix_1.7-6       gtable_0.3.6       jsonlite_2.0.0     compiler_4.6.2    
 #>  [5] Rcpp_1.1.2         FNN_1.1.4.1        gridExtra_2.3.1    jquerylib_0.1.4   
 #>  [9] systemfonts_1.3.2  scales_1.4.0       textshaping_1.0.5  yaml_2.3.12       
-#> [13] fastmap_1.2.0      uwot_0.2.5         aricode_1.1.0      lattice_0.22-9    
+#> [13] fastmap_1.2.0      uwot_0.2.5         aricode_1.1.0      lattice_0.23-1    
 #> [17] ggplot2_4.0.3      R6_2.6.1           knitr_1.52         Rtsne_0.17        
 #> [21] desc_1.4.3         bslib_0.12.0       RColorBrewer_1.1-3 rlang_1.3.0       
 #> [25] cachem_1.1.0       xfun_0.62          fs_2.1.0           sass_0.4.10       
 #> [29] S7_0.2.2           otel_0.2.0         cli_3.6.6          pkgdown_2.2.1     
-#> [33] digest_0.6.39      grid_4.6.1         irlba_2.4.1        lifecycle_1.0.5   
+#> [33] digest_0.6.39      grid_4.6.2         irlba_2.4.1        lifecycle_1.0.5   
 #> [37] vctrs_0.7.3        evaluate_1.0.5     glue_1.8.1         farver_2.1.2      
-#> [41] ragg_1.5.2         rmarkdown_2.32     tools_4.6.1        htmltools_0.5.9
+#> [41] ragg_1.5.2         rmarkdown_2.32     tools_4.6.2        htmltools_0.5.9
 ```
