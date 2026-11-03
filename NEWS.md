@@ -1,5 +1,8 @@
 # songR development
 
+* Show the logo in the new dimension reduction and visualisation colour
+  (deep teal #146554), shared with sorenR; `tools/branding/render.R` recolours
+  the approved hexmakR master and keeps its name outlines.
 * Standardize the named v5 package logo across README, documentation pages
   and available application headers, with matching light and dark artwork.
 
