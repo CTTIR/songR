@@ -63,3 +63,15 @@ These files are copied without regenerating font outlines. Additional platform
 icon sizes continue to use the bundled R motif renderer. `assets.csv` records
 the intended variant for each destination; display logos use `lockup`, while
 favicons and explicitly compact symbols use artwork-only variants.
+
+## Family colour
+
+songR is in the dimension reduction and visualisation family (`embedding`,
+deep teal #146554), shared with sorenR. The approved hexmakR master is drawn in
+the former methods colour, so `render.R` recolours it: when an identity's
+family differs from the family hexmakR drew it in, the bundled renderer
+redraws the same elements in the new family and its colours replace the
+master's one by one, keeping the supplied name outlines. Greyscale versions
+are copied unchanged. The colour is defined in `design_tokens.csv`
+(`topic,embedding`); see CTTIR/.github `tools/branding/README.md` for how it
+was chosen.
