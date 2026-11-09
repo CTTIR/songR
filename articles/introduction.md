@@ -236,7 +236,7 @@ citation("songR")
 #> To cite the songR R package, use:
 #> 
 #>   Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
-#>   Dimensionality Reduction. R package version 0.1.0.
+#>   Dimensionality Reduction. R package version 1.0.0.
 #>   https://github.com/cttir/songR
 #> 
 #> To cite the underlying SONG algorithm, use:

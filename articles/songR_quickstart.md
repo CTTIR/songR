@@ -292,7 +292,7 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] songR_0.1.0
+#> [1] songR_1.0.0
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.52         rlang_1.3.0       

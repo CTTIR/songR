@@ -468,7 +468,7 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] viridis_0.6.5     viridisLite_0.4.3 songR_0.1.0      
+#> [1] viridis_0.6.5     viridisLite_0.4.3 songR_1.0.0      
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] Matrix_1.7-6       gtable_0.3.6       jsonlite_2.0.0     compiler_4.6.2    
