@@ -1,23 +1,16 @@
-# songR development
+# songR 1.0.0
 
-* Show the logo in the new dimension reduction and visualisation colour
-  (deep teal #146554), shared with sorenR; `tools/branding/render.R` recolours
-  the approved hexmakR master and keeps its name outlines.
-* Standardize the named v5 package logo across README, documentation pages
-  and available application headers, with matching light and dark artwork.
+First stable release and first CRAN submission.
 
+## Model lineage and feature contracts
 
-- Record projection revisions, parent lineage and explicit reprojection policy
+* Record projection revisions, parent lineage and explicit reprojection policy
   on incremental updates. Clarify update-batch outputs and frozen prediction.
-- Add an explicit optional update seed for reproducible retraining; the default
+* Add an explicit optional update seed for reproducible retraining; the default
   continues to use the current random stream.
-
-# songR (development version)
-
-## Feature contracts
-
-* Bind named training features and optional declared measurement metadata to models; prediction and updates reject incompatible feature order or metadata. Unnamed and legacy models retain positional compatibility.
-
+* Bind named training features and optional declared measurement metadata to
+  models; prediction and updates reject incompatible feature order or
+  metadata. Unnamed and legacy models retain positional compatibility.
 
 ## Performance
 
@@ -53,7 +46,7 @@
 ## Robustness
 
 * `song()` validates `max_age` and `max_prototypes`.
-* All user-facing messages now use `cli`, with errors signalled at the calling
+* All user-facing messages now use `cli`, with errors signaled at the calling
   function for clearer tracebacks. Messages and behavior are otherwise unchanged.
 
 ## Verification
@@ -61,6 +54,21 @@
 * Added reference-parity tests against the original Python implementation
   (`tests/testthat/test-reference-parity.R`), covering deterministic kernels
   (Tier A, &le; 1e-5) and clustering equivalence (Tier B, AMI).
+
+## Branding
+
+* Show the logo in the dimension reduction and visualization color of the
+  package family (deep teal #146554); `tools/branding/render.R` recolors the
+  approved master artwork and keeps its name outlines.
+* Standardize the package logo across the README, documentation pages and the
+  application header, with matching light and dark artwork.
+
+## Packaging
+
+* Prepared for CRAN: software names quoted in `DESCRIPTION`, canonical GitHub
+  URLs, unused `Matrix` suggestion removed, and the version aligned across
+  `DESCRIPTION`, `inst/CITATION`, `CITATION.cff`, `.zenodo.json` and the
+  README.
 
 # songR 0.1.0
 

@@ -3,13 +3,13 @@ bibentry(
   title    = "songR: Self-Organizing Nebulous Growths for Dimensionality Reduction",
   author   = person("R.", "Heller"),
   year     = "2026",
-  note     = "R package version 0.1.0",
+  note     = "R package version 1.0.0",
   url      = "https://github.com/cttir/songR",
   header   = "To cite the songR R package, use:",
   textVersion = paste(
     "Heller, R. (2026).",
     "songR: Self-Organizing Nebulous Growths for Dimensionality Reduction.",
-    "R package version 0.1.0.",
+    "R package version 1.0.0.",
     "https://github.com/cttir/songR"
   )
 )

@@ -1,7 +1,7 @@
 Package: songR
 Type: Package
 Title: Self-Organizing Nebulous Growths for Dimensionality Reduction
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
     person("R.", "Heller", role = c("aut", "cre", "cph"),
            email = "raban.heller@uni-ulm.de",
@@ -11,7 +11,7 @@ Authors@R: c(
 Description: A SONG-inspired tool for nonlinear dimensionality reduction and
     data visualization in R, implementing the Self-Organizing Nebulous Growths
     (SONG) algorithm of Senanayake et al. (2021)
-    <doi:10.1109/TNNLS.2020.3023941> natively in R and C++ and staying as close
+    <doi:10.1109/TNNLS.2020.3023941> natively in R and 'C++' and staying as close
     to the reference implementation as is feasible across the two ecosystems.
     SONG is a parametric method that supports incremental addition of new data
     to existing visualizations without reinitialization, handles both
@@ -19,7 +19,7 @@ Description: A SONG-inspired tool for nonlinear dimensionality reduction and
     highly mixed clusters. Clustering quality matches the reference closely
     (validated by reference-parity tests); the default visualization is close
     in global structure but not identical in absolute layout. Includes an
-    interactive Shiny application for comparing SONG, t-SNE, and UMAP
+    interactive 'shiny' application for comparing SONG, t-SNE, and UMAP
     visualizations side-by-side.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -33,7 +33,6 @@ Imports:
     Rcpp (>= 1.0.0),
     rlang
 Suggests:
-    Matrix,
     ggplot2,
     viridis,
     shiny,
@@ -50,6 +49,6 @@ LinkingTo:
 Config/testthat/edition: 3
 Config/Needs/website: pkgdown, CTTIR/themakR
 VignetteBuilder: knitr
-URL: https://cttir.github.io/songR/, https://github.com/cttir/songR
-BugReports: https://github.com/cttir/songR/issues
-Config/roxygen2/version: 8.1.0
+URL: https://cttir.github.io/songR/, https://github.com/CTTIR/songR
+BugReports: https://github.com/CTTIR/songR/issues
+Config/roxygen2/version: 8.1.1
