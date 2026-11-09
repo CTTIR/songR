@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
-A SONG-inspired tool for nonlinear dimensionality reduction and data visualization in R, implementing the Self-Organizing Nebulous Growths (SONG) algorithm of Senanayake et al. (2021) \doi{10.1109/TNNLS.2020.3023941} natively in R and C++ and staying as close to the reference implementation as is feasible across the two ecosystems. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Clustering quality matches the reference closely (validated by reference-parity tests); the default visualization is close in global structure but not identical in absolute layout. Includes an interactive Shiny application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.
+A SONG-inspired tool for nonlinear dimensionality reduction and data visualization in R, implementing the Self-Organizing Nebulous Growths (SONG) algorithm of Senanayake et al. (2021) \doi{10.1109/TNNLS.2020.3023941} natively in R and 'C++' and staying as close to the reference implementation as is feasible across the two ecosystems. SONG is a parametric method that supports incremental addition of new data to existing visualizations without reinitialization, handles both homogeneous and heterogeneous data increments, and is robust to noise and highly mixed clusters. Clustering quality matches the reference closely (validated by reference-parity tests); the default visualization is close in global structure but not identical in absolute layout. Includes an interactive 'shiny' application for comparing SONG, t-SNE, and UMAP visualizations side-by-side.
 }
 \references{
 Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).
@@ -20,8 +20,8 @@ Systems}, 32(10), 4588--4602. \doi{10.1109/TNNLS.2020.3023941}
 Useful links:
 \itemize{
   \item \url{https://cttir.github.io/songR/}
-  \item \url{https://github.com/cttir/songR}
-  \item Report bugs at \url{https://github.com/cttir/songR/issues}
+  \item \url{https://github.com/CTTIR/songR}
+  \item Report bugs at \url{https://github.com/CTTIR/songR/issues}
 }
 
 }
