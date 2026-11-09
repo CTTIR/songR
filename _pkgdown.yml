@@ -5,6 +5,10 @@ url: https://cttir.github.io/songR/
 # (#1565c0); override with template.bslib.primary to give songR a distinct
 # accent. Per-package reference/articles content is merged over the template.
 template:
+  includes:
+    in_header: |
+      <meta name="theme-color" content="#1565c0">
+      <script defer data-domain="cttir.github.io/songr" src="https://analytics.hellebo.de/js/script.file-downloads.outbound-links.js"></script>
   package: themakR
 
 development:
