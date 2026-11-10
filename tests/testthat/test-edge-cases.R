@@ -21,6 +21,8 @@ test_that("song() handles single-column input", {
 })
 
 test_that("song() handles very small input", {
+  # The warning comes from the optional UMAP dispersion step.
+  skip_if_not_installed("uwot")
   m <- matrix(rnorm(15), ncol = 3)
   expect_warning(
     model <- song(m, d = 2L, k = 3L, epochs = 3L, seed = 42, verbose = FALSE),
