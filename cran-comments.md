@@ -5,8 +5,9 @@ This is a new submission (songR 1.0.0).
 ## Test environments
 
 - local macOS (aarch64-apple-darwin), R 4.6.1:
-  `R CMD check --as-cran --no-manual` on the built tarball. LaTeX is not
-  installed on this machine, so the PDF manual was not built locally.
+  `R CMD check --as-cran --no-manual` on the built tarball. The PDF manual
+  was built locally with TinyTeX (TeX Live 2026) via `R CMD Rd2pdf` without
+  errors; the check run itself used `--no-manual`.
 - GitHub Actions (r-lib/actions v2, `--as-cran`):
   - macos-latest (R release)
   - windows-latest (R release)
