@@ -23,6 +23,16 @@ First stable release and first CRAN submission.
 
 ## Bug fixes
 
+* Validate scalar, finite hyperparameters before native training. Fractional
+  integer controls, nonpositive update epochs/learning rates and damaged saved
+  model dimensions now fail with an R error rather than being truncated or
+  passed to C++.
+* Accept a single new observation in `predict()` and reject zero-column inputs.
+* Keep cumulative training counts finite when updates exceed R's integer range.
+* Exclude native coverage instrumentation files from source archives.
+* Map codebook colours from the current update batch rather than cumulative
+  training labels; handle prototypes with only missing labels. Correct the
+  README to distinguish frozen projection from model retraining.
 * `autoplot()` no longer errors for `type = "codebook"` or `type = "graph"`
   when `color_by` has input-point length; like `plot()`, it now maps the
   labels to coding vectors.

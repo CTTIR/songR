@@ -50,9 +50,9 @@
 update.song_model <- function(object, X_new, epochs = 50L,
                               alpha = NULL, verbose = TRUE, ..., feature_manifest = NULL,
                               seed = NULL) {
+  .song_check_model(object, update = TRUE)
   .song_check_lineage(object)
   X_new <- validate_input(X_new)
-  epochs <- as.integer(epochs)
 
   if (ncol(X_new) != object$D) {
     cli::cli_abort("New data must have {object$D} columns (got {ncol(X_new)}).")
@@ -65,6 +65,17 @@ update.song_model <- function(object, X_new, epochs = 50L,
   .song_check_features(object, X_new, feature_manifest)
 
   params <- object$parameters
+  validate_params(params$d, params$k, params$epsilon, alpha, params$a, params$b,
+                  params$spread_factor, params$neg_sample_rate, params$e_min, epochs)
+  lr_sigma <- if (is.null(params$lr_sigma)) 5.0 else params$lr_sigma
+  .song_check_decay(lr_sigma)
+  .song_check_flag(verbose, "verbose")
+  .song_check_seed(seed)
+  if (!.song_scalar(params$epochs) || params$epochs < 1 ||
+        params$epochs != trunc(params$epochs)) {
+    cli::cli_abort("The stored model has an invalid epoch count.", class = "song_error_model")
+  }
+  epochs <- as.integer(epochs)
   n_new  <- nrow(X_new)
 
   # Python incremental: prototypes += prototypes * prot_inc_portion (50%)
@@ -80,10 +91,6 @@ update.song_model <- function(object, X_new, epochs = 50L,
   }
 
   if (!is.null(seed)) {
-    if (!is.numeric(seed) || length(seed) != 1L || is.na(seed) ||
-          !is.finite(seed) || seed != trunc(seed) || abs(seed) > .Machine$integer.max) {
-      cli::cli_abort("`seed` must be NULL or a finite integer.")
-    }
     set.seed(as.integer(seed))
   }
 
@@ -104,14 +111,21 @@ update.song_model <- function(object, X_new, epochs = 50L,
     ns_rate        = params$neg_sample_rate,
     min_strength   = params$e_min,
     max_prototypes = max_protos,
-    lr_sigma       = if (!is.null(params$lr_sigma)) params$lr_sigma else 5.0,
+    lr_sigma       = lr_sigma,
     verbose        = verbose,
     seed           = if (!is.null(seed)) as.integer(seed) else -1L
   )
 
-  params$epochs <- params$epochs + epochs
+  total_epochs <- as.double(params$epochs) + epochs
+  params$epochs <- if (total_epochs <= .Machine$integer.max) {
+    as.integer(total_epochs)
+  } else {
+    total_epochs
+  }
   params$update_seed <- seed
-  model <- new_song_model(result, params, object$n_input + n_new, object$D,
+  total_input <- as.double(object$n_input) + n_new
+  if (total_input <= .Machine$integer.max) total_input <- as.integer(total_input)
+  model <- new_song_model(result, params, total_input, object$D,
                           object$feature_contract)
   model$lineage <- .song_model_lineage(model, parent = object)
   model
@@ -127,6 +141,7 @@ update.song_model <- function(object, X_new, epochs = 50L,
 #'
 #' @param object A trained \code{"song_model"} object.
 #' @param newdata Numeric matrix of new data (\code{n_new x D}).
+#'   A single observation is accepted as a one-row matrix or data frame.
 #' @param ... Ignored.
 #' @param feature_manifest The unchanged manifest supplied at training, if any.
 #'   Named features must follow training order. See [song()] for the contract.
@@ -146,7 +161,8 @@ update.song_model <- function(object, X_new, epochs = 50L,
 #'
 #' @seealso \code{\link{song}}, \code{\link{update.song_model}}
 predict.song_model <- function(object, newdata, ..., feature_manifest = NULL) {
-  newdata <- validate_input(newdata)
+  .song_check_model(object)
+  newdata <- validate_input(newdata, min_rows = 1L)
 
   if (ncol(newdata) != object$D) {
     cli::cli_abort("newdata must have {object$D} columns (got {ncol(newdata)}).")
