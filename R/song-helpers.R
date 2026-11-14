@@ -5,7 +5,7 @@
 #' @param X Input data, expected to be a numeric matrix.
 #' @return A numeric matrix (coerced from data.frame if necessary).
 #' @noRd
-validate_input <- function(X, call = rlang::caller_env()) {
+validate_input <- function(X, call = rlang::caller_env(), min_rows = 2L) {
   if (is.data.frame(X)) {
     if (!all(vapply(X, is.numeric, logical(1)))) {
       cli::cli_abort("All columns in the data.frame must be numeric.", call = call)
@@ -13,7 +13,7 @@ validate_input <- function(X, call = rlang::caller_env()) {
     X <- as.matrix(X)
   }
 
-  if (!is.matrix(X) || !is.numeric(X)) {
+  if (!is.matrix(X) || !is.numeric(X) || is.complex(X)) {
     cli::cli_abort(
       "X must be a numeric matrix or data.frame with numeric columns.",
       call = call
@@ -28,8 +28,11 @@ validate_input <- function(X, call = rlang::caller_env()) {
     cli::cli_abort("X must not contain Inf values.", call = call)
   }
 
-  if (nrow(X) < 2) {
-    cli::cli_abort("X must have at least 2 rows.", call = call)
+  if (nrow(X) < min_rows) {
+    cli::cli_abort("X must have at least {min_rows} rows.", call = call)
+  }
+  if (ncol(X) < 1L) {
+    cli::cli_abort("X must have at least one feature column.", call = call)
   }
 
   X
@@ -68,11 +71,13 @@ resolve_color_by <- function(object, type, n_coords, color_by,
   if (length(color_by) == n_coords) return(color_by)
 
   # input-point length is mapped to coding vectors via the modal label
-  if (length(color_by) == object$n_input) {
+  n_assigned <- length(object$assignments)
+  if (length(color_by) == n_assigned) {
     mapped <- vapply(seq_len(n_coords), function(i) {
       pts <- which(object$assignments == i)
       if (length(pts) == 0L) return(NA_character_)
       tbl <- table(color_by[pts])
+      if (sum(tbl) == 0) return(NA_character_)
       names(tbl)[which.max(tbl)]
     }, character(1))
     return(as.factor(mapped))
@@ -80,7 +85,7 @@ resolve_color_by <- function(object, type, n_coords, color_by,
 
   cli::cli_abort(
     "color_by must have length equal to number of coding vectors \\
-     ({n_coords}) or input points ({object$n_input}).",
+     ({n_coords}) or input points in the current batch ({n_assigned}).",
     call = call
   )
 }
@@ -105,21 +110,72 @@ validate_params <- function(d, k, epsilon, alpha, a, b, spread_factor,
   check <- function(cond, msg) {
     if (!isTRUE(cond)) cli::cli_abort(msg, call = call)
   }
-  check(is.numeric(d) && d >= 1 && d == as.integer(d), "`d` must be a positive integer")
-  check(is.numeric(k) && k >= d + 1, "`k` must be >= d + 1")
-  check(is.numeric(epsilon) && epsilon > 0 && epsilon < 1, "`epsilon` must be in (0, 1)")
-  check(is.numeric(alpha) && alpha > 0, "`alpha` must be positive")
-  check(is.numeric(a) && a > 0, "`a` must be positive")
-  check(is.numeric(b) && b > 0, "`b` must be positive")
+  check(.song_count(d, 1), "`d` must be a positive integer")
+  check(.song_count(k, 1) && k >= as.double(d) + 1, "`k` must be >= d + 1 and an integer")
+  check(.song_scalar(epsilon) && epsilon > 0 && epsilon < 1, "`epsilon` must be in (0, 1)")
+  check(.song_scalar(alpha) && alpha > 0, "`alpha` must be positive and finite")
+  check(.song_scalar(a) && a > 0, "`a` must be positive and finite")
+  check(.song_scalar(b) && b > 0, "`b` must be positive and finite")
   check(
-    is.numeric(spread_factor) && spread_factor > 0 && spread_factor < 1,
+    .song_scalar(spread_factor) && spread_factor > 0 && spread_factor < 1,
     "`spread_factor` must be in (0, 1)"
   )
   check(
-    is.numeric(neg_sample_rate) && neg_sample_rate >= 1,
+    .song_count(neg_sample_rate, 1),
     "`neg_sample_rate` must be a positive integer"
   )
-  check(is.numeric(e_min) && e_min > 0, "`e_min` must be positive")
-  check(is.numeric(epochs) && epochs >= 1, "`epochs` must be a positive integer")
+  check(.song_scalar(e_min) && e_min > 0, "`e_min` must be positive and finite")
+  check(.song_count(epochs, 1), "`epochs` must be a positive integer")
+  invisible(NULL)
+}
+
+.song_scalar <- function(x) {
+  is.numeric(x) && !is.complex(x) && length(x) == 1L && !is.na(x) && is.finite(x)
+}
+
+.song_count <- function(x, min = 0, max = .Machine$integer.max) {
+  .song_scalar(x) && x >= min && x <= max && x == trunc(x)
+}
+
+.song_check_flag <- function(x, name) {
+  if (!is.logical(x) || length(x) != 1L || is.na(x)) {
+    cli::cli_abort("`{name}` must be TRUE or FALSE.")
+  }
+}
+
+.song_check_seed <- function(seed) {
+  if (!is.null(seed) && !.song_count(seed, -.Machine$integer.max)) {
+    cli::cli_abort("`seed` must be NULL or a finite integer.")
+  }
+}
+
+.song_check_decay <- function(lr_sigma) {
+  if (!.song_scalar(lr_sigma) || lr_sigma < 0) {
+    cli::cli_abort("`lr_sigma` must be finite and non-negative.")
+  }
+}
+
+# Reject damaged saved objects before passing their dimensions to native code.
+.song_check_model <- function(object, update = FALSE) {
+  finite_matrix <- function(x) {
+    is.matrix(x) && is.numeric(x) && !is.complex(x) && all(is.finite(x))
+  }
+  valid <- is.list(object) && .song_count(object$D, 1) &&
+    finite_matrix(object$C) && nrow(object$C) > 0L && ncol(object$C) == object$D &&
+    finite_matrix(object$Y) && nrow(object$Y) == nrow(object$C) && ncol(object$Y) > 0L
+  if (valid && update) {
+    adj <- if (is.null(object$adj)) object$E else object$adj
+    valid <- is.list(object$parameters) && .song_count(object$parameters$d, 1) &&
+      ncol(object$Y) == object$parameters$d && finite_matrix(adj) &&
+      identical(dim(adj), rep(nrow(object$C), 2L)) &&
+      is.numeric(object$E_q) && !is.complex(object$E_q) &&
+      length(object$E_q) == nrow(object$C) && all(is.finite(object$E_q)) &&
+      .song_scalar(object$n_input) && object$n_input >= 1 &&
+      object$n_input == trunc(object$n_input)
+  }
+  if (!valid) {
+    cli::cli_abort("The stored model has invalid dimensions or nonfinite values.",
+                   class = "song_error_model")
+  }
   invisible(NULL)
 }

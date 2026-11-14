@@ -9,7 +9,8 @@
 \arguments{
 \item{object}{A trained \code{"song_model"} object.}
 
-\item{newdata}{Numeric matrix of new data (\code{n_new x D}).}
+\item{newdata}{Numeric matrix of new data (\code{n_new x D}).
+A single observation is accepted as a one-row matrix or data frame.}
 
 \item{...}{Ignored.}
 

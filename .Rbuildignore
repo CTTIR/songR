@@ -25,3 +25,4 @@
 ^\.rpackagesaudit$
 ^CITATION\.cff$
 ^tools/branding$
+^src/.*\.(gcda|gcno|gcov)$

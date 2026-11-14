@@ -60,6 +60,9 @@
 #' are rejected; no feature is silently reordered or imputed. Unnamed training
 #' data retains positional compatibility and cannot verify feature semantics.
 #' Legacy models without a contract also retain positional behavior.
+#' Integer controls must be scalar, finite, whole numbers within R's integer
+#' range; fractional values are rejected rather than truncated. Numeric controls
+#' must be finite, and `lr_sigma` must be non-negative.
 #'
 #' @return An S3 object of class \code{"song_model"} containing:
 #' \describe{
@@ -111,6 +114,19 @@ song <- function(
   # Input validation
   X <- validate_input(X)
   feature_contract <- .song_feature_contract(X, feature_manifest)
+  validate_params(d, k, epsilon, alpha, a, b, spread_factor,
+                  neg_sample_rate, if (is.null(e_min)) 1 else e_min, epochs)
+  if (!.song_count(max_age)) {
+    cli::cli_abort("`max_age` must be a non-negative integer.")
+  }
+  if (!is.null(max_prototypes) &&
+        !.song_count(max_prototypes, 1, .Machine$integer.max - 500)) {
+    cli::cli_abort("`max_prototypes` must be a positive integer below the native size limit.")
+  }
+  .song_check_decay(lr_sigma)
+  .song_check_flag(dispersion, "dispersion")
+  .song_check_flag(verbose, "verbose")
+  .song_check_seed(seed)
   d  <- as.integer(d)
   k  <- as.integer(k)
   epochs <- as.integer(epochs)
@@ -122,7 +138,7 @@ song <- function(
 
   # Adaptive e_min:  Python min_strength = epsilon^(dim + max_age)
   if (is.null(e_min)) {
-    e_min <- epsilon^(d + max_age)
+    e_min <- epsilon^(as.double(d) + max_age)
   }
 
   # Max prototypes:  Python int(exp(log(n) / 1.5))
@@ -131,18 +147,11 @@ song <- function(
   }
   max_prototypes <- as.integer(max_prototypes)
 
-  if (is.na(max_age) || max_age < 0L) {
-    cli::cli_abort("`max_age` must be a non-negative integer.")
-  }
-  if (is.na(max_prototypes) || max_prototypes < 1L) {
-    cli::cli_abort("`max_prototypes` must be a positive integer.")
-  }
-
   validate_params(d, k, epsilon, alpha, a, b, spread_factor,
                   neg_sample_rate, e_min, epochs)
 
-  if (n < d + 1L) {
-    cli::cli_abort("Need at least d + 1 = {d + 1L} data points, got {n}.")
+  if (n < as.double(d) + 1) {
+    cli::cli_abort("Need at least d + 1 = {as.double(d) + 1} data points, got {n}.")
   }
 
   if (!is.null(seed)) {

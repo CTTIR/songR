@@ -4,12 +4,16 @@
 #' the codebook, or the codebook graph with edges.
 #'
 #' @param x A \code{"song_model"} object.
-#' @param type Character. One of \code{"embedding"} (all input points in
+#' @param type Character. One of \code{"embedding"} (current-batch input points in
 #'   embedding space), \code{"codebook"} (coding vectors only), or
 #'   \code{"graph"} (coding vectors with edges drawn). Default: \code{"embedding"}.
 #' @param color_by Optional vector (factor or numeric) of length equal to
 #'   the number of input points (for \code{"embedding"}) or coding vectors
 #'   (for \code{"codebook"} and \code{"graph"}) used to color the points.
+#'   After an update, observation labels must follow the update batch, not all
+#'   historical inputs. Codebook and graph plots also accept current-batch
+#'   labels and map their modal value to each prototype; missing-only or empty
+#'   assignments yield a missing label.
 #' @param ... Additional arguments passed to \code{\link[graphics]{plot}}.
 #' @return Invisible \code{NULL}.
 #' @export
