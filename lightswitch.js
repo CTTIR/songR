@@ -6,8 +6,25 @@
  * Updates for {pkgdown} by the {bslib} authors, also licensed under CC-BY-3.0.
  */
 
-const getStoredTheme = () => localStorage.getItem('theme')
-const setStoredTheme = theme => localStorage.setItem('theme', theme)
+// Based on pkgdown 2.2.1; keep theme controls usable when storage is denied.
+let themeInMemory = null
+const getStoredTheme = () => {
+  if (themeInMemory !== null) return themeInMemory
+  try {
+    const theme = localStorage.getItem('theme')
+    return ['light', 'dark', 'auto'].includes(theme) ? theme : null
+  } catch (_) {
+    return null
+  }
+}
+const setStoredTheme = theme => {
+  themeInMemory = theme
+  try {
+    localStorage.setItem('theme', theme)
+  } catch (_) {
+    // The current page still keeps the explicit selection in memory.
+  }
+}
 
 const getPreferredTheme = () => {
   const storedTheme = getStoredTheme()
