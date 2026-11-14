@@ -304,5 +304,5 @@ sessionInfo()
 #> [25] RColorBrewer_1.1-3 fs_2.1.0           Rcpp_1.1.2         lattice_0.23-1    
 #> [29] farver_2.1.2       systemfonts_1.3.2  digest_0.6.39      R6_2.6.1          
 #> [33] Matrix_1.7-6       bslib_0.12.0       gtable_0.3.6       tools_4.6.2       
-#> [37] pkgdown_2.2.1      ggplot2_4.0.3      cachem_1.1.0       desc_1.4.3
+#> [37] pkgdown_2.2.1      ggplot2_4.0.4      cachem_1.1.0       desc_1.4.3
 ```

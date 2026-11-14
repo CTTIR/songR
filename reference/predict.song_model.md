@@ -21,7 +21,8 @@ predict(object, newdata, ..., feature_manifest = NULL)
 
 - newdata:
 
-  Numeric matrix of new data (`n_new x D`).
+  Numeric matrix of new data (`n_new x D`). A single observation is
+  accepted as a one-row matrix or data frame.
 
 - ...:
 

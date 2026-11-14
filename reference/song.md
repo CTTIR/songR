@@ -185,7 +185,10 @@ unchanged, to predict or update a model trained with one.
 Missing/nonfinite measurements are rejected; no feature is silently
 reordered or imputed. Unnamed training data retains positional
 compatibility and cannot verify feature semantics. Legacy models without
-a contract also retain positional behavior.
+a contract also retain positional behavior. Integer controls must be
+scalar, finite, whole numbers within R's integer range; fractional
+values are rejected rather than truncated. Numeric controls must be
+finite, and `lr_sigma` must be non-negative.
 
 ## References
 

@@ -475,7 +475,7 @@ sessionInfo()
 #>  [5] Rcpp_1.1.2         FNN_1.1.4.1        gridExtra_2.3.1    jquerylib_0.1.4   
 #>  [9] systemfonts_1.3.2  scales_1.4.0       textshaping_1.0.5  yaml_2.3.12       
 #> [13] fastmap_1.2.0      uwot_0.2.5         aricode_1.1.0      lattice_0.23-1    
-#> [17] ggplot2_4.0.3      R6_2.6.1           knitr_1.52         Rtsne_0.17        
+#> [17] ggplot2_4.0.4      R6_2.6.1           knitr_1.52         Rtsne_0.17        
 #> [21] desc_1.4.3         bslib_0.12.0       RColorBrewer_1.1-3 rlang_1.3.0       
 #> [25] cachem_1.1.0       xfun_0.62          fs_2.1.0           sass_0.4.10       
 #> [29] S7_0.2.2           otel_0.3.0         cli_3.6.6          pkgdown_2.2.1     

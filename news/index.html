@@ -63,7 +63,12 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-0-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-0"></a></h3>
-<ul><li>
+<ul><li>Validate scalar, finite hyperparameters before native training. Fractional integer controls, nonpositive update epochs/learning rates and damaged saved model dimensions now fail with an R error rather than being truncated or passed to C++.</li>
+<li>Accept a single new observation in <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> and reject zero-column inputs.</li>
+<li>Keep cumulative training counts finite when updates exceed R’s integer range.</li>
+<li>Exclude native coverage instrumentation files from source archives.</li>
+<li>Map codebook colours from the current update batch rather than cumulative training labels; handle prototypes with only missing labels. Correct the README to distinguish frozen projection from model retraining.</li>
+<li>
 <code>autoplot()</code> no longer errors for <code>type = "codebook"</code> or <code>type = "graph"</code> when <code>color_by</code> has input-point length; like <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, it now maps the labels to coding vectors.</li>
 <li>The UMAP dispersion step now winsorizes the embedding before building the UMAP init, so a single drifted coding vector can no longer dominate the min-max scaling and strand its points as a far outlier. This removes occasional outliers and improves cluster separation (e.g. Fashion-MNIST reproduction AMI 0.50 -&gt; 0.55). Only the <code>dispersion = TRUE</code> path is affected; the core SONG embedding is unchanged.</li>
 <li>The UMAP dispersion now uses a stronger refinement (200 epochs, learning rate 1.0, <code>min_dist = 0.1</code>) instead of the reference’s very gentle 11-epoch step. songR’s raw embedding is more collapsed than the reference’s on hard, multi-class data, and the gentle step left it stranded near one axis; the stronger refinement makes the embedding use the full plane and, in benchmarks, improves AMI on every tested dataset (MNIST, Fashion-MNIST, COIL-20, Samusik, Wong). Only the <code>dispersion = TRUE</code> visualization changes; the core SONG embedding stays frozen.</li>

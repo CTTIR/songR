@@ -118,7 +118,7 @@
 </tr>
 </tbody>
 </table>
-<p>New data can be added to an existing embedding without reinitializing or retraining the model, making SONG ideal for streaming data, growing datasets, and experiments where data arrives in batches.</p>
+<p>New data can be incorporated by continuing training from an existing model, making SONG useful for growing datasets and experiments where data arrives in batches. Updating can move the prototypes and their coordinates. Use <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> with the unchanged model when coordinates must remain in a frozen projection.</p>
 </div>
 <div class="section level2">
 <h2 id="fidelity-to-the-reference-implementation">Fidelity to the reference implementation<a class="anchor" aria-label="anchor" href="#fidelity-to-the-reference-implementation"></a>
@@ -167,16 +167,17 @@
 <div class="section level3">
 <h3 id="incremental-visualization">Incremental Visualization<a class="anchor" aria-label="anchor" href="#incremental-visualization"></a>
 </h3>
-<p>Train on an initial batch, then add more data without recomputing from scratch. Existing point positions are preserved:</p>
+<p>Train on an initial batch, then continue training with new data without initializing from scratch. An update creates a new model revision; reproject earlier observations with that revision before combining their coordinates:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Train on first batch</span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/song.html">song</a></span><span class="op">(</span><span class="va">batch1</span>, epochs <span class="op">=</span> <span class="fl">20L</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Add second batch -- existing embedding is preserved</span></span>
+<span><span class="co"># Add second batch -- prototype positions may change</span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">batch2</span>, epochs <span class="op">=</span> <span class="fl">20L</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get embedding for ALL points</span></span>
 <span><span class="va">emb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">batch1</span>, <span class="va">batch2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>After an update, <code>model$embedding</code> and <code>model$assignments</code> describe the new batch only; <code>model$n_input</code> is the cumulative number of training observations. Plot colours for batch observations must follow the current batch, or supply one colour per prototype for a codebook plot. Save the model and its lineage with each exported projection.</p>
 </div>
 <div class="section level3">
 <h3 id="parametric-projection">Parametric Projection<a class="anchor" aria-label="anchor" href="#parametric-projection"></a>

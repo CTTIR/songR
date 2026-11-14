@@ -18,15 +18,19 @@ plot(x, type = c("embedding", "codebook", "graph"), color_by = NULL, ...)
 
 - type:
 
-  Character. One of `"embedding"` (all input points in embedding space),
-  `"codebook"` (coding vectors only), or `"graph"` (coding vectors with
-  edges drawn). Default: `"embedding"`.
+  Character. One of `"embedding"` (current-batch input points in
+  embedding space), `"codebook"` (coding vectors only), or `"graph"`
+  (coding vectors with edges drawn). Default: `"embedding"`.
 
 - color_by:
 
   Optional vector (factor or numeric) of length equal to the number of
   input points (for `"embedding"`) or coding vectors (for `"codebook"`
-  and `"graph"`) used to color the points.
+  and `"graph"`) used to color the points. After an update, observation
+  labels must follow the update batch, not all historical inputs.
+  Codebook and graph plots also accept current-batch labels and map
+  their modal value to each prototype; missing-only or empty assignments
+  yield a missing label.
 
 - ...:
 

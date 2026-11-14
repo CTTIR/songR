@@ -18,9 +18,12 @@ SONG’s key advantages over t-SNE and UMAP:
 | **Noise robustness**    | High           | Low   | Medium   |
 | **Global structure**    | Good           | Poor  | Good     |
 
-New data can be added to an existing embedding without reinitializing or
-retraining the model, making SONG ideal for streaming data, growing
-datasets, and experiments where data arrives in batches.
+New data can be incorporated by continuing training from an existing
+model, making SONG useful for growing datasets and experiments where
+data arrives in batches. Updating can move the prototypes and their
+coordinates. Use [`predict()`](https://rdrr.io/r/stats/predict.html)
+with the unchanged model when coordinates must remain in a frozen
+projection.
 
 ## Fidelity to the reference implementation
 
@@ -80,20 +83,28 @@ new_coords <- predict(model, newdata = held_out_matrix)
 
 ### Incremental Visualization
 
-Train on an initial batch, then add more data without recomputing from
-scratch. Existing point positions are preserved:
+Train on an initial batch, then continue training with new data without
+initializing from scratch. An update creates a new model revision;
+reproject earlier observations with that revision before combining their
+coordinates:
 
 ``` r
 
 # Train on first batch
 model <- song(batch1, epochs = 20L, seed = 42)
 
-# Add second batch -- existing embedding is preserved
+# Add second batch -- prototype positions may change
 model <- update(model, batch2, epochs = 20L)
 
 # Get embedding for ALL points
 emb <- predict(model, newdata = rbind(batch1, batch2))
 ```
+
+After an update, `model$embedding` and `model$assignments` describe the
+new batch only; `model$n_input` is the cumulative number of training
+observations. Plot colours for batch observations must follow the
+current batch, or supply one colour per prototype for a codebook plot.
+Save the model and its lineage with each exported projection.
 
 ### Parametric Projection
 

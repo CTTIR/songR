@@ -234,7 +234,10 @@ prediction and updates. An explicit manifest must be supplied again, unchanged,
 to predict or update a model trained with one. Missing/nonfinite measurements
 are rejected; no feature is silently reordered or imputed. Unnamed training
 data retains positional compatibility and cannot verify feature semantics.
-Legacy models without a contract also retain positional behavior.</p>
+Legacy models without a contract also retain positional behavior.
+Integer controls must be scalar, finite, whole numbers within R's integer
+range; fractional values are rejected rather than truncated. Numeric controls
+must be finite, and <code>lr_sigma</code> must be non-negative.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
