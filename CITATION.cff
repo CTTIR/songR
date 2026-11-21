@@ -3,6 +3,7 @@ message: If you use this software, please cite it as below.
 type: software
 title: 'songR: Self-organizing nebulous growths for nonlinear dimensionality reduction'
 version: 1.0.0
+doi: 10.5281/zenodo.21889964
 date-released: '2026-11-10'
 authors:
 - family-names: Heller
@@ -10,3 +11,7 @@ authors:
   orcid: https://orcid.org/0000-0001-8006-9742
 repository-code: https://github.com/CTTIR/songR
 license: MIT
+identifiers:
+- type: doi
+  value: 10.5281/zenodo.21889964
+  description: Zenodo DOI (reserved; resolves once the record is published)
