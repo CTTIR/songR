@@ -22,7 +22,7 @@
 ^instructions$
 ^\.git$
 ^\.zenodo\.json$
-^\.rpackagesaudit$
 ^CITATION\.cff$
 ^tools/branding$
 ^src/.*\.(gcda|gcno|gcov)$
+^\.gitguard-allow$
