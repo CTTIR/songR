@@ -34,7 +34,10 @@
 #'   \code{epsilon^(d + max_age)}, matching the Python reference.
 #' @param max_prototypes Integer or \code{NULL}. Maximum number of coding
 #'   vectors. \code{NULL} (default) auto-computes as
-#'   \code{floor(exp(log(n) / 1.5))}, matching the Python reference.
+#'   \code{floor(exp(log(n) / 1.5))}, matching the Python reference. The
+#'   codebook graph is stored as a dense matrix, so training memory grows with
+#'   the square of this value (about \code{8 * (max_prototypes + 200)^2}
+#'   bytes).
 #' @param lr_sigma Numeric. Decay constant for the SO learning-rate
 #'   schedule: \code{so_lr = alpha * exp(-lr_sigma * (epoch/epochs)^2)}.
 #'   Default: 5.0 (matches Python).
@@ -205,7 +208,14 @@ song <- function(
   )
 
   # ── UMAP dispersion step (matches Python transform()) ───────────────────
-  if (isTRUE(dispersion) && requireNamespace("uwot", quietly = TRUE)) {
+  has_uwot <- isTRUE(dispersion) && requireNamespace("uwot", quietly = TRUE)
+  if (isTRUE(dispersion) && !has_uwot && verbose) {
+    cli::cli_inform(c(
+      "Skipping the UMAP dispersion step: package {.pkg uwot} is not installed.",
+      "i" = "The raw SONG embedding is returned."
+    ))
+  }
+  if (has_uwot) {
     if (verbose) cli::cli_inform("Running UMAP dispersion step...")
 
     y_raw   <- result$embedding

@@ -65,7 +65,10 @@ edges are pruned. \code{NULL} (default) auto-computes as
 
 \item{max_prototypes}{Integer or \code{NULL}. Maximum number of coding
 vectors. \code{NULL} (default) auto-computes as
-\code{floor(exp(log(n) / 1.5))}, matching the Python reference.}
+\code{floor(exp(log(n) / 1.5))}, matching the Python reference. The
+codebook graph is stored as a dense matrix, so training memory grows with
+the square of this value (about \code{8 * (max_prototypes + 200)^2}
+bytes).}
 
 \item{lr_sigma}{Numeric. Decay constant for the SO learning-rate
 schedule: \code{so_lr = alpha * exp(-lr_sigma * (epoch/epochs)^2)}.

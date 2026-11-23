@@ -69,3 +69,22 @@ test_that("print and summary accept models saved without a converged flag", {
   expect_output(print(m), "max epochs")
   expect_output(summary(m), "max epochs")
 })
+
+test_that("song reports a skipped dispersion step when uwot is unavailable", {
+  x <- as.matrix(iris[1:60, 1:4])
+  raw <- song(x, epochs = 3L, seed = 1L, verbose = FALSE, dispersion = FALSE)
+  testthat::local_mocked_bindings(
+    requireNamespace = function(package, ...) !identical(package, "uwot"),
+    .package = "base"
+  )
+  utils::capture.output(
+    expect_message(
+      skipped <- song(x, epochs = 3L, seed = 1L, verbose = TRUE),
+      "uwot.*is not installed"
+    )
+  )
+  expect_identical(skipped$embedding, raw$embedding)
+  expect_identical(skipped$Y, raw$Y)
+  # Quiet fits stay quiet.
+  expect_no_message(song(x, epochs = 3L, seed = 1L, verbose = FALSE))
+})
