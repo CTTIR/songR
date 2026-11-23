@@ -1,19 +1,19 @@
 # songR: Self-Organizing Nebulous Growths for Dimensionality Reduction
 
-A SONG-inspired tool for nonlinear dimensionality reduction and data
-visualization in R, implementing the Self-Organizing Nebulous Growths
+A SONG-inspired tool for non-linear dimensionality reduction and data
+visualisation in R, implementing the Self-Organizing Nebulous Growths
 (SONG) algorithm of Senanayake et al. (2021)
 [doi:10.1109/TNNLS.2020.3023941](https://doi.org/10.1109/TNNLS.2020.3023941)
 natively in R and 'C++' and staying as close to the reference
 implementation as is feasible across the two ecosystems. SONG is a
 parametric method that supports incremental addition of new data to
-existing visualizations without reinitialization, handles both
+existing visualisations without reinitialisation, handles both
 homogeneous and heterogeneous data increments, and is robust to noise
 and highly mixed clusters. Clustering quality matches the reference
-closely (validated by reference-parity tests); the default visualization
+closely (validated by reference-parity tests); the default visualisation
 is close in global structure but not identical in absolute layout.
 Includes an interactive 'shiny' application for comparing SONG, t-SNE,
-and UMAP visualizations side-by-side.
+and UMAP visualisations side-by-side.
 
 ## References
 

@@ -61,7 +61,7 @@ update(
 - seed:
 
   Optional integer seed for update training. `NULL` preserves the
-  existing random-stream behavior; the original fit seed is not reused.
+  existing random-stream behaviour; the original fit seed is not reused.
   A non-`NULL` seed is passed to
   [`set.seed()`](https://rdrr.io/r/base/Random.html) and resets the
   session's random number stream.

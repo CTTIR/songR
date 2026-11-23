@@ -26,13 +26,13 @@ autoplot.song_model(
 
 - color_by:
 
-  Optional vector for coloring points; see
+  Optional vector for colouring points; see
   [`plot.song_model`](https://cttir.github.io/songR/reference/plot.song_model.md)
   for the accepted lengths. As in
   [`plot()`](https://rdrr.io/r/graphics/plot.default.html), up to eight
   categories are drawn in the Okabe-Ito palette and numeric vectors on
   the viridis scale; more than eight categories use the default discrete
-  `ggplot2` scale. Adding a color scale to the returned plot replaces
+  `ggplot2` scale. Adding a colour scale to the returned plot replaces
   the scale chosen here.
 
 - ...:

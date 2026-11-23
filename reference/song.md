@@ -1,6 +1,6 @@
 # Fit a SONG Model for Dimensionality Reduction
 
-Performs nonlinear dimensionality reduction using the Self-Organizing
+Performs non-linear dimensionality reduction using the Self-Organizing
 Nebulous Growths (SONG) algorithm. SONG builds a codebook of coding
 vectors connected by a topology-preserving graph, then maps the graph
 into a low-dimensional embedding space. Unlike t-SNE and UMAP, the
@@ -45,8 +45,8 @@ song(
 
 - k:
 
-  Integer. Neighborhood size for the coding-vector graph. Corresponds to
-  `dim + n_neighbors` in the Python reference. Must be `>= d + 1`
+  Integer. Neighbourhood size for the coding-vector graph. Corresponds
+  to `dim + n_neighbors` in the Python reference. Must be `>= d + 1`
   (default: 3, which matches Python's `n_neighbors = 1` with `dim = 2`).
 
 - epsilon:
@@ -142,7 +142,7 @@ song(
   Optional data frame with exactly these character columns, in order:
   `feature`, `compartment`, `statistic`, `unit`, `transform`,
   `normalization`. Rows must follow the named input columns. Describe
-  complete externally applied transform/normalization recipes, including
+  complete externally applied transform/normalisation recipes, including
   parameters or a versioned reference identifier; use
   `"identity"`/`"none"` when applicable. The manifest records
   declarations; it does not apply transformations or establish that
@@ -177,7 +177,7 @@ An S3 object of class `"song_model"` containing:
 
 - E_q:
 
-  Internal training state: accumulated squared quantization error per
+  Internal training state: accumulated squared quantisation error per
   coding vector, which drives codebook growth.
 
 - assignments:
@@ -225,7 +225,7 @@ unchanged, to predict or update a model trained with one.
 Missing/nonfinite measurements are rejected; no feature is silently
 reordered or imputed. Unnamed training data retains positional
 compatibility and cannot verify feature semantics. Legacy models without
-a contract also retain positional behavior. Integer controls must be
+a contract also retain positional behaviour. Integer controls must be
 scalar, finite, whole numbers within R's integer range; fractional
 values are rejected rather than truncated. Numeric controls must be
 finite, and `lr_sigma` must be non-negative.
@@ -236,7 +236,7 @@ assigned points in that layout, so that
 [`predict.song_model()`](https://cttir.github.io/songR/reference/predict.song_model.md)
 projects into the same coordinates. A coding vector without assigned
 points is placed at the edge-weighted mean of its occupied graph
-neighbors, or at the occupied coding vector nearest in input space when
+neighbours, or at the occupied coding vector nearest in input space when
 it has none. If the refinement fails, for example on very small inputs,
 a warning is issued and the raw SONG embedding is returned.
 `parameters$dispersion` records the request, not whether uwot was

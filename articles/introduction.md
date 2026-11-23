@@ -14,10 +14,10 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 ## What is SONG?
 
 The Self-Organizing Nebulous Growths (SONG) algorithm is a parametric
-method for nonlinear dimensionality reduction. Unlike t-SNE and UMAP,
-SONG supports **incremental visualization**: when new data arrive,
+method for non-linear dimensionality reduction. Unlike t-SNE and UMAP,
+SONG supports **incremental visualisation**: when new data arrive,
 training continues from the existing model instead of starting again
-from a new initialization. SONG is also robust to noise and highly mixed
+from a new initialisation. SONG is also robust to noise and highly mixed
 clusters.
 
 | Property            | SONG           | t-SNE     | UMAP      |
@@ -70,7 +70,7 @@ plot(model_blobs, color_by = songR_blobs$labels)
 compact, well separated clusters, one color per
 cluster.](introduction_files/figure-html/blobs-1.png)
 
-## Incremental Visualization
+## Incremental Visualisation
 
 This is SONG’s key feature. We train on the first half of the data, then
 incrementally add the second half.
@@ -189,7 +189,7 @@ of SONG alone.
 | Parameter | Default | Description |
 |----|----|----|
 | `spread_factor` | 0.5 | Growth threshold; higher = more coding vectors. Range: (0, 1). |
-| `k` | 3 | Neighborhood size. Must be \>= `d + 1`. Lower = finer topology. |
+| `k` | 3 | Neighbourhood size. Must be \>= `d + 1`. Lower = finer topology. |
 | `epsilon` | 0.9 | Edge decay rate (0–1). Lower = sparser, faster-pruning graph. |
 | `epochs` | 50 | Number of self-organisation iterations. More = better convergence. |
 | `alpha` | 1.0 | Initial learning rate. |
@@ -246,7 +246,7 @@ side-by-side on your own data.
 citation("songR")
 #> To cite the songR R package, use:
 #> 
-#>   Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
+#>   R. Heller (2026). songR: Self-Organizing Nebulous Growths for
 #>   Dimensionality Reduction. R package version 1.0.0.
 #>   https://github.com/CTTIR/songR
 #> 

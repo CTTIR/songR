@@ -30,7 +30,7 @@ quantization error, and graph connectivity.
 - [`print(`*`<song_model>`*`)`](https://cttir.github.io/songR/reference/print.song_model.md)
   : Print a SONG Model
 - [`summary(`*`<song_model>`*`)`](https://cttir.github.io/songR/reference/summary.song_model.md)
-  : Summarize a SONG Model
+  : Summarise a SONG Model
 
 ## Interactive App
 

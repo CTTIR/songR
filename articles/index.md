@@ -17,5 +17,5 @@ Shiny app.
 
 - [Reproducing Paper Figures with
   songR](https://cttir.github.io/songR/articles/reproducing_paper_figures.md):
-- [Interactive Visualization with the songR Shiny
+- [Interactive Visualisation with the songR Shiny
   App](https://cttir.github.io/songR/articles/songR_shiny_app.md):

@@ -1,6 +1,6 @@
 # Plot a SONG Model
 
-Visualize a `"song_model"` as a scatter plot of the embedding, the
+Visualise a `"song_model"` as a scatter plot of the embedding, the
 codebook, or the codebook graph with edges.
 
 ## Usage
@@ -32,13 +32,13 @@ plot(
 
   Optional vector of length equal to the number of input points (for
   `"embedding"`) or coding vectors (for `"codebook"` and `"graph"`) used
-  to color the points. Factor, character and logical vectors are treated
-  as categories. Up to eight categories are drawn in the Okabe-Ito
-  palette, which stays distinguishable under the common forms of color
-  vision deficiency; more categories use evenly spaced hues. Numeric
-  vectors are treated as continuous and mapped linearly onto the
+  to colour the points. Factor, character and logical vectors are
+  treated as categories. Up to eight categories are drawn in the
+  Okabe-Ito palette, which stays distinguishable under the common forms
+  of colour vision deficiency; more categories use evenly spaced hues.
+  Numeric vectors are treated as continuous and mapped linearly onto the
   sequential viridis palette (low values dark purple, high values
-  yellow). Missing or nonfinite values are drawn in gray. After an
+  yellow). Missing or nonfinite values are drawn in grey. After an
   update, observation labels must follow the update batch, not all
   historical inputs. Codebook and graph plots also accept current-batch
   labels and map them to each prototype: the modal value of categories
@@ -50,7 +50,7 @@ plot(
   Additional arguments passed to
   [`plot`](https://rdrr.io/r/graphics/plot.default.html), for example
   `main`, `xlab`, `pch` or `cex`. They override the defaults of this
-  method. Point colors are set through `color_by`; `col` cannot be
+  method. Point colours are set through `color_by`; `col` cannot be
   forwarded because it partially matches that argument.
 
 - legend:
@@ -69,9 +69,9 @@ Invisible `NULL`.
 Models with more than two output dimensions are drawn in their first two
 embedding dimensions.
 
-The graph edges and the eighth category color take the foreground color
-of the graphics device (`par("fg")`), so that they remain visible when
-the plot is drawn on a dark background.
+The graph edges and the eighth category colour take the foreground
+colour of the graphics device (`par("fg")`), so that they remain visible
+when the plot is drawn on a dark background.
 
 ## References
 

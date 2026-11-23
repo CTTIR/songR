@@ -1,4 +1,4 @@
-# Interactive Visualization with the songR Shiny App
+# Interactive Visualisation with the songR Shiny App
 
 ![songR logo](figures/logo.svg)![songR logo](figures/logo-dark.svg)
 
@@ -21,13 +21,13 @@ of SONG embeddings. The app lets you:
 - Choose the feature columns and an optional label column of an upload
 - Adjust SONG hyperparameters (`k`, `spread_factor`, `epochs`, `epsilon`
   and the dispersion step), the t-SNE perplexity and the UMAP
-  neighborhood size
+  neighbourhood size
 - Run SONG, t-SNE, and UMAP side-by-side with run times
 - Inspect the fitted SONG codebook graph and model summary
 - Toggle **dark mode** for comfortable viewing (preference persisted via
   localStorage)
 
-The comparison plots use the **viridis plasma** color scale.
+The comparison plots use the **viridis plasma** colour scale.
 
 The app is a viewer. Incremental updates, projection of new points and
 export of embeddings, plots or models are done in code; see the example
@@ -71,7 +71,7 @@ one and click **Run Comparison**.
 2.  Choose a CSV file with a header row
 3.  Pick the numeric **feature columns** (all numeric columns are
     selected by default)
-4.  Optionally pick a **label column** used to color the points
+4.  Optionally pick a **label column** used to colour the points
 5.  Click **Run Comparison**
 
 Feature columns must be numeric and free of missing values; otherwise
@@ -84,13 +84,13 @@ The sidebar of the **Compare** page provides these controls:
 
 | Control | Maps to | Effect |
 |----|----|----|
-| k (neighborhood) | `song(k = )` | Neighborhood size of the coding-vector graph |
+| `k (neighborhood)` | `song(k = )` | Neighbourhood size of the coding-vector graph |
 | spread_factor | `song(spread_factor = )` | Growth threshold for new coding vectors |
 | epochs | `song(epochs = )` | More = better quality, slower |
 | epsilon (edge decay) | `song(epsilon = )` | Edge decay rate (0-1) |
 | UMAP dispersion step | `song(dispersion = )` | Toggle the UMAP refinement |
-| perplexity | `Rtsne::Rtsne(perplexity = )` | t-SNE neighborhood size |
-| n_neighbors | `uwot::umap(n_neighbors = )` | UMAP neighborhood size |
+| perplexity | `Rtsne::Rtsne(perplexity = )` | t-SNE neighbourhood size |
+| `n_neighbors` | `uwot::umap(n_neighbors = )` | UMAP neighbourhood size |
 | Random seed | `song(seed = )` | Seed set before the three methods run |
 
 ## Dark Mode
@@ -101,8 +101,8 @@ and restored on the next visit.
 
 Dark mode adjusts:
 
-- Background, text, and border colors for all UI panels
-- Plot backgrounds and axis label colors
+- Background, text, and border colours for all UI panels
+- Plot backgrounds and axis label colours
 - Sidebar, navbar, and well panel styling
 
 ## Incremental Updates and Export

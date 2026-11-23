@@ -1,7 +1,7 @@
-# Summarize a SONG Model
+# Summarise a SONG Model
 
 Provides a detailed summary of a `"song_model"` object, including
-quantization error and edge statistics.
+quantisation error and edge statistics.
 
 ## Usage
 

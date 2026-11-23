@@ -15,8 +15,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 **SONG** (Self-Organizing Nebulous Growths) is a parametric,
 incremental, noise-tolerant dimensionality reduction technique for data
-visualization. Unlike t-SNE and UMAP, SONG retains a parametric model
-that can be updated with new data without reinitializing the entire
+visualisation. Unlike t-SNE and UMAP, SONG retains a parametric model
+that can be updated with new data without reinitialising the entire
 embedding. This makes SONG ideal for streaming data, incremental
 analysis, and noisy datasets.
 
@@ -27,7 +27,7 @@ SONG-inspired tool that implements this algorithm natively in R and C++
 (via RcppArmadillo), staying as close to the reference implementation as
 is feasible. Its deterministic components match the reference to within
 1e-5 and its clustering quality is statistically identical; the default
-UMAP-dispersed visualization is close in global structure but not
+UMAP-dispersed visualisation is close in global structure but not
 identical in absolute layout. See the `Reproducing Paper Figures`
 article for the full, evidence-backed fidelity comparison.
 
@@ -69,7 +69,7 @@ print(model)
 ```
 
 The model contains the 2D embedding for all input points. Let’s
-visualize it:
+visualise it:
 
 ``` r
 
@@ -80,7 +80,7 @@ plot(model, color_by = iris$Species)
 with the three species forming separate groups and a legend naming
 them.](songR_quickstart_files/figure-html/iris-plot-1.png)
 
-Each color represents a different iris species. SONG discovers the
+Each colour represents a different iris species. SONG discovers the
 natural cluster structure in the 4-dimensional data and maps it to 2D.
 
 ## Bundled Dataset
@@ -108,7 +108,7 @@ plot(model_blobs, color_by = songR_blobs$labels)
 compact, well separated clusters, one color per
 cluster.](songR_quickstart_files/figure-html/blobs-1.png)
 
-## Incremental Visualization
+## Incremental Visualisation
 
 The key advantage of SONG is incremental updating. You can train on an
 initial batch of data and then add more data later without recomputing
@@ -251,7 +251,7 @@ summary(model_blobs)
 | `epochs`        | 50      | More epochs = better convergence, slower       |
 | `epsilon`       | 0.9     | Edge decay: lower = sparser graph              |
 | `spread_factor` | 0.5     | Growth threshold: higher = more coding vectors |
-| `k`             | 3       | Neighborhood size for graph construction       |
+| `k`             | 3       | Neighbourhood size for graph construction      |
 | `dispersion`    | TRUE    | UMAP refinement step for visual quality        |
 | `alpha`         | 1.0     | Initial learning rate                          |
 

@@ -20,11 +20,11 @@ This article reproduces key experiments from the SONG paper using the
 > Self-Organizing Nebulous Growths for Robust and Incremental Data
 > Visualization. *IEEE TNNLS*, 32(10), 4588-4602.
 
-All figures use the **viridis plasma** color scale. For full-scale
+All figures use the **viridis plasma** colour scale. For full-scale
 reproductions with large datasets, see the `tutorials/` folder in the
 repository.
 
-## Plasma Color Helpers
+## Plasma Colour Helpers
 
 ``` r
 
@@ -118,7 +118,7 @@ clusters are added, while SONG+Reinit recomputes the entire layout.
 ## Figure 5: Homogeneous Increments (Wong CyTOF)
 
 Homogeneous increments add more data of the same distribution. The paper
-uses Wong CyTOF data colored by CCR7 expression. Here we demonstrate
+uses Wong CyTOF data coloured by CCR7 expression. Here we demonstrate
 with blobs, adding random subsamples:
 
 ``` r
@@ -229,7 +229,7 @@ SONG refitted from
 scratch.](reproducing_paper_figures_files/figure-html/fig6-cdy-1.png)
 
 **Key result**: SONG (incremental) displaces existing points far less
-than reinitialized methods. In the paper, t-SNE shows CDY 10-50x higher
+than reinitialised methods. In the paper, t-SNE shows CDY 10-50x higher
 than SONG.
 
 ## Figure 7 / Table IV: Noise Tolerance (Gaussian Blobs)
@@ -428,7 +428,7 @@ honest, layer-by-layer answer:
 |----|----|----|
 | Deterministic kernels (distances, argmin, kernel `(a, b)`, scalars) | near bit-identical | \le 7.6e-08 / exact (float32-vs-double floor) |
 | Core SONG embedding (`dispersion = FALSE`) — clustering (AMI) | statistically identical | nodisp 0.949 = 0.949 |
-| Default visualization (`dispersion = TRUE`) | songR uses a **stronger UMAP refinement**; matches or beats the reference’s AMI | e.g. MNIST 0.62→0.71, on every benchmark dataset |
+| Default visualisation (`dispersion = TRUE`) | songR uses a **stronger UMAP refinement**; matches or beats the reference’s AMI | e.g. MNIST 0.62→0.71, on every benchmark dataset |
 | Raw embedding coordinates (pre-dispersion) | same structure, different layout | blobs Procrustes R^2 \approx 0.22 |
 
 Bit-identity of the *embeddings* is neither achievable nor the goal: the

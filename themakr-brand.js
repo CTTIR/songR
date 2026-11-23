@@ -26,10 +26,18 @@
       });
     }
 
+    // pkgdown's 404 page makes src absolute but leaves data attributes
+    // relative, and it is served at any depth: resolve from the logo there.
+    var absolute = /^(?:[a-z][a-z0-9+.-]*:|\/)/i;
+
     document.querySelectorAll("img.themakr-navbar-logo[data-cttir-dark-src]")
       .forEach(function (element) {
         var light = new URL(element.src, document.baseURI);
-        var dark = new URL(element.getAttribute("data-cttir-dark-src"), document.baseURI);
+        var lightSource = element.getAttribute("src") || "";
+        var darkSource = element.getAttribute("data-cttir-dark-src");
+        var darkBase = absolute.test(lightSource) && !absolute.test(darkSource)
+          ? light.href : document.baseURI;
+        var dark = new URL(darkSource, darkBase);
         if (light.origin !== window.location.origin ||
             dark.origin !== window.location.origin ||
             !/\/logo\.(svg|png)$/i.test(light.pathname)) return;

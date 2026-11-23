@@ -1,15 +1,15 @@
 # Launch Interactive Comparison App
 
 Opens a Shiny application that compares SONG, t-SNE, and UMAP
-visualizations side-by-side on the built-in example data (iris and
+visualisations side-by-side on the built-in example data (iris and
 [`songR_blobs`](https://cttir.github.io/songR/reference/songR_blobs.md))
 or on an uploaded CSV file. The app lets you choose the feature and
 label columns of an upload, tune the main SONG hyperparameters (`k`,
 `spread_factor`, `epochs`, `epsilon` and the dispersion step) together
-with the t-SNE perplexity and the UMAP neighborhood size, and inspect
+with the t-SNE perplexity and the UMAP neighbourhood size, and inspect
 the fitted SONG codebook graph and model summary. It features a dark
 mode toggle (persisted via localStorage) and uses the viridis plasma
-color scale for the comparison plots.
+colour scale for the comparison plots.
 
 ## Usage
 
