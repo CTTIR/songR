@@ -44,7 +44,8 @@ First stable release and first CRAN submission.
   (`autoplot()`). More than eight categories keep evenly spaced hues.
 * `autoplot()` draws a numeric `color_by` on the viridis scale and missing
   values in gray, as `plot()` does. Adding a color scale to the returned plot
-  still replaces the scale.
+  still replaces the scale; `ggplot2` now reports the replacement with a
+  message because the plot always carries a scale.
 * The edges of `plot(type = "graph")` and the eighth category color follow the
   foreground color of the graphics device (`par("fg")`), so they stay visible
   on a dark background, for example in the dark mode of the comparison app.
@@ -123,11 +124,14 @@ First stable release and first CRAN submission.
 * `song()` validates `max_age` and `max_prototypes`.
 * `song(verbose = TRUE)` reports when the dispersion step is skipped because
   'uwot' is not installed.
-* Diverging training, caused by a learning rate `alpha` of 2 or more or by
-  features on an extreme scale, is reported by `song()` and `update()` as an
-  error of class `song_error_diverged` with advice, instead of the native
-  message "sort_index(): detected NaN". The documentation of `alpha` states
-  the stable range.
+* Diverging training, caused by a large learning rate `alpha` or by features
+  on an extreme scale, is reported by `song()` and `update()` as an error of
+  class `song_error_diverged` with advice, instead of the native message
+  "sort_index(): detected NaN". The error is raised when coding vectors become
+  nonfinite or end more than 1000 times farther from zero than the data; such
+  fits used to be returned as valid models. Values of `alpha` above 1
+  overshoot and can be unstable without triggering the error, and the
+  documentation of `alpha` says so.
 * All user-facing messages now use `cli`, with errors signaled at the calling
   function for clearer tracebacks. Messages and behavior are otherwise unchanged.
 
@@ -168,7 +172,6 @@ First stable release and first CRAN submission.
   URLs, unused `Matrix` suggestion removed, and the version aligned across
   `DESCRIPTION`, `inst/CITATION`, `CITATION.cff`, `.zenodo.json` and the
   README.
-* Local review notes are excluded from the source archive.
 
 # songR 0.1.0
 
