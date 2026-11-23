@@ -158,6 +158,13 @@ test_that("the legend is drawn for few categories in the emptiest corner", {
   colors <- .song_point_colors(rep(c("a", "b"), 100L))
   corner <- .song_plot_legend(coords, colors)
   expect_true(corner %in% c("topleft", "bottomright", "bottomleft"))
+  # A long legend leaves the corners when every corner holds points.
+  graphics::plot(c(0, 10), c(0, 10), type = "n")
+  at_corners <- cbind(rep(c(0, 10), each = 100L), rep(c(0, 10), 100L))
+  eight <- .song_point_colors(rep(letters[1:8], 25L))
+  expect_true(
+    .song_plot_legend(at_corners, eight) %in% c("right", "left", "bottom", "top")
+  )
   with_missing <- .song_point_colors(c("a", NA))
   expect_type(.song_plot_legend(coords, with_missing), "character")
   # A numeric color_by gets a five-value key.

@@ -26,10 +26,11 @@
 #'   example \code{main}, \code{xlab}, \code{pch} or \code{cex}. They override
 #'   the defaults of this method. Point colors are set through \code{color_by};
 #'   \code{col} cannot be forwarded because it partially matches that argument.
-#' @param legend Logical. If \code{TRUE} (default), a legend is drawn in the
-#'   plot corner that covers the fewest points: the levels of a categorical
-#'   \code{color_by} with at most 12 levels, or a key of five evenly spaced
-#'   values for a numeric \code{color_by}.
+#' @param legend Logical. If \code{TRUE} (default), a legend is drawn at the
+#'   plot corner or edge where it covers the fewest points, in one or two
+#'   columns: the levels of a categorical \code{color_by} with at most 12
+#'   levels, or a key of five evenly spaced values for a numeric
+#'   \code{color_by}.
 #' @return Invisible \code{NULL}.
 #' @details
 #' Models with more than two output dimensions are drawn in their first two
@@ -193,8 +194,8 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
        missing = if (has_missing) missing else NULL)
 }
 
-# Draw the category legend or numeric key in the corner hiding the fewest points.
-# Returns the chosen corner invisibly, or NULL when no legend is drawn.
+# Draw the category legend or numeric key where it hides the fewest points.
+# Returns the chosen position invisibly, or NULL when no legend is drawn.
 .song_plot_legend <- function(coords, colors, max_levels = 12L) {
   n_levels <- length(colors$levels)
   if (n_levels < 1L || n_levels > max_levels) {
@@ -206,23 +207,39 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
     labels <- c(labels, "NA")
     fills <- c(fills, colors$missing)
   }
-  corners <- c("topright", "topleft", "bottomright", "bottomleft")
-  hidden <- vapply(corners, function(corner) {
-    box <- graphics::legend(corner, legend = labels, pch = 16, cex = 0.8,
-                            plot = FALSE)$rect
-    # Count points in the legend box plus a clearance of 15% on each side.
-    pad_x <- 0.15 * box$w
-    pad_y <- 0.15 * box$h
-    sum(coords[, 1] >= box$left - pad_x & coords[, 1] <= box$left + box$w + pad_x &
-          coords[, 2] <= box$top + pad_y & coords[, 2] >= box$top - box$h - pad_y,
-        na.rm = TRUE)
-  }, numeric(1))
-  corner <- corners[which.min(hidden)]
-  graphics::legend(
-    corner, legend = labels, col = fills, pch = 16,
-    cex = 0.8, bty = "n", text.col = graphics::par("fg")
+  # Candidate placements: the corners first, then the middle of each edge, in
+  # one column and, for longer legends, in two. A long legend does not fit into
+  # a corner of a small plot without covering points.
+  positions <- c("topright", "topleft", "bottomright", "bottomleft",
+                 "right", "left", "bottom", "top")
+  candidates <- expand.grid(
+    position = positions, ncol = if (length(labels) > 3L) 1:2 else 1L,
+    stringsAsFactors = FALSE
   )
-  invisible(corner)
+  # Points inside the legend box, and inside the box plus a clearance of 15%
+  # on each side.
+  hidden <- vapply(seq_len(nrow(candidates)), function(i) {
+    box <- graphics::legend(
+      candidates$position[i], legend = labels, pch = 16, cex = 0.8,
+      ncol = candidates$ncol[i], plot = FALSE
+    )$rect
+    inside <- function(pad) {
+      pad_x <- pad * box$w
+      pad_y <- pad * box$h
+      sum(coords[, 1] >= box$left - pad_x & coords[, 1] <= box$left + box$w + pad_x &
+            coords[, 2] <= box$top + pad_y & coords[, 2] >= box$top - box$h - pad_y,
+          na.rm = TRUE)
+    }
+    c(inside(0), inside(0.15))
+  }, numeric(2))
+  # Fewest covered points first, then the widest clearance, then the order above.
+  best <- order(hidden[1L, ], hidden[2L, ])[1L]
+  graphics::legend(
+    candidates$position[best], legend = labels, col = fills, pch = 16,
+    cex = 0.8, bty = "n", ncol = candidates$ncol[best],
+    text.col = graphics::par("fg")
+  )
+  invisible(candidates$position[best])
 }
 
 #' Autoplot Method for SONG Models

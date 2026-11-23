@@ -31,10 +31,10 @@ First stable release and first CRAN submission.
 
 ## Plots
 
-* `plot()` draws a legend in the plot corner that covers the fewest points:
-  the levels of a categorical `color_by` with at most 12 levels, or a key of
-  five evenly spaced values for a numeric `color_by`. Use `legend = FALSE` to
-  omit it.
+* `plot()` draws a legend at the plot corner or edge where it covers the
+  fewest points, in one or two columns: the levels of a categorical `color_by`
+  with at most 12 levels, or a key of five evenly spaced values for a numeric
+  `color_by`. Use `legend = FALSE` to omit it.
 * `plot()` forwards graphical arguments such as `main`, `xlab`, `ylab`, `pch`
   and `cex` through `...`; they override the defaults of the method. These
   previously failed as duplicated arguments.

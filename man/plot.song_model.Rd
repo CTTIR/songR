@@ -40,10 +40,11 @@ example \code{main}, \code{xlab}, \code{pch} or \code{cex}. They override
 the defaults of this method. Point colors are set through \code{color_by};
 \code{col} cannot be forwarded because it partially matches that argument.}
 
-\item{legend}{Logical. If \code{TRUE} (default), a legend is drawn in the
-plot corner that covers the fewest points: the levels of a categorical
-\code{color_by} with at most 12 levels, or a key of five evenly spaced
-values for a numeric \code{color_by}.}
+\item{legend}{Logical. If \code{TRUE} (default), a legend is drawn at the
+plot corner or edge where it covers the fewest points, in one or two
+columns: the levels of a categorical \code{color_by} with at most 12
+levels, or a key of five evenly spaced values for a numeric
+\code{color_by}.}
 }
 \value{
 Invisible \code{NULL}.
