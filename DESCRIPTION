@@ -36,6 +36,7 @@ Suggests:
     ggplot2,
     viridis,
     shiny,
+    htmltools,
     Rtsne,
     uwot,
     aricode,

@@ -44,6 +44,7 @@ test_that("autoplot graph type with edges returns a ggplot", {
 })
 
 test_that("autoplot aborts when ggplot2 is unavailable", {
+  skip_on_cran() # replaces a binding in the base namespace
   testthat::local_mocked_bindings(
     requireNamespace = function(pkg, ...) if (identical(pkg, "ggplot2")) FALSE else TRUE,
     .package = "base"

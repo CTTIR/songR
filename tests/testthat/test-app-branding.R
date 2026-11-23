@@ -26,9 +26,7 @@ test_that("the comparison app loads the Bootstrap styles its layout needs", {
   app_env <- new.env()
   sys.source(file.path(app_dir, "app.R"), envir = app_env)
   # fluidRow() and column() only place panels side by side with Bootstrap.
-  # htmltools is installed with shiny and is looked up without a declaration.
-  find_dependencies <- getExportedValue("htmltools", "findDependencies")
-  dependencies <- find_dependencies(app_env$ui)
+  dependencies <- htmltools::findDependencies(app_env$ui)
   expect_true("bootstrap" %in% vapply(dependencies, `[[`, character(1), "name"))
   # Bootstrap shrinks the root font size; the app restores it for its rem units.
   expect_match(app_env$app_css, "html { font-size: 16px; }", fixed = TRUE)

@@ -81,6 +81,7 @@ test_that("print and summary accept models saved without a converged flag", {
 })
 
 test_that("song reports a skipped dispersion step when uwot is unavailable", {
+  skip_on_cran() # replaces a binding in the base namespace
   x <- as.matrix(iris[1:60, 1:4])
   raw <- song(x, epochs = 3L, seed = 1L, verbose = FALSE, dispersion = FALSE)
   testthat::local_mocked_bindings(

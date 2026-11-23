@@ -3,6 +3,7 @@
 # only exercise the dependency-check abort, which is pure and side-effect free.
 
 test_that("run_songR_app aborts when a required package is missing", {
+  skip_on_cran() # replaces a binding in the base namespace
   testthat::local_mocked_bindings(
     requireNamespace = function(...) FALSE,
     .package = "base"
@@ -11,6 +12,7 @@ test_that("run_songR_app aborts when a required package is missing", {
 })
 
 test_that("run_songR_app abort message names the missing package and install hint", {
+  skip_on_cran() # replaces a binding in the base namespace
   testthat::local_mocked_bindings(
     requireNamespace = function(...) FALSE,
     .package = "base"
@@ -22,6 +24,7 @@ test_that("run_songR_app abort message names the missing package and install hin
 })
 
 test_that("run_songR_app launches the packaged app directory", {
+  skip_on_cran() # replaces a binding in the shiny namespace
   for (pkg in c("shiny", "Rtsne", "uwot", "viridis")) skip_if_not_installed(pkg)
   launched <- NULL
   testthat::local_mocked_bindings(
