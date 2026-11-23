@@ -75,6 +75,7 @@ test_that("up to eight categories use the Okabe-Ito palette", {
 })
 
 test_that("graph edges follow the foreground color of the device", {
+  skip_on_cran() # replaces a binding in the graphics namespace
   m <- fit_small()
   edge_colors <- function(fg) {
     local_null_device()
@@ -182,4 +183,13 @@ test_that("autoplot reports one-dimensional embeddings clearly", {
   m <- song(matrix(stats::rnorm(80), ncol = 1), d = 1L, k = 2L, epochs = 3L,
             seed = 1L, verbose = FALSE, dispersion = FALSE)
   expect_error(autoplot.song_model(m), "output dimensionality < 2")
+})
+
+test_that("a numeric range wider than the largest double still maps to colors", {
+  wide <- .song_point_colors(c(-1e308, 1e308, 0))
+  expect_false(anyNA(wide$col))
+  expect_length(unique(wide$col), 3L)
+  expect_false(anyNA(wide$palette))
+  expect_length(wide$levels, 5L)
+  expect_false(any(grepl("Inf|NaN|NA", wide$levels)))
 })

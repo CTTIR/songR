@@ -165,10 +165,13 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
       value <- as.double(color_by[finite])
       span <- range(value)
       if (span[2L] > span[1L]) {
-        position <- function(v) 1L + floor((v - span[1L]) / (span[2L] - span[1L]) * 99)
+        # Halved values keep a range wider than the largest double finite.
+        position <- function(v) {
+          1L + floor((v / 2 - span[1L] / 2) / (span[2L] / 2 - span[1L] / 2) * 99)
+        }
         col[finite] <- ramp[position(value)]
         # Five evenly spaced values, largest first, form the color key.
-        key_value <- seq(span[2L], span[1L], length.out = 5L)
+        key_value <- 2 * seq(span[2L] / 2, span[1L] / 2, length.out = 5L)
         key_col <- ramp[position(key_value)]
       } else {
         col[finite] <- ramp[50L]
