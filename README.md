@@ -4,10 +4,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/songR/)
-[![CRAN status](https://www.r-pkg.org/badges/version/songR)](https://CRAN.R-project.org/package=songR)
 [![Codecov test coverage](https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/songR?branch=main)
-[![CRAN downloads](https://cranlogs.r-pkg.org/badges/songR)](https://cran.r-project.org/package=songR)
-[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/songR)](https://cran.r-project.org/package=songR)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21889964.svg)](https://doi.org/10.5281/zenodo.21889964)
@@ -60,19 +57,16 @@ parity tests (`tests/testthat/test-reference-parity.R`) for the evidence.
 ## Installation
 
 ```r
-# Install from CRAN (when available)
-install.packages("songR")
+# Install the development version from GitHub
+# install.packages("pak")
+pak::pak("CTTIR/songR")
 
 # Or install the current build from the CTTIR R-universe
 install.packages("songR",
                  repos = c("https://cttir.r-universe.dev", getOption("repos")))
-
-# Or install the development version from GitHub
-# install.packages("remotes")
-remotes::install_github("CTTIR/songR")
 ```
 
-## Quick Start
+## Quick start
 
 ```r
 library(songR)
@@ -163,7 +157,7 @@ in code with `update()`, `predict()` and `saveRDS()`.
 
 ## Vignettes and Tutorials
 
-### CRAN Vignettes
+### Package Vignettes
 
 - **Introduction to songR** -- Full overview of the API with iris and
   songR_blobs examples
@@ -217,6 +211,15 @@ source("tutorials/01_prepare_data.R")
 | `dispersion` | TRUE | UMAP refinement step for visual quality |
 | `alpha` | 1.0 | Initial learning rate |
 
+## Acknowledgments
+
+This package is an independent R/C++ re-implementation of the SONG
+algorithm using [RcppArmadillo](https://cran.r-project.org/package=RcppArmadillo).
+The original algorithm was developed by Damith Senanayake, Wei Wang,
+Shalin Naik, and Saman Halgamuge at the University of Melbourne.
+The original Python implementation is available at
+[github.com/damithsenanayake/SONG](https://github.com/damithsenanayake/SONG).
+
 ## Citation
 
 If you use `songR` in published research, please cite both this
@@ -239,15 +242,6 @@ R package and the underlying SONG algorithm:
 ```r
 citation("songR")
 ```
-
-## Acknowledgments
-
-This package is an independent R/C++ re-implementation of the SONG
-algorithm using [RcppArmadillo](https://cran.r-project.org/package=RcppArmadillo).
-The original algorithm was developed by Damith Senanayake, Wei Wang,
-Shalin Naik, and Saman Halgamuge at the University of Melbourne.
-The original Python implementation is available at
-[github.com/damithsenanayake/SONG](https://github.com/damithsenanayake/SONG).
 
 ## License
 

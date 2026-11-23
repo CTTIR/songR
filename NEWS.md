@@ -114,11 +114,12 @@ First stable release and first CRAN submission.
   that it does not repeat the dispersion step.
 * The `autoplot()` example now draws a plot, and `plot()` shows continuous
   coloring and the codebook graph.
-* The README lists installation from the CTTIR R-universe and its quick start
-  runs as written.
+* The README lists installation from GitHub and the CTTIR R-universe, its quick
+  start runs as written, and the CRAN badges and the CRAN installation line
+  are omitted until the package is on CRAN.
 * The vignettes describe updates as continued training in which prototypes may
-  move, carry alternative text for every figure and use color-blind-safe
-  colors.
+  move and use color-blind-safe colors. Every figure in the vignettes and
+  articles carries alternative text.
 
 ## Verification
 
