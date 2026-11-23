@@ -122,6 +122,8 @@ First stable release and first CRAN submission.
 ## Robustness
 
 * `song()` validates `max_age` and `max_prototypes`.
+* `plot()` and `autoplot()` reject a `color_by` that is a list or a data frame
+  with an informative error instead of an internal sorting error.
 * `song(verbose = TRUE)` reports when the dispersion step is skipped because
   'uwot' is not installed.
 * Diverging training, caused by a large learning rate `alpha` or by features

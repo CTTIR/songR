@@ -57,6 +57,12 @@ validate_input <- function(X, call = rlang::caller_env(), min_rows = 2L) {
 resolve_color_by <- function(object, type, n_coords, color_by,
                              call = rlang::caller_env()) {
   if (is.null(color_by)) return(NULL)
+  if (!is.atomic(color_by)) {
+    cli::cli_abort(
+      "color_by must be a vector or a factor, not {.obj_type_friendly {color_by}}.",
+      call = call
+    )
+  }
 
   if (type == "embedding") {
     if (length(color_by) != n_coords) {

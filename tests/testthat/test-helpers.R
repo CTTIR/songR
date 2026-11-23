@@ -129,3 +129,13 @@ test_that("resolve_color_by errors when length matches neither coding vectors no
     "coding vectors"
   )
 })
+
+test_that("resolve_color_by rejects lists and data frames", {
+  m <- song(as.matrix(iris[1:40, 1:4]), epochs = 3L, seed = 1L,
+            verbose = FALSE, dispersion = FALSE)
+  expect_error(resolve_color_by(m, "embedding", 40L, as.list(1:40)),
+               "must be a vector or a factor")
+  expect_error(resolve_color_by(m, "graph", nrow(m$C), iris[1:40, 5, drop = FALSE]),
+               "must be a vector or a factor")
+  expect_error(plot(m, color_by = as.list(1:40)), "must be a vector or a factor")
+})
