@@ -11,6 +11,7 @@ codebook
 Codebook
 Codecov
 copyediting
+CTTIR
 CVs
 CyTOF
 cytometry
@@ -67,6 +68,7 @@ TNNLS
 tracebacks
 UI
 UMAP
+uwot
 vLLM
 winsorizes
 XORShift
