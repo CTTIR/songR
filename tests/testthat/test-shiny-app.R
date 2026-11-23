@@ -20,3 +20,18 @@ test_that("run_songR_app abort message names the missing package and install hin
   msg <- paste(conditionMessage(err), collapse = " ")
   expect_match(msg, "shiny")
 })
+
+test_that("run_songR_app launches the packaged app directory", {
+  for (pkg in c("shiny", "Rtsne", "uwot", "viridis")) skip_if_not_installed(pkg)
+  launched <- NULL
+  testthat::local_mocked_bindings(
+    runApp = function(appDir, ...) {
+      launched <<- list(appDir = appDir, ...)
+      invisible(NULL)
+    },
+    .package = "shiny"
+  )
+  expect_null(run_songR_app(launch.browser = FALSE))
+  expect_true(file.exists(file.path(launched$appDir, "app.R")))
+  expect_false(launched$launch.browser)
+})
