@@ -179,6 +179,9 @@ First stable release and first CRAN submission.
   URLs, unused `Matrix` suggestion removed, and the version aligned across
   `DESCRIPTION`, `inst/CITATION`, `CITATION.cff`, `.zenodo.json` and the
   README.
+* The citation of the package in the README, the text version in
+  `inst/CITATION`, `CITATION.cff` and `.zenodo.json` name the author as
+  R. Heller.
 
 # songR 0.1.0
 

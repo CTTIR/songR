@@ -227,7 +227,7 @@ R package and the underlying SONG algorithm:
 
 **R package:**
 
-> Heller, R. (2026). songR: Self-Organizing Nebulous
+> R. Heller (2026). songR: Self-Organizing Nebulous
 > Growths for Dimensionality Reduction. R package version 1.0.0.
 > https://github.com/CTTIR/songR
 
