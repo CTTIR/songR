@@ -38,13 +38,12 @@ is available, so \code{ggplot2::autoplot(model)} dispatches to it once
 in their first two embedding dimensions.
 }
 \examples{
-if (requireNamespace("ggplot2", quietly = TRUE)) {
-  model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42,
-                verbose = FALSE)
-  ggplot2::autoplot(model, color_by = iris$Species)
-  autoplot.song_model(model, type = "graph", color_by = iris$Species)
-}
-
+\dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42,
+              verbose = FALSE)
+ggplot2::autoplot(model, color_by = iris$Species)
+autoplot.song_model(model, type = "graph", color_by = iris$Species)
+\dontshow{\}) # examplesIf}
 }
 \references{
 Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).

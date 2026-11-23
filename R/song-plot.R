@@ -213,13 +213,11 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
 #' \pkg{songR} is loaded. Models with more than two output dimensions are drawn
 #' in their first two embedding dimensions.
 #' @export
-#' @examples
-#' if (requireNamespace("ggplot2", quietly = TRUE)) {
-#'   model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42,
-#'                 verbose = FALSE)
-#'   ggplot2::autoplot(model, color_by = iris$Species)
-#'   autoplot.song_model(model, type = "graph", color_by = iris$Species)
-#' }
+#' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
+#' model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42,
+#'               verbose = FALSE)
+#' ggplot2::autoplot(model, color_by = iris$Species)
+#' autoplot.song_model(model, type = "graph", color_by = iris$Species)
 #'
 #' @references
 #' Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).
