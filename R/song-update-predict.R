@@ -100,7 +100,7 @@ update.song_model <- function(object, X_new, epochs = 50L,
     set.seed(as.integer(seed))
   }
 
-  result <- song_update_cpp(
+  result <- .song_native(song_update_cpp(
     X_new          = X_new,
     W              = object$C,
     Y              = object$Y,
@@ -120,7 +120,7 @@ update.song_model <- function(object, X_new, epochs = 50L,
     lr_sigma       = lr_sigma,
     verbose        = verbose,
     seed           = if (!is.null(seed)) as.integer(seed) else -1L
-  )
+  ))
 
   total_epochs <- as.double(params$epochs) + epochs
   params$epochs <- if (total_epochs <= .Machine$integer.max) {

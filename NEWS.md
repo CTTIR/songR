@@ -94,6 +94,11 @@ First stable release and first CRAN submission.
 * `song()` validates `max_age` and `max_prototypes`.
 * `song(verbose = TRUE)` reports when the dispersion step is skipped because
   'uwot' is not installed.
+* Diverging training, caused by a learning rate `alpha` of 2 or more or by
+  features on an extreme scale, is reported by `song()` and `update()` as an
+  error of class `song_error_diverged` with advice, instead of the native
+  message "sort_index(): detected NaN". The documentation of `alpha` states
+  the stable range.
 * All user-facing messages now use `cli`, with errors signaled at the calling
   function for clearer tracebacks. Messages and behavior are otherwise unchanged.
 

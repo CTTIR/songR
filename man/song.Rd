@@ -42,7 +42,10 @@ Lower values produce sparser, faster-pruning graphs.}
 \item{epochs}{Integer. Number of self-organisation iterations
 (default: 50, matching Python's \code{so_steps}).}
 
-\item{alpha}{Numeric. Initial SO learning rate (default: 1.0).}
+\item{alpha}{Numeric. Initial SO learning rate (default: 1.0). Each sample
+moves its nearest coding vector by this fraction of their distance, so
+values above 1 overshoot the sample and values of 2 or more make training
+diverge, which is reported as an error.}
 
 \item{a}{Numeric. Rational-quadratic kernel parameter (default: 1.577,
 from \code{find_spread_tightness(spread=1, min_dist=0.1)}).}

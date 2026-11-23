@@ -18,7 +18,10 @@
 #'   Lower values produce sparser, faster-pruning graphs.
 #' @param epochs Integer. Number of self-organisation iterations
 #'   (default: 50, matching Python's \code{so_steps}).
-#' @param alpha Numeric. Initial SO learning rate (default: 1.0).
+#' @param alpha Numeric. Initial SO learning rate (default: 1.0). Each sample
+#'   moves its nearest coding vector by this fraction of their distance, so
+#'   values above 1 overshoot the sample and values of 2 or more make training
+#'   diverge, which is reported as an error.
 #' @param a Numeric. Rational-quadratic kernel parameter (default: 1.577,
 #'   from \code{find_spread_tightness(spread=1, min_dist=0.1)}).
 #' @param b Numeric. Rational-quadratic kernel parameter (default: 0.895).
@@ -189,7 +192,7 @@ song <- function(
   }
 
   # ── Core SONG training (C++) ────────────────────────────────────────────
-  result <- song_fit_cpp(
+  result <- .song_native(song_fit_cpp(
     X              = X,
     d_out          = d,
     im_neix        = k,
@@ -205,7 +208,7 @@ song <- function(
     lr_sigma       = lr_sigma,
     verbose        = verbose,
     seed           = cpp_seed
-  )
+  ))
 
   # ── UMAP dispersion step (matches Python transform()) ───────────────────
   has_uwot <- isTRUE(dispersion) && requireNamespace("uwot", quietly = TRUE)

@@ -129,6 +129,25 @@ validate_params <- function(d, k, epsilon, alpha, a, b, spread_factor,
   invisible(NULL)
 }
 
+# Run native training and report divergence as an R condition. Coding vectors
+# overflow when the learning rate overshoots (alpha >= 2) or the features are
+# on an extreme scale; Armadillo then fails while sorting NaN distances.
+.song_native <- function(result, call = rlang::caller_env()) {
+  diverged <- function() {
+    cli::cli_abort(
+      c("Training diverged: the coding vectors became nonfinite.",
+        "i" = "Lower {.arg alpha} or rescale the input features."),
+      class = "song_error_diverged", call = call
+    )
+  }
+  result <- tryCatch(result, error = function(e) {
+    if (grepl("detected NaN", conditionMessage(e), fixed = TRUE)) diverged()
+    stop(e)
+  })
+  if (!all(is.finite(result$C)) || !all(is.finite(result$Y))) diverged()
+  result
+}
+
 # Place coding vectors without assigned points in the refined (dispersed)
 # layout: at the edge-weighted mean of their occupied graph neighbours, or at
 # the occupied coding vector nearest in input space when they have none.

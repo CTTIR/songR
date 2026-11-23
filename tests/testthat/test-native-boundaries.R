@@ -100,3 +100,27 @@ test_that("updated codebook colours use only labels for the current batch", {
   mapped <- resolve_color_by(updated, "graph", nrow(updated$C), missing_factor)
   expect_true(all(is.na(mapped)))
 })
+
+test_that("diverging training is reported as an R error with advice", {
+  x <- as.matrix(iris[, 1:4])
+  fit <- function(...) {
+    song(x, epochs = 5L, seed = 1L, verbose = FALSE, dispersion = FALSE, ...)
+  }
+  expect_error(fit(alpha = 50), "Training diverged", class = "song_error_diverged")
+  err <- expect_error(song(x * 1e200, epochs = 5L, seed = 1L, verbose = FALSE,
+                           dispersion = FALSE),
+                      class = "song_error_diverged")
+  expect_match(conditionMessage(err), "rescale the input features")
+  model <- fit()
+  original <- serialize(model, NULL)
+  expect_error(update(model, x, alpha = 1e6, epochs = 3L, verbose = FALSE, seed = 1L),
+               class = "song_error_diverged")
+  expect_identical(serialize(model, NULL), original)
+  # Other native failures keep their own message.
+  expect_error(.song_native(stop("unrelated failure")), "unrelated failure")
+  # A result with nonfinite coordinates is rejected even without a native error.
+  bad <- list(C = matrix(c(1, Inf), 1L), Y = matrix(0, 1L, 2L))
+  expect_error(.song_native(bad), class = "song_error_diverged")
+  ok <- list(C = matrix(1, 1L, 2L), Y = matrix(0, 1L, 2L))
+  expect_identical(.song_native(ok), ok)
+})
