@@ -104,7 +104,7 @@ plot(model_blobs, color_by = songR_blobs$labels)
 This is SONG's key feature. We train on the first half of the data, then
 incrementally add the second half.
 
-```{r incremental, fig.alt = "Two scatter plots side by side: the SONG embedding of the first half of the blobs data before the update, and the embedding of the second half after the update, each showing eight clusters."}
+```{r incremental, fig.alt = "Two scatter plots side by side: the SONG embedding of the first half of the blobs data before the update, and the embedding of the second half after the update; each half contains four of the eight clusters."}
 # Split data
 data(songR_blobs)
 n <- nrow(songR_blobs$data)
