@@ -15,11 +15,11 @@ First stable release and first CRAN submission.
 ## Performance
 
 * Faster core training: the per-sample k-nearest-coding-vector search now
-  reuses the distances already computed for the quantization step instead of
+  reuses the distances already computed for the quantisation step instead of
   recomputing them and copying the active codebook on every sample. Embeddings
   are unchanged (bit-identical).
 * `predict()` and the codebook-graph plotting paths (`plot()` / `autoplot()`)
-  are vectorized.
+  are vectorised.
 * Mapping point labels to coding vectors (codebook and graph plots) and the
   centroid step after dispersion group the points in a single pass instead of
   scanning all points once per coding vector.
@@ -39,15 +39,15 @@ First stable release and first CRAN submission.
   and `cex` through `...`; they override the defaults of the method. These
   previously failed as duplicated arguments.
 * `plot()` and `autoplot()` draw up to eight categories in the Okabe-Ito
-  palette, which stays distinguishable under the common forms of color vision
+  palette, which stays distinguishable under the common forms of colour vision
   deficiency, instead of pastel hues (`plot()`) and the default `ggplot2` hues
   (`autoplot()`). More than eight categories keep evenly spaced hues.
 * `autoplot()` draws a numeric `color_by` on the viridis scale and missing
-  values in gray, as `plot()` does. Adding a color scale to the returned plot
+  values in grey, as `plot()` does. Adding a colour scale to the returned plot
   still replaces the scale; `ggplot2` now reports the replacement with a
   message because the plot always carries a scale.
-* The edges of `plot(type = "graph")` and the eighth category color follow the
-  foreground color of the graphics device (`par("fg")`), so they stay visible
+* The edges of `plot(type = "graph")` and the eighth category colour follow the
+  foreground colour of the graphics device (`par("fg")`), so they stay visible
   on a dark background, for example in the dark mode of the comparison app.
   On a white background the edges look as before.
 
@@ -69,13 +69,13 @@ First stable release and first CRAN submission.
 * Accept a single new observation in `predict()` and reject zero-column inputs.
 * Keep cumulative training counts finite when updates exceed R's integer range.
 * Exclude native coverage instrumentation files from source archives.
-* Map codebook colors from the current update batch rather than cumulative
+* Map codebook colours from the current update batch rather than cumulative
   training labels; handle prototypes with only missing labels. Correct the
   README to distinguish frozen projection from model retraining.
 * `autoplot()` no longer errors for `type = "codebook"` or `type = "graph"`
   when `color_by` has input-point length; like `plot()`, it now maps the
   labels to coding vectors.
-* The UMAP dispersion step now winsorizes the embedding before building the
+* The UMAP dispersion step now winsorises the embedding before building the
   UMAP init, so a single drifted coding vector can no longer dominate the
   min-max scaling and strand its points as a far outlier. This removes
   occasional outliers and improves cluster separation (e.g. Fashion-MNIST
@@ -87,26 +87,26 @@ First stable release and first CRAN submission.
   multi-class data, and the gentle step left it stranded near one axis; the
   stronger refinement makes the embedding use the full plane and, in
   benchmarks, improves AMI on every tested dataset (MNIST, Fashion-MNIST,
-  COIL-20, Samusik, Wong). Only the `dispersion = TRUE` visualization changes;
+  COIL-20, Samusik, Wong). Only the `dispersion = TRUE` visualisation changes;
   the core SONG embedding stays frozen.
 * The Shiny comparison app no longer claims SONG stops training early, and its
   documented `k` and `epochs` defaults match the implementation.
 * `plot()` maps a numeric `color_by` linearly onto the sequential viridis
   palette and treats logical vectors as categories. Numeric values used to be
-  passed to the graphics device as color numbers, so negative values raised an
+  passed to the graphics device as colour numbers, so negative values raised an
   error and values below 1 drew invisible points. As a consequence,
   whole-number labels supplied as numbers are now drawn on the sequential
   palette instead of the session palette; pass a factor for categorical
-  colors. Missing labels are drawn in gray instead of being left out.
+  colours. Missing labels are drawn in grey instead of being left out.
 * With `dispersion = TRUE`, coding vectors without assigned points are placed
   inside the refined layout (at the edge-weighted mean of their occupied graph
-  neighbors, or at the occupied coding vector nearest in input space) instead
+  neighbours, or at the occupied coding vector nearest in input space) instead
   of keeping raw SONG coordinates from a different coordinate system. Codebook
   and graph plots now share the scale of the embedding and `predict()` stays
   inside the layout. `model$embedding` is unchanged; `model$Y` and the model
   identifier change for models that contain such coding vectors.
-* Codebook and graph plots summarize numeric point values by their mean per
-  coding vector and keep a continuous color scale. They used to reduce numeric
+* Codebook and graph plots summarise numeric point values by their mean per
+  coding vector and keep a continuous colour scale. They used to reduce numeric
   values to the most frequent one and draw it as a category.
 * `autoplot()` reports a one-dimensional embedding with the same error as
   `plot()` instead of "subscript out of bounds".
@@ -134,8 +134,8 @@ First stable release and first CRAN submission.
   fits used to be returned as valid models. Values of `alpha` above 1
   overshoot and can be unstable without triggering the error, and the
   documentation of `alpha` says so.
-* All user-facing messages now use `cli`, with errors signaled at the calling
-  function for clearer tracebacks. Messages and behavior are otherwise unchanged.
+* All user-facing messages now use `cli`, with errors signalled at the calling
+  function for clearer tracebacks. Messages and behaviour are otherwise unchanged.
 
 ## Documentation
 
@@ -144,13 +144,18 @@ First stable release and first CRAN submission.
   `max_prototypes` and how the dispersed layout is built. `update()` documents
   that it does not repeat the dispersion step.
 * The `autoplot()` example now draws a plot, and `plot()` shows continuous
-  coloring and the codebook graph.
+  colouring and the codebook graph.
 * The README lists installation from GitHub and the CTTIR R-universe, its quick
   start runs as written, and the CRAN badges and the CRAN installation line
   are omitted until the package is on CRAN.
 * The vignettes describe updates as continued training in which prototypes may
-  move and use color-blind-safe colors. Every figure in the vignettes and
+  move and use colour-blind-safe colours. Every figure in the vignettes and
   articles carries alternative text.
+* The documentation is written in British English (`Language: en-GB`): help
+  pages, README, vignettes and the entries for this version use "colour",
+  "behaviour", "neighbourhood", "visualisation" and similar spellings. Function
+  and argument names such as `color_by`, the labels of the Shiny app and the
+  name of the Self-Organizing Nebulous Growths algorithm are unchanged.
 
 ## Verification
 
@@ -162,10 +167,10 @@ First stable release and first CRAN submission.
 
 ## Branding
 
-* Show the logo in the dimension reduction and visualization color of the
-  package family (deep teal #146554); `tools/branding/render.R` recolors the
+* Show the logo in the dimension reduction and visualisation colour of the
+  package family (deep teal #146554); `tools/branding/render.R` recolours the
   approved master artwork and keeps its name outlines.
-* Standardize the package logo across the README, documentation pages and the
+* Standardise the package logo across the README, documentation pages and the
   application header, with matching light and dark artwork.
 
 ## Packaging

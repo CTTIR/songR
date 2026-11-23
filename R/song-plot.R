@@ -1,6 +1,6 @@
 #' Plot a SONG Model
 #'
-#' Visualize a \code{"song_model"} as a scatter plot of the embedding,
+#' Visualise a \code{"song_model"} as a scatter plot of the embedding,
 #' the codebook, or the codebook graph with edges.
 #'
 #' @param x A \code{"song_model"} object.
@@ -9,14 +9,14 @@
 #'   \code{"graph"} (coding vectors with edges drawn). Default: \code{"embedding"}.
 #' @param color_by Optional vector of length equal to
 #'   the number of input points (for \code{"embedding"}) or coding vectors
-#'   (for \code{"codebook"} and \code{"graph"}) used to color the points.
+#'   (for \code{"codebook"} and \code{"graph"}) used to colour the points.
 #'   Factor, character and logical vectors are treated as categories. Up to
 #'   eight categories are drawn in the Okabe-Ito palette, which stays
-#'   distinguishable under the common forms of color vision deficiency; more
+#'   distinguishable under the common forms of colour vision deficiency; more
 #'   categories use evenly spaced hues. Numeric vectors are treated as
 #'   continuous and mapped linearly onto the sequential viridis palette (low
 #'   values dark purple, high values yellow). Missing or nonfinite values are
-#'   drawn in gray.
+#'   drawn in grey.
 #'   After an update, observation labels must follow the update batch, not all
 #'   historical inputs. Codebook and graph plots also accept current-batch
 #'   labels and map them to each prototype: the modal value of categories and
@@ -24,7 +24,7 @@
 #'   missing label.
 #' @param ... Additional arguments passed to \code{\link[graphics]{plot}}, for
 #'   example \code{main}, \code{xlab}, \code{pch} or \code{cex}. They override
-#'   the defaults of this method. Point colors are set through \code{color_by};
+#'   the defaults of this method. Point colours are set through \code{color_by};
 #'   \code{col} cannot be forwarded because it partially matches that argument.
 #' @param legend Logical. If \code{TRUE} (default), a legend is drawn at the
 #'   plot corner or edge where it covers the fewest points, in one or two
@@ -36,7 +36,7 @@
 #' Models with more than two output dimensions are drawn in their first two
 #' embedding dimensions.
 #'
-#' The graph edges and the eighth category color take the foreground color of
+#' The graph edges and the eighth category colour take the foreground colour of
 #' the graphics device (\code{par("fg")}), so that they remain visible when the
 #' plot is drawn on a dark background.
 #' @export
@@ -253,11 +253,11 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
 #' @param object A \code{"song_model"} object.
 #' @param type Character. One of \code{"embedding"}, \code{"codebook"}, or
 #'   \code{"graph"}.
-#' @param color_by Optional vector for coloring points; see
+#' @param color_by Optional vector for colouring points; see
 #'   \code{\link{plot.song_model}} for the accepted lengths. As in
 #'   \code{plot()}, up to eight categories are drawn in the Okabe-Ito palette
 #'   and numeric vectors on the viridis scale; more than eight categories use
-#'   the default discrete \code{ggplot2} scale. Adding a color scale to the
+#'   the default discrete \code{ggplot2} scale. Adding a colour scale to the
 #'   returned plot replaces the scale chosen here.
 #' @param ... Ignored.
 #' @return A \code{ggplot} object.

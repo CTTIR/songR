@@ -10,6 +10,7 @@ CMD
 codebook
 Codebook
 Codecov
+com
 copyediting
 CTTIR
 CVs
@@ -48,6 +49,9 @@ organisation
 pkgdown
 pre
 PRNG
+Procrustes
+PyTorch
+R's
 Raban
 RcppArmadillo
 README
@@ -71,5 +75,6 @@ UI
 UMAP
 uwot
 vLLM
-winsorizes
+Wei
+winsorises
 XORShift

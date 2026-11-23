@@ -17,11 +17,11 @@ autoplot.song_model(
 \item{type}{Character. One of \code{"embedding"}, \code{"codebook"}, or
 \code{"graph"}.}
 
-\item{color_by}{Optional vector for coloring points; see
+\item{color_by}{Optional vector for colouring points; see
 \code{\link{plot.song_model}} for the accepted lengths. As in
 \code{plot()}, up to eight categories are drawn in the Okabe-Ito palette
 and numeric vectors on the viridis scale; more than eight categories use
-the default discrete \code{ggplot2} scale. Adding a color scale to the
+the default discrete \code{ggplot2} scale. Adding a colour scale to the
 returned plot replaces the scale chosen here.}
 
 \item{...}{Ignored.}

@@ -21,14 +21,14 @@ embedding space), \code{"codebook"} (coding vectors only), or
 
 \item{color_by}{Optional vector of length equal to
 the number of input points (for \code{"embedding"}) or coding vectors
-(for \code{"codebook"} and \code{"graph"}) used to color the points.
+(for \code{"codebook"} and \code{"graph"}) used to colour the points.
 Factor, character and logical vectors are treated as categories. Up to
 eight categories are drawn in the Okabe-Ito palette, which stays
-distinguishable under the common forms of color vision deficiency; more
+distinguishable under the common forms of colour vision deficiency; more
 categories use evenly spaced hues. Numeric vectors are treated as
 continuous and mapped linearly onto the sequential viridis palette (low
 values dark purple, high values yellow). Missing or nonfinite values are
-drawn in gray.
+drawn in grey.
 After an update, observation labels must follow the update batch, not all
 historical inputs. Codebook and graph plots also accept current-batch
 labels and map them to each prototype: the modal value of categories and
@@ -37,7 +37,7 @@ missing label.}
 
 \item{...}{Additional arguments passed to \code{\link[graphics]{plot}}, for
 example \code{main}, \code{xlab}, \code{pch} or \code{cex}. They override
-the defaults of this method. Point colors are set through \code{color_by};
+the defaults of this method. Point colours are set through \code{color_by};
 \code{col} cannot be forwarded because it partially matches that argument.}
 
 \item{legend}{Logical. If \code{TRUE} (default), a legend is drawn at the
@@ -50,14 +50,14 @@ levels, or a key of five evenly spaced values for a numeric
 Invisible \code{NULL}.
 }
 \description{
-Visualize a \code{"song_model"} as a scatter plot of the embedding,
+Visualise a \code{"song_model"} as a scatter plot of the embedding,
 the codebook, or the codebook graph with edges.
 }
 \details{
 Models with more than two output dimensions are drawn in their first two
 embedding dimensions.
 
-The graph edges and the eighth category color take the foreground color of
+The graph edges and the eighth category colour take the foreground colour of
 the graphics device (\code{par("fg")}), so that they remain visible when the
 plot is drawn on a dark background.
 }

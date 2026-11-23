@@ -2,7 +2,7 @@
 % Please edit documentation in R/song-print.R
 \name{summary.song_model}
 \alias{summary.song_model}
-\title{Summarize a SONG Model}
+\title{Summarise a SONG Model}
 \usage{
 \method{summary}{song_model}(object, ...)
 }
@@ -16,7 +16,7 @@ Invisible \code{object}.
 }
 \description{
 Provides a detailed summary of a \code{"song_model"} object, including
-quantization error and edge statistics.
+quantisation error and edge statistics.
 }
 \examples{
 model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)

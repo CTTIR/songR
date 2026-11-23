@@ -32,10 +32,10 @@ print.song_model <- function(x, ...) {
   invisible(x)
 }
 
-#' Summarize a SONG Model
+#' Summarise a SONG Model
 #'
 #' Provides a detailed summary of a \code{"song_model"} object, including
-#' quantization error and edge statistics.
+#' quantisation error and edge statistics.
 #'
 #' @param object A \code{"song_model"} object.
 #' @param ... Ignored.

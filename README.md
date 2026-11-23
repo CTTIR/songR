@@ -42,7 +42,7 @@ golden-fixture parity tests. The honest, layer-by-layer picture:
   reference to **≤ 1e-5** (the float32-vs-double floor).
 - **The core SONG embedding** (`dispersion = FALSE`) is **statistically
   identical** to the reference — e.g. AMI 0.949 = 0.949.
-- **The default visualization** (`dispersion = TRUE`) uses a **stronger UMAP
+- **The default visualisation** (`dispersion = TRUE`) uses a **stronger UMAP
   refinement** than the reference's gentle one. songR's raw embedding is more
   collapsed on hard, multi-class data, so the stronger refinement is needed to
   use the full plane — and it **matches or beats the reference's AMI on every
@@ -86,10 +86,10 @@ coords <- predict(model, newdata = X)
 
 ## Key Features
 
-### Incremental Visualization
+### Incremental Visualisation
 
 Train on an initial batch, then continue training with new data without
-initializing from scratch. An update creates a new model revision; reproject
+initialising from scratch. An update creates a new model revision; reproject
 earlier observations with that revision before combining their coordinates:
 
 ```r
@@ -105,8 +105,8 @@ emb <- predict(model, newdata = rbind(batch1, batch2))
 
 After an update, `model$embedding` and `model$assignments` describe the new batch
 only; `model$n_input` is the cumulative number of training observations. Plot
-colors for batch observations must follow the current batch, or supply one
-color per prototype for a codebook plot. Save the model and its lineage with
+colours for batch observations must follow the current batch, or supply one
+colour per prototype for a codebook plot. Save the model and its lineage with
 each exported projection.
 
 ### Parametric Projection
@@ -145,7 +145,7 @@ in code with `update()`, `predict()` and `saveRDS()`.
 ## When to Use SONG
 
 - **Incremental/streaming data**: Data arrives in batches and you need a
-  stable, growing visualization.
+  stable, growing visualisation.
 - **Heterogeneous increments**: New data may contain classes or structures
   not present in the original data.
 - **Noisy or mixed clusters**: SONG is more tolerant to noise and cluster
@@ -207,11 +207,11 @@ source("tutorials/01_prepare_data.R")
 | `epochs` | 50 | More = better convergence, slower |
 | `epsilon` | 0.9 | Edge decay rate (0--1); lower = sparser graph |
 | `spread_factor` | 0.5 | Growth threshold; higher = more coding vectors |
-| `k` | 3 | Neighborhood size for graph construction |
+| `k` | 3 | Neighbourhood size for graph construction |
 | `dispersion` | TRUE | UMAP refinement step for visual quality |
 | `alpha` | 1.0 | Initial learning rate |
 
-## Acknowledgments
+## Acknowledgements
 
 This package is an independent R/C++ re-implementation of the SONG
 algorithm using [RcppArmadillo](https://cran.r-project.org/package=RcppArmadillo).
@@ -243,14 +243,14 @@ R package and the underlying SONG algorithm:
 citation("songR")
 ```
 
-## License
+## Licence
 
 MIT (c) Raban Heller
 
 The SONG algorithm implemented here is derived from the reference
 implementation of Senanayake et al., which is licensed under the
 BSD 3-Clause License (© 2020 Damith A. Senanayake). The upstream copyright
-notice and license are reproduced verbatim in
+notice and licence are reproduced verbatim in
 [`inst/COPYRIGHTS`](https://github.com/CTTIR/songR/blob/main/inst/COPYRIGHTS).
 
 ## Use of LLM tools

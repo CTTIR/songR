@@ -49,7 +49,7 @@ validate_input <- function(X, call = rlang::caller_env(), min_rows = 2L) {
 #' @param object A \code{"song_model"} object.
 #' @param type Plot type: \code{"embedding"}, \code{"codebook"}, or \code{"graph"}.
 #' @param n_coords Number of rows in the coordinate matrix being plotted.
-#' @param color_by The user-supplied coloring vector, or \code{NULL}.
+#' @param color_by The user-supplied colouring vector, or \code{NULL}.
 #' @return \code{NULL}, the original \code{color_by}, or a coding-vector-length
 #'   factor (numeric vector for numeric values) mapped from input-length labels.
 #'   Throws on length mismatch.
@@ -107,7 +107,7 @@ resolve_color_by <- function(object, type, n_coords, color_by,
 #' Validate SONG Hyperparameters
 #'
 #' @param d Output dimensionality.
-#' @param k Neighborhood size.
+#' @param k Neighbourhood size.
 #' @param epsilon Edge decay rate.
 #' @param alpha Initial learning rate.
 #' @param a Output distribution parameter.

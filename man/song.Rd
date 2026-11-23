@@ -31,7 +31,7 @@ with all numeric columns (will be coerced to matrix).}
 
 \item{d}{Integer. Output dimensionality (default: 2).}
 
-\item{k}{Integer. Neighborhood size for the coding-vector graph.
+\item{k}{Integer. Neighbourhood size for the coding-vector graph.
 Corresponds to \code{dim + n_neighbors} in the Python reference.
 Must be \code{>= d + 1} (default: 3, which matches Python's
 \code{n_neighbors = 1} with \code{dim = 2}).}
@@ -99,7 +99,7 @@ current stream is used and advanced.}
 \item{feature_manifest}{Optional data frame with exactly these character
 columns, in order: \code{feature}, \code{compartment}, \code{statistic}, \code{unit}, \code{transform},
 \code{normalization}. Rows must follow the named input columns. Describe complete
-externally applied transform/normalization recipes, including parameters or
+externally applied transform/normalisation recipes, including parameters or
 a versioned reference identifier; use \code{"identity"}/\code{"none"} when applicable.
 The manifest records declarations; it does not apply transformations or
 establish that supplied measurements have the declared physical meaning.}
@@ -114,7 +114,7 @@ strengths, with a zero diagonal.}
 \item{E_s}{Symmetric adjacency matrix, \code{(E + t(E)) / 2}.}
 \item{adj}{Internal training state: \code{E} with a unit diagonal, used
 to continue training in \code{\link{update.song_model}}.}
-\item{E_q}{Internal training state: accumulated squared quantization
+\item{E_q}{Internal training state: accumulated squared quantisation
 error per coding vector, which drives codebook growth.}
 \item{assignments}{Integer vector of length \code{n}: nearest CV index.}
 \item{embedding}{Embedding coordinates for all input points (\code{n x d}).}
@@ -129,7 +129,7 @@ number of epochs and has no early-stopping criterion.}
 }
 }
 \description{
-Performs nonlinear dimensionality reduction using the Self-Organizing
+Performs non-linear dimensionality reduction using the Self-Organizing
 Nebulous Growths (SONG) algorithm. SONG builds a codebook of coding
 vectors connected by a topology-preserving graph, then maps the graph
 into a low-dimensional embedding space. Unlike t-SNE and UMAP, the
@@ -142,7 +142,7 @@ prediction and updates. An explicit manifest must be supplied again, unchanged,
 to predict or update a model trained with one. Missing/nonfinite measurements
 are rejected; no feature is silently reordered or imputed. Unnamed training
 data retains positional compatibility and cannot verify feature semantics.
-Legacy models without a contract also retain positional behavior.
+Legacy models without a contract also retain positional behaviour.
 Integer controls must be scalar, finite, whole numbers within R's integer
 range; fractional values are rejected rather than truncated. Numeric controls
 must be finite, and \code{lr_sigma} must be non-negative.
@@ -151,7 +151,7 @@ With \code{dispersion = TRUE} the returned \code{embedding} is the UMAP-refined 
 and \code{Y} holds, for each coding vector, the centroid of its assigned points in
 that layout, so that \code{\link[=predict.song_model]{predict.song_model()}} projects into the same
 coordinates. A coding vector without assigned points is placed at the
-edge-weighted mean of its occupied graph neighbors, or at the occupied
+edge-weighted mean of its occupied graph neighbours, or at the occupied
 coding vector nearest in input space when it has none. If the refinement
 fails, for example on very small inputs, a warning is issued and the raw
 SONG embedding is returned. \code{parameters$dispersion} records the request,

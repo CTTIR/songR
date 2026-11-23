@@ -1,7 +1,7 @@
 #' Simulated Gaussian Blobs Dataset
 #'
 #' A list containing a simulated dataset of 1600 points in 20 dimensions,
-#' organized into 8 Gaussian clusters. Designed for benchmarking and
+#' organised into 8 Gaussian clusters. Designed for benchmarking and
 #' demonstrating dimensionality reduction methods.
 #'
 #' @format A list with three elements:

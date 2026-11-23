@@ -16,14 +16,14 @@ of launching the Shiny app.
 }
 \description{
 Opens a Shiny application that compares SONG, t-SNE, and UMAP
-visualizations side-by-side on the built-in example data (iris and
+visualisations side-by-side on the built-in example data (iris and
 \code{\link{songR_blobs}}) or on an uploaded CSV file. The app lets you
 choose the feature and label columns of an upload, tune the main SONG
 hyperparameters (\code{k}, \code{spread_factor}, \code{epochs},
 \code{epsilon} and the dispersion step) together with the t-SNE perplexity
-and the UMAP neighborhood size, and inspect the fitted SONG codebook graph
+and the UMAP neighbourhood size, and inspect the fitted SONG codebook graph
 and model summary. It features a dark mode toggle (persisted via
-localStorage) and uses the viridis plasma color scale for the comparison
+localStorage) and uses the viridis plasma colour scale for the comparison
 plots.
 }
 \details{

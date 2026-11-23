@@ -55,9 +55,9 @@ knitr::opts_chunk$set(
 ## What is SONG?
 
 **SONG** (Self-Organizing Nebulous Growths) is a parametric, incremental,
-noise-tolerant dimensionality reduction technique for data visualization.
+noise-tolerant dimensionality reduction technique for data visualisation.
 Unlike t-SNE and UMAP, SONG retains a parametric model that can be
-updated with new data without reinitializing the entire embedding. This
+updated with new data without reinitialising the entire embedding. This
 makes SONG ideal for streaming data, incremental analysis, and noisy
 datasets.
 
@@ -68,7 +68,7 @@ and published in IEEE Transactions on Neural Networks and Learning Systems.
 R and C++ (via RcppArmadillo), staying as close to the reference
 implementation as is feasible. Its deterministic components match the
 reference to within 1e-5 and its clustering quality is statistically
-identical; the default UMAP-dispersed visualization is close in global
+identical; the default UMAP-dispersed visualisation is close in global
 structure but not identical in absolute layout. See the
 `Reproducing Paper Figures` article for the full, evidence-backed
 fidelity comparison.
@@ -100,12 +100,12 @@ model <- song(as.matrix(iris[, 1:4]),
 print(model)
 ```
 
-The model contains the 2D embedding for all input points. Let's visualize it:
+The model contains the 2D embedding for all input points. Let's visualise it:
 ```{r iris-plot, fig.height = 4, fig.alt = "Scatter plot of the two-dimensional SONG embedding of the iris data, with the three species forming separate groups and a legend naming them."}
 plot(model, color_by = iris$Species)
 ```
 
-Each color represents a different iris species. SONG discovers the natural
+Each colour represents a different iris species. SONG discovers the natural
 cluster structure in the 4-dimensional data and maps it to 2D.
 
 ## Bundled Dataset
@@ -126,7 +126,7 @@ model_blobs <- song(songR_blobs$data,
 plot(model_blobs, color_by = songR_blobs$labels)
 ```
 
-## Incremental Visualization
+## Incremental Visualisation
 
 The key advantage of SONG is incremental updating. You can train on an
 initial batch of data and then add more data later without recomputing
@@ -235,7 +235,7 @@ summary(model_blobs)
 | `epochs` | 50 | More epochs = better convergence, slower |
 | `epsilon` | 0.9 | Edge decay: lower = sparser graph |
 | `spread_factor` | 0.5 | Growth threshold: higher = more coding vectors |
-| `k` | 3 | Neighborhood size for graph construction |
+| `k` | 3 | Neighbourhood size for graph construction |
 | `dispersion` | TRUE | UMAP refinement step for visual quality |
 | `alpha` | 1.0 | Initial learning rate |
 

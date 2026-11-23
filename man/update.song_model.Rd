@@ -34,7 +34,7 @@ If \code{NULL}, uses the original learning rate (default: NULL).}
 Named features must follow training order. See \code{\link[=song]{song()}} for the contract.}
 
 \item{seed}{Optional integer seed for update training. \code{NULL} preserves the
-existing random-stream behavior; the original fit seed is not reused. A
+existing random-stream behaviour; the original fit seed is not reused. A
 non-\code{NULL} seed is passed to \code{\link[=set.seed]{set.seed()}} and resets the session's random
 number stream.}
 }
