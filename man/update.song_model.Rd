@@ -34,7 +34,9 @@ If \code{NULL}, uses the original learning rate (default: NULL).}
 Named features must follow training order. See \code{\link[=song]{song()}} for the contract.}
 
 \item{seed}{Optional integer seed for update training. \code{NULL} preserves the
-existing random-stream behavior; the original fit seed is not reused.}
+existing random-stream behavior; the original fit seed is not reused. A
+non-\code{NULL} seed is passed to \code{\link[=set.seed]{set.seed()}} and resets the session's random
+number stream.}
 }
 \value{
 An updated \code{"song_model"} object with grown codebook
@@ -60,6 +62,10 @@ models start a new revision history at 1 with \code{parent_history} set to
 together with any exported projection to retain its version.
 Coincident embedding positions reflect prototype assignment; they do not
 establish cell contact or physical spatial distance.
+
+An update continues the core SONG training from the stored coordinates and
+does not repeat the UMAP dispersion step of \code{\link[=song]{song()}}; the returned
+coordinates are those of the continued training.
 }
 \examples{
 model <- song(as.matrix(iris[1:100, 1:4]), epochs = 5L, seed = 42)

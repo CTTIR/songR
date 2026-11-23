@@ -13,7 +13,7 @@
 #'   Factor, character and logical vectors are treated as categories and drawn
 #'   with a qualitative palette. Numeric vectors are treated as continuous and
 #'   mapped linearly onto the sequential viridis palette (low values dark
-#'   purple, high values yellow). Missing or nonfinite values are drawn in grey.
+#'   purple, high values yellow). Missing or nonfinite values are drawn in gray.
 #'   After an update, observation labels must follow the update batch, not all
 #'   historical inputs. Codebook and graph plots also accept current-batch
 #'   labels and map their modal value to each prototype; missing-only or empty

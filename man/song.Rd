@@ -72,12 +72,16 @@ schedule: \code{so_lr = alpha * exp(-lr_sigma * (epoch/epochs)^2)}.
 Default: 5.0 (matches Python).}
 
 \item{dispersion}{Logical. If \code{TRUE} (default) and \pkg{uwot} is
-available, runs a short UMAP refinement step initialised from the SONG
-embedding. This matches the Python reference implementation's
+available, runs a UMAP refinement step initialised from the SONG
+embedding. This follows the Python reference implementation's
 \code{transform()} method and dramatically improves visual cluster
-separation.}
+separation. Without \pkg{uwot} the step is skipped and the raw SONG
+embedding is returned; see Details.}
 
-\item{seed}{Integer or \code{NULL}. Random seed for reproducibility.}
+\item{seed}{Integer or \code{NULL}. Random seed for reproducibility. A
+non-\code{NULL} seed is passed to \code{\link{set.seed}}, so it also
+resets the random number stream of the session; with \code{NULL} the
+current stream is used and advanced.}
 
 \item{verbose}{Logical. Whether to print progress per epoch (default: TRUE).}
 
@@ -94,14 +98,23 @@ An S3 object of class \code{"song_model"} containing:
 \describe{
 \item{Y}{Embedding coordinates of coding vectors (\code{n_coding x d}).}
 \item{C}{Coding vectors (\code{n_coding x D}).}
-\item{E}{Directed adjacency matrix (\code{n_coding x n_coding}).}
-\item{E_s}{Symmetric adjacency matrix.}
+\item{E}{Directed adjacency matrix (\code{n_coding x n_coding}) of edge
+strengths, with a zero diagonal.}
+\item{E_s}{Symmetric adjacency matrix, \code{(E + t(E)) / 2}.}
+\item{adj}{Internal training state: \code{E} with a unit diagonal, used
+to continue training in \code{\link{update.song_model}}.}
+\item{E_q}{Internal training state: accumulated squared quantization
+error per coding vector, which drives codebook growth.}
 \item{assignments}{Integer vector of length \code{n}: nearest CV index.}
 \item{embedding}{Embedding coordinates for all input points (\code{n x d}).}
 \item{parameters}{List of all hyperparameters used.}
+\item{n_epochs}{Number of epochs run in this call.}
+\item{converged}{Always \code{FALSE}: training runs for the requested
+number of epochs and has no early-stopping criterion.}
+\item{n_input}{Number of training observations.}
+\item{D}{Number of input features.}
 \item{feature_contract}{Versioned feature order, declared metadata and missing-value policy.}
 \item{lineage}{Projection version, parent identifier and reprojection policy.}
-\item{n_epochs}{Number of epochs actually run.}
 }
 }
 \description{
@@ -122,6 +135,17 @@ Legacy models without a contract also retain positional behavior.
 Integer controls must be scalar, finite, whole numbers within R's integer
 range; fractional values are rejected rather than truncated. Numeric controls
 must be finite, and \code{lr_sigma} must be non-negative.
+
+With \code{dispersion = TRUE} the returned \code{embedding} is the UMAP-refined layout
+and \code{Y} holds, for each coding vector, the centroid of its assigned points in
+that layout, so that \code{\link[=predict.song_model]{predict.song_model()}} projects into the same
+coordinates. A coding vector without assigned points is placed at the
+edge-weighted mean of its occupied graph neighbors, or at the occupied
+coding vector nearest in input space when it has none. If the refinement
+fails, for example on very small inputs, a warning is issued and the raw
+SONG embedding is returned. \code{parameters$dispersion} records the request,
+not whether \pkg{uwot} was available. \code{\link[=update.song_model]{update.song_model()}} continues the
+core SONG training and does not repeat the refinement.
 }
 \examples{
 model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)

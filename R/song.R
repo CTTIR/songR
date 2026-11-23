@@ -39,11 +39,15 @@
 #'   schedule: \code{so_lr = alpha * exp(-lr_sigma * (epoch/epochs)^2)}.
 #'   Default: 5.0 (matches Python).
 #' @param dispersion Logical. If \code{TRUE} (default) and \pkg{uwot} is
-#'   available, runs a short UMAP refinement step initialised from the SONG
-#'   embedding. This matches the Python reference implementation's
+#'   available, runs a UMAP refinement step initialised from the SONG
+#'   embedding. This follows the Python reference implementation's
 #'   \code{transform()} method and dramatically improves visual cluster
-#'   separation.
-#' @param seed Integer or \code{NULL}. Random seed for reproducibility.
+#'   separation. Without \pkg{uwot} the step is skipped and the raw SONG
+#'   embedding is returned; see Details.
+#' @param seed Integer or \code{NULL}. Random seed for reproducibility. A
+#'   non-\code{NULL} seed is passed to \code{\link{set.seed}}, so it also
+#'   resets the random number stream of the session; with \code{NULL} the
+#'   current stream is used and advanced.
 #' @param verbose Logical. Whether to print progress per epoch (default: TRUE).
 #'
 #' @param feature_manifest Optional data frame with exactly these character
@@ -64,18 +68,38 @@
 #' range; fractional values are rejected rather than truncated. Numeric controls
 #' must be finite, and `lr_sigma` must be non-negative.
 #'
+#' With `dispersion = TRUE` the returned `embedding` is the UMAP-refined layout
+#' and `Y` holds, for each coding vector, the centroid of its assigned points in
+#' that layout, so that [predict.song_model()] projects into the same
+#' coordinates. A coding vector without assigned points is placed at the
+#' edge-weighted mean of its occupied graph neighbors, or at the occupied
+#' coding vector nearest in input space when it has none. If the refinement
+#' fails, for example on very small inputs, a warning is issued and the raw
+#' SONG embedding is returned. `parameters$dispersion` records the request,
+#' not whether \pkg{uwot} was available. [update.song_model()] continues the
+#' core SONG training and does not repeat the refinement.
+#'
 #' @return An S3 object of class \code{"song_model"} containing:
 #' \describe{
 #'   \item{Y}{Embedding coordinates of coding vectors (\code{n_coding x d}).}
 #'   \item{C}{Coding vectors (\code{n_coding x D}).}
-#'   \item{E}{Directed adjacency matrix (\code{n_coding x n_coding}).}
-#'   \item{E_s}{Symmetric adjacency matrix.}
+#'   \item{E}{Directed adjacency matrix (\code{n_coding x n_coding}) of edge
+#'     strengths, with a zero diagonal.}
+#'   \item{E_s}{Symmetric adjacency matrix, \code{(E + t(E)) / 2}.}
+#'   \item{adj}{Internal training state: \code{E} with a unit diagonal, used
+#'     to continue training in \code{\link{update.song_model}}.}
+#'   \item{E_q}{Internal training state: accumulated squared quantization
+#'     error per coding vector, which drives codebook growth.}
 #'   \item{assignments}{Integer vector of length \code{n}: nearest CV index.}
 #'   \item{embedding}{Embedding coordinates for all input points (\code{n x d}).}
 #'   \item{parameters}{List of all hyperparameters used.}
+#'   \item{n_epochs}{Number of epochs run in this call.}
+#'   \item{converged}{Always \code{FALSE}: training runs for the requested
+#'     number of epochs and has no early-stopping criterion.}
+#'   \item{n_input}{Number of training observations.}
+#'   \item{D}{Number of input features.}
 #'   \item{feature_contract}{Versioned feature order, declared metadata and missing-value policy.}
 #'   \item{lineage}{Projection version, parent identifier and reprojection policy.}
-#'   \item{n_epochs}{Number of epochs actually run.}
 #' }
 #'
 #' @export

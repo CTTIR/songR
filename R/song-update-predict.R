@@ -14,7 +14,9 @@
 #' @param verbose Logical. Whether to print progress (default: TRUE).
 #' @param ... Ignored.
 #' @param seed Optional integer seed for update training. `NULL` preserves the
-#'   existing random-stream behavior; the original fit seed is not reused.
+#'   existing random-stream behavior; the original fit seed is not reused. A
+#'   non-`NULL` seed is passed to [set.seed()] and resets the session's random
+#'   number stream.
 #' @param feature_manifest The unchanged manifest supplied at training, if any.
 #'   Named features must follow training order. See [song()] for the contract.
 #'
@@ -34,6 +36,10 @@
 #' together with any exported projection to retain its version.
 #' Coincident embedding positions reflect prototype assignment; they do not
 #' establish cell contact or physical spatial distance.
+#'
+#' An update continues the core SONG training from the stored coordinates and
+#' does not repeat the UMAP dispersion step of [song()]; the returned
+#' coordinates are those of the continued training.
 #'
 #' @export
 #' @examples
