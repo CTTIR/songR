@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">Raban
 Heller</h4>
             
-            <h4 data-toc-skip class="date">2026-11-22</h4>
+            <h4 data-toc-skip class="date">2026-11-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/CTTIR/songR/blob/main/vignettes/articles/songR_shiny_app.Rmd" class="external-link"><code>vignettes/articles/songR_shiny_app.Rmd</code></a></small>
       <div class="d-none name"><code>songR_shiny_app.Rmd</code></div>
@@ -106,24 +106,31 @@ Heller</h4>
 </div>
 <!-- cttir-vignette-logo: end -->
 <!-- badges: start -->
-<p><a href="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/songR/"><img src="https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=songR" class="external-link"><img src="https://www.r-pkg.org/badges/version/songR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/songR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/songR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/songR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/songR/"><img src="https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/CTTIR/songR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>songR includes a built-in Shiny application for interactive
 exploration of SONG embeddings. The app lets you:</p>
 <ul>
-<li>Upload CSV/RDS data or use built-in datasets</li>
-<li>Adjust SONG hyperparameters (epochs, epsilon, spread_factor, k)</li>
-<li>Run SONG, t-SNE, and UMAP side-by-side</li>
-<li>Incrementally add data and observe embedding stability</li>
-<li>Color points by any variable (discrete or continuous)</li>
+<li>Use the built-in datasets (iris and <code>songR_blobs</code>) or
+upload a CSV file</li>
+<li>Choose the feature columns and an optional label column of an
+upload</li>
+<li>Adjust SONG hyperparameters (<code>k</code>,
+<code>spread_factor</code>, <code>epochs</code>, <code>epsilon</code>
+and the dispersion step), the t-SNE perplexity and the UMAP neighborhood
+size</li>
+<li>Run SONG, t-SNE, and UMAP side-by-side with run times</li>
+<li>Inspect the fitted SONG codebook graph and model summary</li>
 <li>Toggle <strong>dark mode</strong> for comfortable viewing
 (preference persisted via localStorage)</li>
-<li>Export embeddings and plots</li>
 </ul>
-<p>All plots use the <strong>viridis plasma</strong> color scale for
-perceptually uniform, colorblind-friendly visualization.</p>
+<p>The comparison plots use the <strong>viridis plasma</strong> color
+scale.</p>
+<p>The app is a viewer. Incremental updates, projection of new points
+and export of embeddings, plots or models are done in code; see the
+example workflow below.</p>
 </div>
 <div class="section level2">
 <h2 id="launching-the-app">Launching the App<a class="anchor" aria-label="anchor" href="#launching-the-app"></a>
@@ -133,31 +140,64 @@ perceptually uniform, colorblind-friendly visualization.</p>
 <span></span>
 <span><span class="co"># Launch with default settings</span></span>
 <span><span class="fu"><a href="../reference/run_songR_app.html">run_songR_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The app opens in your default browser.</p>
+<p>The app opens in your default browser. It needs the suggested
+packages <code>shiny</code>, <code>Rtsne</code>, <code>uwot</code> and
+<code>viridis</code>; <code><a href="../reference/run_songR_app.html">run_songR_app()</a></code> names a missing
+one.</p>
+</div>
+<div class="section level2">
+<h2 id="pages">Pages<a class="anchor" aria-label="anchor" href="#pages"></a>
+</h2>
+<p>The navigation bar switches between four pages:</p>
+<ul>
+<li>
+<strong>About</strong>: what SONG is and how it compares with t-SNE
+and UMAP</li>
+<li>
+<strong>Compare</strong>: the side-by-side comparison with all
+controls</li>
+<li>
+<strong>SONG Details</strong>: the codebook graph and the summary of
+the fitted SONG model</li>
+<li>
+<strong>Algorithm</strong>: a step-by-step description of the method
+with references</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="using-built-in-data">Using Built-in Data<a class="anchor" aria-label="anchor" href="#using-built-in-data"></a>
 </h2>
-<p>The app ships with <code>songR_blobs</code>, an 8-cluster synthetic
-dataset in 20 dimensions. Select it from the “Data” dropdown to get
-started immediately.</p>
+<p>On the <strong>Compare</strong> page, the “Dataset” dropdown offers
+iris and <code>songR_blobs</code>, an 8-cluster synthetic dataset in 20
+dimensions. Select one and click <strong>Run Comparison</strong>.</p>
 </div>
 <div class="section level2">
 <h2 id="uploading-your-own-data">Uploading Your Own Data<a class="anchor" aria-label="anchor" href="#uploading-your-own-data"></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li>Click <strong>Upload Data</strong> in the sidebar</li>
-<li>Select a CSV file (first columns = features, optional last column =
-labels)</li>
-<li>Or upload an RDS file containing a list with <code>$data</code>
-(matrix) and optional <code>$labels</code> (factor/character)</li>
+<li>Select <strong>Upload CSV</strong> in the “Dataset” dropdown</li>
+<li>Choose a CSV file with a header row</li>
+<li>Pick the numeric <strong>feature columns</strong> (all numeric
+columns are selected by default)</li>
+<li>Optionally pick a <strong>label column</strong> used to color the
+points</li>
+<li>Click <strong>Run Comparison</strong>
+</li>
 </ol>
+<p>Feature columns must be numeric and free of missing values; otherwise
+the app reports the error raised by <code><a href="../reference/song.html">song()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="hyperparameter-controls">Hyperparameter Controls<a class="anchor" aria-label="anchor" href="#hyperparameter-controls"></a>
 </h2>
-<p>The sidebar provides sliders for all key SONG parameters:</p>
+<p>The sidebar of the <strong>Compare</strong> page provides these
+controls:</p>
 <table class="table">
+<colgroup>
+<col width="34%">
+<col width="34%">
+<col width="30%">
+</colgroup>
 <thead><tr class="header">
 <th>Control</th>
 <th>Maps to</th>
@@ -165,47 +205,47 @@ labels)</li>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>Epochs</td>
-<td><code>epochs</code></td>
+<td>k (neighborhood)</td>
+<td><code>song(k = )</code></td>
+<td>Neighborhood size of the coding-vector graph</td>
+</tr>
+<tr class="even">
+<td>spread_factor</td>
+<td><code>song(spread_factor = )</code></td>
+<td>Growth threshold for new coding vectors</td>
+</tr>
+<tr class="odd">
+<td>epochs</td>
+<td><code>song(epochs = )</code></td>
 <td>More = better quality, slower</td>
 </tr>
 <tr class="even">
-<td>Epsilon</td>
-<td><code>epsilon</code></td>
+<td>epsilon (edge decay)</td>
+<td><code>song(epsilon = )</code></td>
 <td>Edge decay rate (0-1)</td>
 </tr>
 <tr class="odd">
-<td>Spread Factor</td>
-<td><code>spread_factor</code></td>
-<td>Growth threshold for new CVs</td>
+<td>UMAP dispersion step</td>
+<td><code>song(dispersion = )</code></td>
+<td>Toggle the UMAP refinement</td>
 </tr>
 <tr class="even">
-<td>k</td>
-<td><code>k</code></td>
-<td>Neighborhood size</td>
+<td>perplexity</td>
+<td><code>Rtsne::Rtsne(perplexity = )</code></td>
+<td>t-SNE neighborhood size</td>
 </tr>
 <tr class="odd">
-<td>Dispersion</td>
-<td><code>dispersion</code></td>
-<td>Toggle UMAP refinement</td>
+<td>n_neighbors</td>
+<td><code>uwot::umap(n_neighbors = )</code></td>
+<td>UMAP neighborhood size</td>
+</tr>
+<tr class="even">
+<td>Random seed</td>
+<td><code>song(seed = )</code></td>
+<td>Seed set before the three methods run</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level2">
-<h2 id="incremental-mode">Incremental Mode<a class="anchor" aria-label="anchor" href="#incremental-mode"></a>
-</h2>
-<p>The app supports SONG’s incremental workflow:</p>
-<ol style="list-style-type: decimal">
-<li>Load initial data and click <strong>Run SONG</strong>
-</li>
-<li>Upload additional data via <strong>Add Increment</strong>
-</li>
-<li>Click <strong>Update Model</strong> — the existing embedding is
-preserved</li>
-<li>Compare with <strong>Reinitialize</strong> to see the stability
-difference</li>
-</ol>
 </div>
 <div class="section level2">
 <h2 id="dark-mode">Dark Mode<a class="anchor" aria-label="anchor" href="#dark-mode"></a>
@@ -221,19 +261,11 @@ localStorage and restored on the next visit.</p>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="exporting-results">Exporting Results<a class="anchor" aria-label="anchor" href="#exporting-results"></a>
+<h2 id="incremental-updates-and-export">Incremental Updates and Export<a class="anchor" aria-label="anchor" href="#incremental-updates-and-export"></a>
 </h2>
-<ul>
-<li>
-<strong>Download Embedding</strong>: Saves the 2D coordinates as
-CSV</li>
-<li>
-<strong>Download Plot</strong>: Exports the current visualization as
-PNG/PDF</li>
-<li>
-<strong>Download Model</strong>: Saves the full
-<code>song_model</code> object as RDS</li>
-</ul>
+<p>The app does not train incrementally and has no download buttons. Use
+the programmatic workflow below to update a model with new data, project
+points, and save coordinates or the model.</p>
 </div>
 <div class="section level2">
 <h2 id="example-workflow">Example Workflow<a class="anchor" aria-label="anchor" href="#example-workflow"></a>
@@ -258,9 +290,14 @@ PNG/PDF</li>
 <span></span>
 <span><span class="co"># 4. Visualize</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">emb</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">emb</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, pch <span class="op">=</span> <span class="fl">16</span>, cex <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">labels</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">plasma</a></span><span class="op">(</span><span class="fl">8</span>, end <span class="op">=</span> <span class="fl">0.92</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">labels</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"After Incremental Update"</span>,</span>
-<span>     xlab <span class="op">=</span> <span class="st">"SONG 1"</span>, ylab <span class="op">=</span> <span class="st">"SONG 2"</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
+<span>     xlab <span class="op">=</span> <span class="st">"SONG 1"</span>, ylab <span class="op">=</span> <span class="st">"SONG 2"</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 5. Export the coordinates and the model revision that produced them</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">emb</span>, label <span class="op">=</span> <span class="va">labels</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span><span class="op">)</span>, <span class="st">"song_embedding.csv"</span>,</span>
+<span>          row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"song_model.rds"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>

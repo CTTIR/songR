@@ -4,14 +4,8 @@
 
 [![R-CMD-check](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/songR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/songR)](https://CRAN.R-project.org/package=songR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/songR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/songR)](https://cran.r-project.org/package=songR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/songR)](https://cran.r-project.org/package=songR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -41,11 +35,13 @@ article for the full, evidence-backed fidelity comparison.
 
 ``` r
 
-# From CRAN (when available):
-install.packages("songR")
-
 # Development version from GitHub:
-devtools::install_github("cttir/songR")
+# install.packages("pak")
+pak::pak("CTTIR/songR")
+
+# Or the current build from the CTTIR R-universe:
+install.packages("songR",
+                 repos = c("https://cttir.r-universe.dev", getOption("repos")))
 ```
 
 ## Quick Start on Iris
@@ -64,7 +60,7 @@ model <- song(as.matrix(iris[, 1:4]),
               verbose = FALSE)
 
 print(model)
-#> SONG model
+#> <song_model> SONG model
 #>   Input: 150 points in 4 dimensions
 #>   Coding vectors: 28 
 #>   Edges: 49 
@@ -80,7 +76,9 @@ visualize it:
 plot(model, color_by = iris$Species)
 ```
 
-![](songR_quickstart_files/figure-html/iris-plot-1.png)
+![Scatter plot of the two-dimensional SONG embedding of the iris data,
+with the three species forming separate groups and a legend naming
+them.](songR_quickstart_files/figure-html/iris-plot-1.png)
 
 Each color represents a different iris species. SONG discovers the
 natural cluster structure in the 4-dimensional data and maps it to 2D.
@@ -106,13 +104,19 @@ model_blobs <- song(songR_blobs$data,
 plot(model_blobs, color_by = songR_blobs$labels)
 ```
 
-![](songR_quickstart_files/figure-html/blobs-1.png)
+![Scatter plot of the SONG embedding of the bundled blobs data: eight
+compact, well separated clusters, one color per
+cluster.](songR_quickstart_files/figure-html/blobs-1.png)
 
 ## Incremental Visualization
 
 The key advantage of SONG is incremental updating. You can train on an
 initial batch of data and then add more data later without recomputing
-from scratch. The existing embedding is preserved.
+from scratch. Training continues from the existing model, so the layout
+stays close to the previous one, although prototypes and their
+coordinates may move. Use
+[`predict()`](https://rdrr.io/r/stats/predict.html) with the unchanged
+model when coordinates must stay frozen.
 
 ``` r
 
@@ -143,22 +147,30 @@ Let’s see the before/after:
 
 par(mfrow = c(1, 2), mar = c(2, 2, 3, 1))
 
+# Species colors from the color-blind-safe Okabe-Ito palette
 # Before: only first 75 points
-cols1 <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-           virginica = "#4DAF4A")[as.character(labels1)]
+cols1 <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+           virginica = "#009E73")[as.character(labels1)]
 plot(emb_v1, pch = 16, col = cols1, cex = 0.8,
      main = "Step 1: First 75 points",
      xlab = "", ylab = "", bty = "n")
+legend("topleft", legend = levels(labels1)[1:2],
+       col = c("#E69F00", "#56B4E9"), pch = 16, bty = "n")
 
 # After: all 150 points
-cols_all <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-              virginica = "#4DAF4A")[as.character(iris$Species)]
+cols_all <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+              virginica = "#009E73")[as.character(iris$Species)]
 plot(emb_v2_all, pch = 16, col = cols_all, cex = 0.8,
-     main = "Step 2: All 150 points (incremental)",
+     main = "Step 2: All 150 points",
      xlab = "", ylab = "", bty = "n")
+legend("bottomleft", legend = levels(iris$Species),
+       col = c("#E69F00", "#56B4E9", "#009E73"), pch = 16, bty = "n")
 ```
 
-![](songR_quickstart_files/figure-html/incremental-plot-1.png)
+![Two scatter plots side by side: the SONG embedding of the first 75
+iris flowers, and the embedding of all 150 flowers after the incremental
+update, colored by
+species.](songR_quickstart_files/figure-html/incremental-plot-1.png)
 
 The first 75 points retain their approximate positions while the new
 data is smoothly integrated. This stability is measured by the **CDY**
@@ -172,6 +184,7 @@ space without retraining:
 ``` r
 
 # Train on 80% of iris
+set.seed(42)
 train_idx <- sample(150, 120)
 test_idx <- setdiff(1:150, train_idx)
 
@@ -191,10 +204,10 @@ cat("Projected", nrow(new_coords), "new points into",
 # Plot training points (circles) and projected points (triangles)
 emb_train <- model_train$embedding
 
-cols_train <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-                virginica = "#4DAF4A")[as.character(iris$Species[train_idx])]
-cols_test <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-               virginica = "#4DAF4A")[as.character(iris$Species[test_idx])]
+cols_train <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+                virginica = "#009E73")[as.character(iris$Species[train_idx])]
+cols_test <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+               virginica = "#009E73")[as.character(iris$Species[test_idx])]
 
 plot(rbind(emb_train, new_coords),
      pch = c(rep(16, nrow(emb_train)), rep(17, nrow(new_coords))),
@@ -202,12 +215,14 @@ plot(rbind(emb_train, new_coords),
      cex = c(rep(0.7, nrow(emb_train)), rep(1.2, nrow(new_coords))),
      main = "Training (circles) + Projected (triangles)",
      xlab = "SONG 1", ylab = "SONG 2", bty = "n")
-legend("topright",
-       legend = c("Training", "Projected"),
-       pch = c(16, 17), bty = "n")
+legend("topleft", legend = levels(iris$Species),
+       col = c("#E69F00", "#56B4E9", "#009E73"), pch = 16, bty = "n")
 ```
 
-![](songR_quickstart_files/figure-html/predict-plot-1.png)
+![Scatter plot of the SONG embedding of 120 training flowers as circles
+and 30 projected held-out flowers as larger triangles, colored by
+species, with the projected points on top of training
+groups.](songR_quickstart_files/figure-html/predict-plot-1.png)
 
 ## Model Inspection
 

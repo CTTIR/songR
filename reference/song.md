@@ -61,7 +61,15 @@ song(
 
 - alpha:
 
-  Numeric. Initial SO learning rate (default: 1.0).
+  Numeric. Initial SO learning rate (default: 1.0). Each sample moves
+  its nearest coding vector by this fraction of their distance, and the
+  rate decays over the epochs (see `lr_sigma`). Values above 1 overshoot
+  the sample, and large values can make training unstable. There is no
+  fixed threshold: it depends on the data, `epochs` and `lr_sigma`.
+  Coding vectors that become nonfinite or leave the range of the data by
+  more than a factor of 1000 raise an error of class
+  `song_error_diverged`; a fit that returns without this error is not
+  thereby shown to be stable.
 
 - a:
 
@@ -98,7 +106,10 @@ song(
 
   Integer or `NULL`. Maximum number of coding vectors. `NULL` (default)
   auto-computes as `floor(exp(log(n) / 1.5))`, matching the Python
-  reference.
+  reference. The codebook graph is stored as a dense matrix, so training
+  memory grows with the square of this value (at least
+  `8 * (max_prototypes + 200)^2` bytes; the returned model holds further
+  copies of the graph).
 
 - lr_sigma:
 
@@ -108,15 +119,19 @@ song(
 
 - dispersion:
 
-  Logical. If `TRUE` (default) and uwot is available, runs a short UMAP
-  refinement step initialised from the SONG embedding. This matches the
+  Logical. If `TRUE` (default) and uwot is available, runs a UMAP
+  refinement step initialised from the SONG embedding. This follows the
   Python reference implementation's
   [`transform()`](https://rdrr.io/r/base/transform.html) method and
-  dramatically improves visual cluster separation.
+  dramatically improves visual cluster separation. Without uwot the step
+  is skipped and the raw SONG embedding is returned; see Details.
 
 - seed:
 
-  Integer or `NULL`. Random seed for reproducibility.
+  Integer or `NULL`. Random seed for reproducibility. A non-`NULL` seed
+  is passed to [`set.seed`](https://rdrr.io/r/base/Random.html), so it
+  also resets the random number stream of the session; with `NULL` the
+  current stream is used and advanced.
 
 - verbose:
 
@@ -147,11 +162,23 @@ An S3 object of class `"song_model"` containing:
 
 - E:
 
-  Directed adjacency matrix (`n_coding x n_coding`).
+  Directed adjacency matrix (`n_coding x n_coding`) of edge strengths,
+  with a zero diagonal.
 
 - E_s:
 
-  Symmetric adjacency matrix.
+  Symmetric adjacency matrix, `(E + t(E)) / 2`.
+
+- adj:
+
+  Internal training state: `E` with a unit diagonal, used to continue
+  training in
+  [`update.song_model`](https://cttir.github.io/songR/reference/update.song_model.md).
+
+- E_q:
+
+  Internal training state: accumulated squared quantization error per
+  coding vector, which drives codebook growth.
 
 - assignments:
 
@@ -165,6 +192,23 @@ An S3 object of class `"song_model"` containing:
 
   List of all hyperparameters used.
 
+- n_epochs:
+
+  Number of epochs run in this call.
+
+- converged:
+
+  Always `FALSE`: training runs for the requested number of epochs and
+  has no early-stopping criterion.
+
+- n_input:
+
+  Number of training observations.
+
+- D:
+
+  Number of input features.
+
 - feature_contract:
 
   Versioned feature order, declared metadata and missing-value policy.
@@ -172,10 +216,6 @@ An S3 object of class `"song_model"` containing:
 - lineage:
 
   Projection version, parent identifier and reprojection policy.
-
-- n_epochs:
-
-  Number of epochs actually run.
 
 ## Details
 
@@ -189,6 +229,20 @@ a contract also retain positional behavior. Integer controls must be
 scalar, finite, whole numbers within R's integer range; fractional
 values are rejected rather than truncated. Numeric controls must be
 finite, and `lr_sigma` must be non-negative.
+
+With `dispersion = TRUE` the returned `embedding` is the UMAP-refined
+layout and `Y` holds, for each coding vector, the centroid of its
+assigned points in that layout, so that
+[`predict.song_model()`](https://cttir.github.io/songR/reference/predict.song_model.md)
+projects into the same coordinates. A coding vector without assigned
+points is placed at the edge-weighted mean of its occupied graph
+neighbors, or at the occupied coding vector nearest in input space when
+it has none. If the refinement fails, for example on very small inputs,
+a warning is issued and the raw SONG embedding is returned.
+`parameters$dispersion` records the request, not whether uwot was
+available.
+[`update.song_model()`](https://cttir.github.io/songR/reference/update.song_model.md)
+continues the core SONG training and does not repeat the refinement.
 
 ## References
 

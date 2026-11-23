@@ -62,6 +62,9 @@ update(
 
   Optional integer seed for update training. `NULL` preserves the
   existing random-stream behavior; the original fit seed is not reused.
+  A non-`NULL` seed is passed to
+  [`set.seed()`](https://rdrr.io/r/base/Random.html) and resets the
+  session's random number stream.
 
 ## Value
 
@@ -84,6 +87,11 @@ parent projection fingerprint. Save the model together with any exported
 projection to retain its version. Coincident embedding positions reflect
 prototype assignment; they do not establish cell contact or physical
 spatial distance.
+
+An update continues the core SONG training from the stored coordinates
+and does not repeat the UMAP dispersion step of
+[`song()`](https://cttir.github.io/songR/reference/song.md); the
+returned coordinates are those of the continued training.
 
 ## References
 

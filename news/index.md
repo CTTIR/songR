@@ -26,11 +26,58 @@ First stable release and first CRAN submission.
   codebook-graph plotting paths
   ([`plot()`](https://rdrr.io/r/graphics/plot.default.html) /
   `autoplot()`) are vectorized.
+- Mapping point labels to coding vectors (codebook and graph plots) and
+  the centroid step after dispersion group the points in a single pass
+  instead of scanning all points once per coding vector.
+
+### Printing
+
+- [`print()`](https://rdrr.io/r/base/print.html) names the class in its
+  header line (`<song_model> SONG model`), as the other packages of the
+  suite do.
+
+### Plots
+
+- [`plot()`](https://rdrr.io/r/graphics/plot.default.html) draws a
+  legend at the plot corner or edge where it covers the fewest points,
+  in one or two columns: the levels of a categorical `color_by` with at
+  most 12 levels, or a key of five evenly spaced values for a numeric
+  `color_by`. Use `legend = FALSE` to omit it.
+- [`plot()`](https://rdrr.io/r/graphics/plot.default.html) forwards
+  graphical arguments such as `main`, `xlab`, `ylab`, `pch` and `cex`
+  through `...`; they override the defaults of the method. These
+  previously failed as duplicated arguments.
+- [`plot()`](https://rdrr.io/r/graphics/plot.default.html) and
+  `autoplot()` draw up to eight categories in the Okabe-Ito palette,
+  which stays distinguishable under the common forms of color vision
+  deficiency, instead of pastel hues
+  ([`plot()`](https://rdrr.io/r/graphics/plot.default.html)) and the
+  default `ggplot2` hues (`autoplot()`). More than eight categories keep
+  evenly spaced hues.
+- `autoplot()` draws a numeric `color_by` on the viridis scale and
+  missing values in gray, as
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) does. Adding
+  a color scale to the returned plot still replaces the scale; `ggplot2`
+  now reports the replacement with a message because the plot always
+  carries a scale.
+- The edges of `plot(type = "graph")` and the eighth category color
+  follow the foreground color of the graphics device (`par("fg")`), so
+  they stay visible on a dark background, for example in the dark mode
+  of the comparison app. On a white background the edges look as before.
+
+### Comparison app
+
+- The app loads the Bootstrap styles that its layout relies on: the
+  settings and the SONG, t-SNE and UMAP panels now sit side by side
+  instead of below each other, and the inputs are styled as intended.
+- The comparison plots draw larger points and legend text, and in dark
+  mode they leave out the dark end of the plasma scale, which was
+  invisible on the dark panel.
 
 ### Bug fixes
 
 - Validate scalar, finite hyperparameters before native training.
-  Fractional integer controls, nonpositive update epochs/learning rates
+  Fractional integer controls, non-positive update epochs/learning rates
   and damaged saved model dimensions now fail with an R error rather
   than being truncated or passed to C++.
 - Accept a single new observation in
@@ -39,7 +86,7 @@ First stable release and first CRAN submission.
 - Keep cumulative training counts finite when updates exceed R’s integer
   range.
 - Exclude native coverage instrumentation files from source archives.
-- Map codebook colours from the current update batch rather than
+- Map codebook colors from the current update batch rather than
   cumulative training labels; handle prototypes with only missing
   labels. Correct the README to distinguish frozen projection from model
   retraining.
@@ -65,14 +112,82 @@ First stable release and first CRAN submission.
   stays frozen.
 - The Shiny comparison app no longer claims SONG stops training early,
   and its documented `k` and `epochs` defaults match the implementation.
+- [`plot()`](https://rdrr.io/r/graphics/plot.default.html) maps a
+  numeric `color_by` linearly onto the sequential viridis palette and
+  treats logical vectors as categories. Numeric values used to be passed
+  to the graphics device as color numbers, so negative values raised an
+  error and values below 1 drew invisible points. As a consequence,
+  whole-number labels supplied as numbers are now drawn on the
+  sequential palette instead of the session palette; pass a factor for
+  categorical colors. Missing labels are drawn in gray instead of being
+  left out.
+- With `dispersion = TRUE`, coding vectors without assigned points are
+  placed inside the refined layout (at the edge-weighted mean of their
+  occupied graph neighbors, or at the occupied coding vector nearest in
+  input space) instead of keeping raw SONG coordinates from a different
+  coordinate system. Codebook and graph plots now share the scale of the
+  embedding and [`predict()`](https://rdrr.io/r/stats/predict.html)
+  stays inside the layout. `model$embedding` is unchanged; `model$Y` and
+  the model identifier change for models that contain such coding
+  vectors.
+- Codebook and graph plots summarize numeric point values by their mean
+  per coding vector and keep a continuous color scale. They used to
+  reduce numeric values to the most frequent one and draw it as a
+  category.
+- `autoplot()` reports a one-dimensional embedding with the same error
+  as [`plot()`](https://rdrr.io/r/graphics/plot.default.html) instead of
+  “subscript out of bounds”.
+- [`print()`](https://rdrr.io/r/base/print.html) and
+  [`summary()`](https://rdrr.io/r/base/summary.html) accept models saved
+  before the `converged` field existed.
+- The comparison app no longer passes a reactive as the plot background,
+  which raised a warning on every render.
+- The documentation of the comparison app
+  ([`run_songR_app()`](https://cttir.github.io/songR/reference/run_songR_app.md),
+  README and article) describes the implemented features. RDS upload, an
+  incremental mode and export buttons were documented but are not part
+  of the app; the article shows the equivalent code.
 
 ### Robustness
 
 - [`song()`](https://cttir.github.io/songR/reference/song.md) validates
   `max_age` and `max_prototypes`.
+- [`plot()`](https://rdrr.io/r/graphics/plot.default.html) and
+  `autoplot()` reject a `color_by` that is a list or a data frame with
+  an informative error instead of an internal sorting error.
+- `song(verbose = TRUE)` reports when the dispersion step is skipped
+  because ‘uwot’ is not installed.
+- Diverging training, caused by a large learning rate `alpha` or by
+  features on an extreme scale, is reported by
+  [`song()`](https://cttir.github.io/songR/reference/song.md) and
+  [`update()`](https://rdrr.io/r/stats/update.html) as an error of class
+  `song_error_diverged` with advice, instead of the native message
+  “sort_index(): detected NaN”. The error is raised when coding vectors
+  become nonfinite or end more than 1000 times farther from zero than
+  the data; such fits used to be returned as valid models. Values of
+  `alpha` above 1 overshoot and can be unstable without triggering the
+  error, and the documentation of `alpha` says so.
 - All user-facing messages now use `cli`, with errors signaled at the
   calling function for clearer tracebacks. Messages and behavior are
   otherwise unchanged.
+
+### Documentation
+
+- [`song()`](https://cttir.github.io/songR/reference/song.md) documents
+  every field of the model object, the effect of `seed` on the random
+  number stream of the session, the memory needed for `max_prototypes`
+  and how the dispersed layout is built.
+  [`update()`](https://rdrr.io/r/stats/update.html) documents that it
+  does not repeat the dispersion step.
+- The `autoplot()` example now draws a plot, and
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) shows
+  continuous coloring and the codebook graph.
+- The README lists installation from GitHub and the CTTIR R-universe,
+  its quick start runs as written, and the CRAN badges and the CRAN
+  installation line are omitted until the package is on CRAN.
+- The vignettes describe updates as continued training in which
+  prototypes may move and use color-blind-safe colors. Every figure in
+  the vignettes and articles carries alternative text.
 
 ### Verification
 
@@ -80,6 +195,8 @@ First stable release and first CRAN submission.
   implementation (`tests/testthat/test-reference-parity.R`), covering
   deterministic kernels (Tier A, ≤ 1e-5) and clustering equivalence
   (Tier B, AMI).
+- Added tests that drive the server of the comparison app and cover its
+  branding helpers.
 
 ### Branding
 

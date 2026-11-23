@@ -60,29 +60,76 @@
 <ul><li>Faster core training: the per-sample k-nearest-coding-vector search now reuses the distances already computed for the quantization step instead of recomputing them and copying the active codebook on every sample. Embeddings are unchanged (bit-identical).</li>
 <li>
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> and the codebook-graph plotting paths (<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> / <code>autoplot()</code>) are vectorized.</li>
+<li>Mapping point labels to coding vectors (codebook and graph plots) and the centroid step after dispersion group the points in a single pass instead of scanning all points once per coding vector.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="printing-1-0-0">Printing<a class="anchor" aria-label="anchor" href="#printing-1-0-0"></a></h3>
+<ul><li>
+<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> names the class in its header line (<code>&lt;song_model&gt; SONG model</code>), as the other packages of the suite do.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="plots-1-0-0">Plots<a class="anchor" aria-label="anchor" href="#plots-1-0-0"></a></h3>
+<ul><li>
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> draws a legend at the plot corner or edge where it covers the fewest points, in one or two columns: the levels of a categorical <code>color_by</code> with at most 12 levels, or a key of five evenly spaced values for a numeric <code>color_by</code>. Use <code>legend = FALSE</code> to omit it.</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> forwards graphical arguments such as <code>main</code>, <code>xlab</code>, <code>ylab</code>, <code>pch</code> and <code>cex</code> through <code>...</code>; they override the defaults of the method. These previously failed as duplicated arguments.</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> and <code>autoplot()</code> draw up to eight categories in the Okabe-Ito palette, which stays distinguishable under the common forms of color vision deficiency, instead of pastel hues (<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>) and the default <code>ggplot2</code> hues (<code>autoplot()</code>). More than eight categories keep evenly spaced hues.</li>
+<li>
+<code>autoplot()</code> draws a numeric <code>color_by</code> on the viridis scale and missing values in gray, as <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> does. Adding a color scale to the returned plot still replaces the scale; <code>ggplot2</code> now reports the replacement with a message because the plot always carries a scale.</li>
+<li>The edges of <code>plot(type = "graph")</code> and the eighth category color follow the foreground color of the graphics device (<code>par("fg")</code>), so they stay visible on a dark background, for example in the dark mode of the comparison app. On a white background the edges look as before.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="comparison-app-1-0-0">Comparison app<a class="anchor" aria-label="anchor" href="#comparison-app-1-0-0"></a></h3>
+<ul><li>The app loads the Bootstrap styles that its layout relies on: the settings and the SONG, t-SNE and UMAP panels now sit side by side instead of below each other, and the inputs are styled as intended.</li>
+<li>The comparison plots draw larger points and legend text, and in dark mode they leave out the dark end of the plasma scale, which was invisible on the dark panel.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-0-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-0"></a></h3>
-<ul><li>Validate scalar, finite hyperparameters before native training. Fractional integer controls, nonpositive update epochs/learning rates and damaged saved model dimensions now fail with an R error rather than being truncated or passed to C++.</li>
+<ul><li>Validate scalar, finite hyperparameters before native training. Fractional integer controls, non-positive update epochs/learning rates and damaged saved model dimensions now fail with an R error rather than being truncated or passed to C++.</li>
 <li>Accept a single new observation in <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> and reject zero-column inputs.</li>
 <li>Keep cumulative training counts finite when updates exceed R’s integer range.</li>
 <li>Exclude native coverage instrumentation files from source archives.</li>
-<li>Map codebook colours from the current update batch rather than cumulative training labels; handle prototypes with only missing labels. Correct the README to distinguish frozen projection from model retraining.</li>
+<li>Map codebook colors from the current update batch rather than cumulative training labels; handle prototypes with only missing labels. Correct the README to distinguish frozen projection from model retraining.</li>
 <li>
 <code>autoplot()</code> no longer errors for <code>type = "codebook"</code> or <code>type = "graph"</code> when <code>color_by</code> has input-point length; like <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, it now maps the labels to coding vectors.</li>
 <li>The UMAP dispersion step now winsorizes the embedding before building the UMAP init, so a single drifted coding vector can no longer dominate the min-max scaling and strand its points as a far outlier. This removes occasional outliers and improves cluster separation (e.g. Fashion-MNIST reproduction AMI 0.50 -&gt; 0.55). Only the <code>dispersion = TRUE</code> path is affected; the core SONG embedding is unchanged.</li>
 <li>The UMAP dispersion now uses a stronger refinement (200 epochs, learning rate 1.0, <code>min_dist = 0.1</code>) instead of the reference’s very gentle 11-epoch step. songR’s raw embedding is more collapsed than the reference’s on hard, multi-class data, and the gentle step left it stranded near one axis; the stronger refinement makes the embedding use the full plane and, in benchmarks, improves AMI on every tested dataset (MNIST, Fashion-MNIST, COIL-20, Samusik, Wong). Only the <code>dispersion = TRUE</code> visualization changes; the core SONG embedding stays frozen.</li>
 <li>The Shiny comparison app no longer claims SONG stops training early, and its documented <code>k</code> and <code>epochs</code> defaults match the implementation.</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> maps a numeric <code>color_by</code> linearly onto the sequential viridis palette and treats logical vectors as categories. Numeric values used to be passed to the graphics device as color numbers, so negative values raised an error and values below 1 drew invisible points. As a consequence, whole-number labels supplied as numbers are now drawn on the sequential palette instead of the session palette; pass a factor for categorical colors. Missing labels are drawn in gray instead of being left out.</li>
+<li>With <code>dispersion = TRUE</code>, coding vectors without assigned points are placed inside the refined layout (at the edge-weighted mean of their occupied graph neighbors, or at the occupied coding vector nearest in input space) instead of keeping raw SONG coordinates from a different coordinate system. Codebook and graph plots now share the scale of the embedding and <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> stays inside the layout. <code>model$embedding</code> is unchanged; <code>model$Y</code> and the model identifier change for models that contain such coding vectors.</li>
+<li>Codebook and graph plots summarize numeric point values by their mean per coding vector and keep a continuous color scale. They used to reduce numeric values to the most frequent one and draw it as a category.</li>
+<li>
+<code>autoplot()</code> reports a one-dimensional embedding with the same error as <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> instead of “subscript out of bounds”.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> accept models saved before the <code>converged</code> field existed.</li>
+<li>The comparison app no longer passes a reactive as the plot background, which raised a warning on every render.</li>
+<li>The documentation of the comparison app (<code><a href="../reference/run_songR_app.html">run_songR_app()</a></code>, README and article) describes the implemented features. RDS upload, an incremental mode and export buttons were documented but are not part of the app; the article shows the equivalent code.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="robustness-1-0-0">Robustness<a class="anchor" aria-label="anchor" href="#robustness-1-0-0"></a></h3>
 <ul><li>
 <code><a href="../reference/song.html">song()</a></code> validates <code>max_age</code> and <code>max_prototypes</code>.</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> and <code>autoplot()</code> reject a <code>color_by</code> that is a list or a data frame with an informative error instead of an internal sorting error.</li>
+<li>
+<code>song(verbose = TRUE)</code> reports when the dispersion step is skipped because ‘uwot’ is not installed.</li>
+<li>Diverging training, caused by a large learning rate <code>alpha</code> or by features on an extreme scale, is reported by <code><a href="../reference/song.html">song()</a></code> and <code><a href="https://rdrr.io/r/stats/update.html" class="external-link">update()</a></code> as an error of class <code>song_error_diverged</code> with advice, instead of the native message “sort_index(): detected NaN”. The error is raised when coding vectors become nonfinite or end more than 1000 times farther from zero than the data; such fits used to be returned as valid models. Values of <code>alpha</code> above 1 overshoot and can be unstable without triggering the error, and the documentation of <code>alpha</code> says so.</li>
 <li>All user-facing messages now use <code>cli</code>, with errors signaled at the calling function for clearer tracebacks. Messages and behavior are otherwise unchanged.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-1-0-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-0-0"></a></h3>
+<ul><li>
+<code><a href="../reference/song.html">song()</a></code> documents every field of the model object, the effect of <code>seed</code> on the random number stream of the session, the memory needed for <code>max_prototypes</code> and how the dispersed layout is built. <code><a href="https://rdrr.io/r/stats/update.html" class="external-link">update()</a></code> documents that it does not repeat the dispersion step.</li>
+<li>The <code>autoplot()</code> example now draws a plot, and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> shows continuous coloring and the codebook graph.</li>
+<li>The README lists installation from GitHub and the CTTIR R-universe, its quick start runs as written, and the CRAN badges and the CRAN installation line are omitted until the package is on CRAN.</li>
+<li>The vignettes describe updates as continued training in which prototypes may move and use color-blind-safe colors. Every figure in the vignettes and articles carries alternative text.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="verification-1-0-0">Verification<a class="anchor" aria-label="anchor" href="#verification-1-0-0"></a></h3>
 <ul><li>Added reference-parity tests against the original Python implementation (<code>tests/testthat/test-reference-parity.R</code>), covering deterministic kernels (Tier A, ≤ 1e-5) and clustering equivalence (Tier B, AMI).</li>
+<li>Added tests that drive the server of the comparison app and cover its branding helpers.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="branding-1-0-0">Branding<a class="anchor" aria-label="anchor" href="#branding-1-0-0"></a></h3>

@@ -112,7 +112,9 @@ Named features must follow training order. See <code><a href="song.html">song()<
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>Optional integer seed for update training. <code>NULL</code> preserves the
-existing random-stream behavior; the original fit seed is not reused.</p></dd>
+existing random-stream behavior; the original fit seed is not reused. A
+non-<code>NULL</code> seed is passed to <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> and resets the session's random
+number stream.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -135,6 +137,9 @@ models start a new revision history at 1 with <code>parent_history</code> set to
 together with any exported projection to retain its version.
 Coincident embedding positions reflect prototype assignment; they do not
 establish cell contact or physical spatial distance.</p>
+<p>An update continues the core SONG training from the stored coordinates and
+does not repeat the UMAP dispersion step of <code><a href="song.html">song()</a></code>; the returned
+coordinates are those of the continued training.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

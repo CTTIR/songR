@@ -35,7 +35,8 @@ quantization error, and graph connectivity.
 ## Interactive App
 
 Launch a Shiny app to compare SONG, t-SNE, and UMAP side-by-side with
-dark mode, custom data upload, and incremental update support.
+dark mode and custom data upload, and to inspect the SONG codebook
+graph.
 
 - [`run_songR_app()`](https://cttir.github.io/songR/reference/run_songR_app.md)
   : Launch Interactive Comparison App

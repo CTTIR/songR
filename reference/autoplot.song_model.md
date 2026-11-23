@@ -26,7 +26,14 @@ autoplot.song_model(
 
 - color_by:
 
-  Optional vector for coloring points.
+  Optional vector for coloring points; see
+  [`plot.song_model`](https://cttir.github.io/songR/reference/plot.song_model.md)
+  for the accepted lengths. As in
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html), up to eight
+  categories are drawn in the Okabe-Ito palette and numeric vectors on
+  the viridis scale; more than eight categories use the default discrete
+  `ggplot2` scale. Adding a color scale to the returned plot replaces
+  the scale chosen here.
 
 - ...:
 
@@ -35,6 +42,14 @@ autoplot.song_model(
 ## Value
 
 A `ggplot` object.
+
+## Details
+
+The method is registered for
+[`ggplot2::autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
+when ggplot2 is available, so `ggplot2::autoplot(model)` dispatches to
+it once songR is loaded. Models with more than two output dimensions are
+drawn in their first two embedding dimensions.
 
 ## References
 
@@ -47,17 +62,9 @@ Systems*, 32(10), 4588–4602.
 ## Examples
 
 ``` r
-# \donttest{
-if (requireNamespace("ggplot2", quietly = TRUE)) {
-  model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)
-  # Use songR::autoplot.song_model(model, color_by = iris$Species)
-  # or ensure songR is loaded with library(songR) for dispatch
-}
-#> Epoch 1/5 | CVs: 3 | QE: 1.5296 | so_lr: 1.0000 | lr: 1.0000
-#> Epoch 2/5 | CVs: 5 | QE: 0.8414 | so_lr: 0.8187 | lr: 0.8000
-#> Epoch 3/5 | CVs: 9 | QE: 0.5442 | so_lr: 0.4493 | lr: 0.6000
-#> Epoch 4/5 | CVs: 16 | QE: 0.4508 | so_lr: 0.1653 | lr: 0.4000
-#> Epoch 5/5 | CVs: 25 | QE: 0.3978 | so_lr: 0.0408 | lr: 0.2000
-#> Running UMAP dispersion step...
-# }
+model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42,
+              verbose = FALSE)
+ggplot2::autoplot(model, color_by = iris$Species)
+
+autoplot.song_model(model, type = "graph", color_by = iris$Species)
 ```

@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">Raban
 Heller</h4>
             
-            <h4 data-toc-skip class="date">2026-11-22</h4>
+            <h4 data-toc-skip class="date">2026-11-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/CTTIR/songR/blob/main/vignettes/songR_quickstart.Rmd" class="external-link"><code>vignettes/songR_quickstart.Rmd</code></a></small>
       <div class="d-none name"><code>songR_quickstart.Rmd</code></div>
@@ -106,7 +106,7 @@ Heller</h4>
 </div>
 <!-- cttir-vignette-logo: end -->
 <!-- badges: start -->
-<p><a href="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/songR/"><img src="https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=songR" class="external-link"><img src="https://www.r-pkg.org/badges/version/songR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/songR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/songR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/songR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/songR/"><img src="https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/CTTIR/songR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="section level2">
 <h2 id="what-is-song">What is SONG?<a class="anchor" aria-label="anchor" href="#what-is-song"></a>
 </h2>
@@ -132,11 +132,13 @@ evidence-backed fidelity comparison.</p>
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># From CRAN (when available):</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"songR"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Development version from GitHub:</span></span>
+<span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"CTTIR/songR"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Development version from GitHub:</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"cttir/songR"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Or the current build from the CTTIR R-universe:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"songR"</span>,</span>
+<span>                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://cttir.r-universe.dev"</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"repos"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start-on-iris">Quick Start on Iris<a class="anchor" aria-label="anchor" href="#quick-start-on-iris"></a>
@@ -152,7 +154,7 @@ which fits a SONG model and returns an embedding:</p>
 <span>              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
-<span><span class="co">#&gt; SONG model</span></span>
+<span><span class="co">#&gt; &lt;song_model&gt; SONG model</span></span>
 <span><span class="co">#&gt;   Input: 150 points in 4 dimensions</span></span>
 <span><span class="co">#&gt;   Coding vectors: 28 </span></span>
 <span><span class="co">#&gt;   Edges: 49 </span></span>
@@ -162,7 +164,7 @@ which fits a SONG model and returns an embedding:</p>
 visualize it:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model</span>, color_by <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
-<p><img src="songR_quickstart_files/figure-html/iris-plot-1.png" class="r-plt" alt="" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="songR_quickstart_files/figure-html/iris-plot-1.png" class="r-plt" alt="Scatter plot of the two-dimensional SONG embedding of the iris data, with the three species forming separate groups and a legend naming them." width="90%" style="display: block; margin: auto;"></p>
 <p>Each color represents a different iris species. SONG discovers the
 natural cluster structure in the 4-dimensional data and maps it to
 2D.</p>
@@ -185,14 +187,17 @@ dataset in 20 dimensions designed for quick testing:</p>
 <span>                    verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_blobs</span>, color_by <span class="op">=</span> <span class="va">songR_blobs</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span></span></code></pre></div>
-<p><img src="songR_quickstart_files/figure-html/blobs-1.png" class="r-plt" alt="" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="songR_quickstart_files/figure-html/blobs-1.png" class="r-plt" alt="Scatter plot of the SONG embedding of the bundled blobs data: eight compact, well separated clusters, one color per cluster." width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="incremental-visualization">Incremental Visualization<a class="anchor" aria-label="anchor" href="#incremental-visualization"></a>
 </h2>
 <p>The key advantage of SONG is incremental updating. You can train on
 an initial batch of data and then add more data later without
-recomputing from scratch. The existing embedding is preserved.</p>
+recomputing from scratch. Training continues from the existing model, so
+the layout stays close to the previous one, although prototypes and
+their coordinates may move. Use <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> with the
+unchanged model when coordinates must stay frozen.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Split iris into two halves</span></span>
 <span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">75</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
@@ -217,20 +222,25 @@ recomputing from scratch. The existing embedding is preserved.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Species colors from the color-blind-safe Okabe-Ito palette</span></span>
 <span><span class="co"># Before: only first 75 points</span></span>
-<span><span class="va">cols1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E41A1C"</span>, versicolor <span class="op">=</span> <span class="st">"#377EB8"</span>,</span>
-<span>           virginica <span class="op">=</span> <span class="st">"#4DAF4A"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">labels1</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">cols1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E69F00"</span>, versicolor <span class="op">=</span> <span class="st">"#56B4E9"</span>,</span>
+<span>           virginica <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">labels1</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">emb_v1</span>, pch <span class="op">=</span> <span class="fl">16</span>, col <span class="op">=</span> <span class="va">cols1</span>, cex <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Step 1: First 75 points"</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">""</span>, ylab <span class="op">=</span> <span class="st">""</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">labels1</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">16</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># After: all 150 points</span></span>
-<span><span class="va">cols_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E41A1C"</span>, versicolor <span class="op">=</span> <span class="st">"#377EB8"</span>,</span>
-<span>              virginica <span class="op">=</span> <span class="st">"#4DAF4A"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">cols_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E69F00"</span>, versicolor <span class="op">=</span> <span class="st">"#56B4E9"</span>,</span>
+<span>              virginica <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">emb_v2_all</span>, pch <span class="op">=</span> <span class="fl">16</span>, col <span class="op">=</span> <span class="va">cols_all</span>, cex <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span>     main <span class="op">=</span> <span class="st">"Step 2: All 150 points (incremental)"</span>,</span>
-<span>     xlab <span class="op">=</span> <span class="st">""</span>, ylab <span class="op">=</span> <span class="st">""</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="songR_quickstart_files/figure-html/incremental-plot-1.png" class="r-plt" alt="" width="90%" style="display: block; margin: auto;"></p>
+<span>     main <span class="op">=</span> <span class="st">"Step 2: All 150 points"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">""</span>, ylab <span class="op">=</span> <span class="st">""</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomleft"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span>,</span>
+<span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">16</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="songR_quickstart_files/figure-html/incremental-plot-1.png" class="r-plt" alt="Two scatter plots side by side: the SONG embedding of the first 75 iris flowers, and the embedding of all 150 flowers after the incremental update, colored by species." width="90%" style="display: block; margin: auto;"></p>
 <p>The first 75 points retain their approximate positions while the new
 data is smoothly integrated. This stability is measured by the
 <strong>CDY</strong> (Consecutive Displacement of Y) metric.</p>
@@ -242,6 +252,7 @@ data is smoothly integrated. This stability is measured by the
 space without retraining:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Train on 80% of iris</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">train_idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">120</span><span class="op">)</span></span>
 <span><span class="va">test_idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">150</span>, <span class="va">train_idx</span><span class="op">)</span></span>
 <span></span>
@@ -258,10 +269,10 @@ space without retraining:</p>
 <code class="sourceCode R"><span><span class="co"># Plot training points (circles) and projected points (triangles)</span></span>
 <span><span class="va">emb_train</span> <span class="op">&lt;-</span> <span class="va">model_train</span><span class="op">$</span><span class="va">embedding</span></span>
 <span></span>
-<span><span class="va">cols_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E41A1C"</span>, versicolor <span class="op">=</span> <span class="st">"#377EB8"</span>,</span>
-<span>                virginica <span class="op">=</span> <span class="st">"#4DAF4A"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">[</span><span class="va">train_idx</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="va">cols_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E41A1C"</span>, versicolor <span class="op">=</span> <span class="st">"#377EB8"</span>,</span>
-<span>               virginica <span class="op">=</span> <span class="st">"#4DAF4A"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">[</span><span class="va">test_idx</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">cols_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E69F00"</span>, versicolor <span class="op">=</span> <span class="st">"#56B4E9"</span>,</span>
+<span>                virginica <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">[</span><span class="va">train_idx</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">cols_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="st">"#E69F00"</span>, versicolor <span class="op">=</span> <span class="st">"#56B4E9"</span>,</span>
+<span>               virginica <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">[</span><span class="va">test_idx</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">emb_train</span>, <span class="va">new_coords</span><span class="op">)</span>,</span>
 <span>     pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">emb_train</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">new_coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -269,10 +280,9 @@ space without retraining:</p>
 <span>     cex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">emb_train</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">new_coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Training (circles) + Projected (triangles)"</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">"SONG 1"</span>, ylab <span class="op">=</span> <span class="st">"SONG 2"</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
-<span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Training"</span>, <span class="st">"Projected"</span><span class="op">)</span>,</span>
-<span>       pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">17</span><span class="op">)</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="songR_quickstart_files/figure-html/predict-plot-1.png" class="r-plt" alt="" width="90%" style="display: block; margin: auto;"></p>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span>,</span>
+<span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">16</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="songR_quickstart_files/figure-html/predict-plot-1.png" class="r-plt" alt="Scatter plot of the SONG embedding of 120 training flowers as circles and 30 projected held-out flowers as larger triangles, colored by species, with the projected points on top of training groups." width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="model-inspection">Model Inspection<a class="anchor" aria-label="anchor" href="#model-inspection"></a>

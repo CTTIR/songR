@@ -138,28 +138,31 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install from CRAN (when available)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"songR"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Install the development version from GitHub</span></span>
+<span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"CTTIR/songR"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Or install the development version from GitHub</span></span>
-<span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"cttir/songR"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Or install the current build from the CTTIR R-universe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"songR"</span>,</span>
+<span>                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://cttir.r-universe.dev"</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"repos"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+<h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cttir.github.io/songR/">songR</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Fit a SONG model</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/song.html">song</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model</span>, color_by <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Incremental update with new data</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">new_data_matrix</span><span class="op">)</span></span>
+<span><span class="co"># Fit a SONG model on the first 100 flowers</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/song.html">song</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model</span>, color_by <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Project new points into existing embedding</span></span>
-<span><span class="va">new_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, newdata <span class="op">=</span> <span class="va">held_out_matrix</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Continue training with the remaining 50 flowers (a new model revision)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">X</span><span class="op">[</span><span class="fl">101</span><span class="op">:</span><span class="fl">150</span>, <span class="op">]</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Project all points with the updated model</span></span>
+<span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, newdata <span class="op">=</span> <span class="va">X</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
@@ -177,7 +180,7 @@
 <span></span>
 <span><span class="co"># Get embedding for ALL points</span></span>
 <span><span class="va">emb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">batch1</span>, <span class="va">batch2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>After an update, <code>model$embedding</code> and <code>model$assignments</code> describe the new batch only; <code>model$n_input</code> is the cumulative number of training observations. Plot colours for batch observations must follow the current batch, or supply one colour per prototype for a codebook plot. Save the model and its lineage with each exported projection.</p>
+<p>After an update, <code>model$embedding</code> and <code>model$assignments</code> describe the new batch only; <code>model$n_input</code> is the cumulative number of training observations. Plot colors for batch observations must follow the current batch, or supply one color per prototype for a codebook plot. Save the model and its lineage with each exported projection.</p>
 </div>
 <div class="section level3">
 <h3 id="parametric-projection">Parametric Projection<a class="anchor" aria-label="anchor" href="#parametric-projection"></a>
@@ -201,7 +204,7 @@
 <p>Launch a Shiny app comparing SONG, t-SNE, and UMAP side-by-side with dark mode support:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/run_songR_app.html">run_songR_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The app supports uploading custom data, tuning all SONG hyperparameters, running incremental updates, and exporting embeddings and plots.</p>
+<p>The app runs on the built-in example data or an uploaded CSV file, exposes the main SONG, t-SNE and UMAP hyperparameters, and shows the fitted codebook graph and model summary. Incremental updates, projection and export are done in code with <code><a href="https://rdrr.io/r/stats/update.html" class="external-link">update()</a></code>, <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> and <code><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS()</a></code>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -224,7 +227,7 @@
 <h2 id="vignettes-and-tutorials">Vignettes and Tutorials<a class="anchor" aria-label="anchor" href="#vignettes-and-tutorials"></a>
 </h2>
 <div class="section level3">
-<h3 id="cran-vignettes">CRAN Vignettes<a class="anchor" aria-label="anchor" href="#cran-vignettes"></a>
+<h3 id="package-vignettes">Package Vignettes<a class="anchor" aria-label="anchor" href="#package-vignettes"></a>
 </h3>
 <ul>
 <li>
@@ -372,12 +375,17 @@
 </table>
 </div>
 <div class="section level2">
+<h2 id="acknowledgments">Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"></a>
+</h2>
+<p>This package is an independent R/C++ re-implementation of the SONG algorithm using <a href="https://cran.r-project.org/package=RcppArmadillo" class="external-link">RcppArmadillo</a>. The original algorithm was developed by Damith Senanayake, Wei Wang, Shalin Naik, and Saman Halgamuge at the University of Melbourne. The original Python implementation is available at <a href="https://github.com/damithsenanayake/SONG" class="external-link">github.com/damithsenanayake/SONG</a>.</p>
+</div>
+<div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>If you use <code>songR</code> in published research, please cite both this R package and the underlying SONG algorithm:</p>
 <p><strong>R package:</strong></p>
 <blockquote>
-<p>Heller, R. (2026). songR: Self-Organizing Nebulous Growths for Dimensionality Reduction. R package version 1.0.0. <a href="https://github.com/cttir/songR" class="external-link uri">https://github.com/cttir/songR</a></p>
+<p>Heller, R. (2026). songR: Self-Organizing Nebulous Growths for Dimensionality Reduction. R package version 1.0.0. <a href="https://github.com/CTTIR/songR" class="external-link uri">https://github.com/CTTIR/songR</a></p>
 </blockquote>
 <p><strong>Underlying algorithm:</strong></p>
 <blockquote>
@@ -385,11 +393,6 @@
 </blockquote>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"songR"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="acknowledgments">Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"></a>
-</h2>
-<p>This package is an independent R/C++ re-implementation of the SONG algorithm using <a href="https://cran.r-project.org/package=RcppArmadillo" class="external-link">RcppArmadillo</a>. The original algorithm was developed by Damith Senanayake, Wei Wang, Shalin Naik, and Saman Halgamuge at the University of Melbourne. The original Python implementation is available at <a href="https://github.com/damithsenanayake/SONG" class="external-link">github.com/damithsenanayake/SONG</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>

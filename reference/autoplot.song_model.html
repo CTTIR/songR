@@ -78,7 +78,12 @@ ggplot2 to be installed."><meta property="og:image" content="https://cttir.githu
 
 
 <dt id="arg-color-by">color_by<a class="anchor" aria-label="anchor" href="#arg-color-by"></a></dt>
-<dd><p>Optional vector for coloring points.</p></dd>
+<dd><p>Optional vector for coloring points; see
+<code><a href="plot.song_model.html">plot.song_model</a></code> for the accepted lengths. As in
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, up to eight categories are drawn in the Okabe-Ito palette
+and numeric vectors on the viridis scale; more than eight categories use
+the default discrete <code>ggplot2</code> scale. Adding a color scale to the
+returned plot replaces the scale chosen here.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -90,6 +95,13 @@ ggplot2 to be installed."><meta property="og:image" content="https://cttir.githu
     <p>A <code>ggplot</code> object.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The method is registered for <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">ggplot2::autoplot()</a></code> when <span class="pkg">ggplot2</span>
+is available, so <code>ggplot2::autoplot(model)</code> dispatches to it once
+<span class="pkg">songR</span> is loaded. Models with more than two output dimensions are drawn
+in their first two embedding dimensions.</p>
+    </div>
+    <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Senanayake, D. A., Wang, W., Naik, S. H., &amp; Halgamuge, S. (2021).
 Self-Organizing Nebulous Growths for Robust and Incremental Data
@@ -99,20 +111,12 @@ Systems</em>, 32(10), 4588–4602. <a href="https://doi.org/10.1109/TNNLS.2020.3
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="song.html">song</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>, epochs <span class="op">=</span> <span class="fl">5L</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="co"># Use songR::autoplot.song_model(model, color_by = iris$Species)</span></span></span>
-<span class="r-in"><span>  <span class="co"># or ensure songR is loaded with library(songR) for dispatch</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Epoch 1/5 | CVs: 3 | QE: 1.5296 | so_lr: 1.0000 | lr: 1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Epoch 2/5 | CVs: 5 | QE: 0.8414 | so_lr: 0.8187 | lr: 0.8000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Epoch 3/5 | CVs: 9 | QE: 0.5442 | so_lr: 0.4493 | lr: 0.6000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Epoch 4/5 | CVs: 16 | QE: 0.4508 | so_lr: 0.1653 | lr: 0.4000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Epoch 5/5 | CVs: 25 | QE: 0.3978 | so_lr: 0.0408 | lr: 0.2000</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Running UMAP dispersion step...</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="song.html">song</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>, epochs <span class="op">=</span> <span class="fl">5L</span>, seed <span class="op">=</span> <span class="fl">42</span>,</span></span>
+<span class="r-in"><span>              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">model</span>, color_by <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="autoplot.song_model-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">autoplot.song_model</span><span class="op">(</span><span class="va">model</span>, type <span class="op">=</span> <span class="st">"graph"</span>, color_by <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="autoplot.song_model-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

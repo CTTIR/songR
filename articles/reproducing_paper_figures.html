@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">Raban
 Heller</h4>
             
-            <h4 data-toc-skip class="date">2026-11-22</h4>
+            <h4 data-toc-skip class="date">2026-11-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/CTTIR/songR/blob/main/vignettes/articles/reproducing_paper_figures.Rmd" class="external-link"><code>vignettes/articles/reproducing_paper_figures.Rmd</code></a></small>
       <div class="d-none name"><code>reproducing_paper_figures.Rmd</code></div>
@@ -106,7 +106,7 @@ Heller</h4>
 </div>
 <!-- cttir-vignette-logo: end -->
 <!-- badges: start -->
-<p><a href="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/songR/"><img src="https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=songR" class="external-link"><img src="https://www.r-pkg.org/badges/version/songR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/songR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/songR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=songR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/songR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/songR/"><img src="https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/CTTIR/songR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -199,7 +199,7 @@ per step:</p>
 <span>              title <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="va">s</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"SONG+Reinit\n"</span>, <span class="va">step_names</span><span class="op">[</span><span class="va">s</span><span class="op">]</span><span class="op">)</span></span>
 <span>                      <span class="kw">else</span> <span class="va">step_names</span><span class="op">[</span><span class="va">s</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="reproducing_paper_figures_files/figure-html/fig34-hetero-1.png" class="r-plt" alt="" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="reproducing_paper_figures_files/figure-html/fig34-hetero-1.png" class="r-plt" alt="Grid of eight scatter plots in two rows. Top row: SONG embeddings updated incrementally as two clusters of the blobs data are added per step, shown with 2, 4, 6 and 8 clusters. Bottom row: SONG refitted from scratch at each of the four steps. Points are colored by cluster." width="95%" style="display: block; margin: auto;"></p>
 <p><strong>Key observation</strong>: SONG preserves existing cluster
 positions as new clusters are added, while SONG+Reinit recomputes the
 entire layout.</p>
@@ -244,7 +244,7 @@ demonstrate with blobs, adding random subsamples:</p>
 <span>  <span class="fu">plot_plasma</span><span class="op">(</span><span class="va">m</span><span class="op">$</span><span class="va">embedding</span>, <span class="va">cur_labs</span>,</span>
 <span>              title <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="va">s</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"SONG+Reinit\nn="</span>, <span class="va">n_s</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"n="</span>, <span class="va">n_s</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="reproducing_paper_figures_files/figure-html/fig5-homogeneous-1.png" class="r-plt" alt="" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="reproducing_paper_figures_files/figure-html/fig5-homogeneous-1.png" class="r-plt" alt="Grid of eight scatter plots in two rows for random subsamples of 400, 800, 1200 and 1600 points of the blobs data. Top row: SONG updated incrementally. Bottom row: SONG refitted from scratch for each sample size. Points are colored by cluster." width="95%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="figure-6-cdy-consecutive-displacement-of-y">Figure 6: CDY (Consecutive Displacement of Y)<a class="anchor" aria-label="anchor" href="#figure-6-cdy-consecutive-displacement-of-y"></a>
@@ -297,11 +297,12 @@ Lower CDY = more stable embedding.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n_steps</span>, <span class="va">song_cdy</span>, type <span class="op">=</span> <span class="st">"b"</span>, pch <span class="op">=</span> <span class="fl">16</span>, col <span class="op">=</span> <span class="va">method_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>     ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">song_cdy</span>, <span class="va">reinit_cdy</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.1</span><span class="op">)</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">"Increment"</span>, ylab <span class="op">=</span> <span class="st">"Mean CDY"</span>,</span>
-<span>     main <span class="op">=</span> <span class="st">"CDY: Embedding Stability"</span>, bty <span class="op">=</span> <span class="st">"n"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span>     main <span class="op">=</span> <span class="st">"CDY: Embedding Stability"</span>, bty <span class="op">=</span> <span class="st">"n"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, xaxt <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_steps</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n_steps</span>, <span class="va">reinit_cdy</span>, type <span class="op">=</span> <span class="st">"b"</span>, pch <span class="op">=</span> <span class="fl">17</span>, col <span class="op">=</span> <span class="va">method_cols</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SONG (incremental)"</span>, <span class="st">"SONG+Reinit"</span><span class="op">)</span>,</span>
 <span>       col <span class="op">=</span> <span class="va">method_cols</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span>, pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">17</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reproducing_paper_figures_files/figure-html/fig6-cdy-1.png" class="r-plt" alt="" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="reproducing_paper_figures_files/figure-html/fig6-cdy-1.png" class="r-plt" alt="Line chart of the mean displacement of existing points (CDY) against the increment number, with one line for incremental SONG and one for SONG refitted from scratch." width="95%" style="display: block; margin: auto;"></p>
 <p><strong>Key result</strong>: SONG (incremental) displaces existing
 points far less than reinitialized methods. In the paper, t-SNE shows
 CDY 10-50x higher than SONG.</p>
@@ -337,7 +338,7 @@ noise.</p>
 <span><span class="va">blobs_many</span> <span class="op">&lt;-</span> <span class="fu">simulate_blobs</span><span class="op">(</span><span class="fl">20</span>, <span class="fl">12</span>, n_per <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/song.html">song</a></span><span class="op">(</span><span class="va">blobs_many</span><span class="op">$</span><span class="va">data</span>, epochs <span class="op">=</span> <span class="fl">20L</span>, seed <span class="op">=</span> <span class="va">SEED</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu">plot_plasma</span><span class="op">(</span><span class="va">m3</span><span class="op">$</span><span class="va">embedding</span>, <span class="va">blobs_many</span><span class="op">$</span><span class="va">labels</span>, title <span class="op">=</span> <span class="st">"SONG (std=12, k=20)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reproducing_paper_figures_files/figure-html/fig7-noise-1.png" class="r-plt" alt="" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="reproducing_paper_figures_files/figure-html/fig7-noise-1.png" class="r-plt" alt="Three scatter plots of SONG embeddings of simulated Gaussian blobs: 10 clusters with standard deviation 4, 10 clusters with standard deviation 16, and 20 clusters with standard deviation 12. Points are colored by cluster." width="95%" style="display: block; margin: auto;"></p>
 <p>The full tutorial <code>06_fig7_table_IV_noise_tolerance.R</code>
 computes AMI scores across all 32 configurations and compares SONG,
 t-SNE, and UMAP. Typical results: SONG achieves AMI 85-95 across all
@@ -387,7 +388,7 @@ distorts it into arches.</p>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/frame.html" class="external-link">plot.new</a></span><span class="op">(</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">"uwot not installed"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="reproducing_paper_figures_files/figure-html/fig8-topology-1.png" class="r-plt" alt="" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="reproducing_paper_figures_files/figure-html/fig8-topology-1.png" class="r-plt" alt="Three scatter plots of five simulated objects with circular topology, embedded with SONG, t-SNE and UMAP. Points are colored by object." width="95%" style="display: block; margin: auto;"></p>
 <p><strong>Expected</strong>: Circular/elongated clusters in SONG and
 UMAP, arch shapes in t-SNE.</p>
 </div>
@@ -442,7 +443,7 @@ dataset:</p>
 <span>  <span class="va">emb_u</span> <span class="op">&lt;-</span> <span class="fu">uwot</span><span class="fu">::</span><span class="fu"><a href="https://jlmelville.github.io/uwot/reference/umap.html" class="external-link">umap</a></span><span class="op">(</span><span class="va">X</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="fu">plot_plasma</span><span class="op">(</span><span class="va">emb_u</span>, <span class="va">labs</span>, title <span class="op">=</span> <span class="st">"UMAP"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="reproducing_paper_figures_files/figure-html/iris-comparison-1.png" class="r-plt" alt="" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="reproducing_paper_figures_files/figure-html/iris-comparison-1.png" class="r-plt" alt="Three scatter plots of the iris data embedded with SONG, t-SNE and UMAP. Points are colored by species." width="95%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="running-the-full-tutorial-suite">Running the Full Tutorial Suite<a class="anchor" aria-label="anchor" href="#running-the-full-tutorial-suite"></a>
@@ -531,7 +532,7 @@ structure in different absolute coordinates</strong>. The figure below
 overlays the reference and songR embeddings (the latter
 Procrustes-aligned for comparison); the analysis is reproducible via
 <code>data-raw/reproduction/repro_procrustes.R</code>.</p>
-<p><img src="reference_parity_overlay.png" class="r-plt" alt="" width="100%" style="display: block; margin: auto;"></p>
+<p><img src="reference_parity_overlay.png" class="r-plt" alt="Four scatter plots in two rows comparing the Python reference (left) with songR after Procrustes alignment (right). Top row: blobs data without dispersion, eight compact clusters in both, alignment R squared 0.22. Bottom row: MNIST with dispersion, ten digit classes forming similar groups in both, alignment R squared 0.73." width="100%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>

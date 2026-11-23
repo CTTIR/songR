@@ -121,7 +121,15 @@ Lower values produce sparser, faster-pruning graphs.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>Numeric. Initial SO learning rate (default: 1.0).</p></dd>
+<dd><p>Numeric. Initial SO learning rate (default: 1.0). Each sample
+moves its nearest coding vector by this fraction of their distance, and
+the rate decays over the epochs (see <code>lr_sigma</code>). Values above 1
+overshoot the sample, and large values can make training unstable. There
+is no fixed threshold: it depends on the data, <code>epochs</code> and
+<code>lr_sigma</code>. Coding vectors that become nonfinite or leave the range
+of the data by more than a factor of 1000 raise an error of class
+<code>song_error_diverged</code>; a fit that returns without this error is not
+thereby shown to be stable.</p></dd>
 
 
 <dt id="arg-a">a<a class="anchor" aria-label="anchor" href="#arg-a"></a></dt>
@@ -158,7 +166,10 @@ edges are pruned. <code>NULL</code> (default) auto-computes as
 <dt id="arg-max-prototypes">max_prototypes<a class="anchor" aria-label="anchor" href="#arg-max-prototypes"></a></dt>
 <dd><p>Integer or <code>NULL</code>. Maximum number of coding
 vectors. <code>NULL</code> (default) auto-computes as
-<code>floor(exp(log(n) / 1.5))</code>, matching the Python reference.</p></dd>
+<code>floor(exp(log(n) / 1.5))</code>, matching the Python reference. The
+codebook graph is stored as a dense matrix, so training memory grows with
+the square of this value (at least <code>8 * (max_prototypes + 200)^2</code>
+bytes; the returned model holds further copies of the graph).</p></dd>
 
 
 <dt id="arg-lr-sigma">lr_sigma<a class="anchor" aria-label="anchor" href="#arg-lr-sigma"></a></dt>
@@ -169,14 +180,18 @@ Default: 5.0 (matches Python).</p></dd>
 
 <dt id="arg-dispersion">dispersion<a class="anchor" aria-label="anchor" href="#arg-dispersion"></a></dt>
 <dd><p>Logical. If <code>TRUE</code> (default) and <span class="pkg">uwot</span> is
-available, runs a short UMAP refinement step initialised from the SONG
-embedding. This matches the Python reference implementation's
+available, runs a UMAP refinement step initialised from the SONG
+embedding. This follows the Python reference implementation's
 <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code> method and dramatically improves visual cluster
-separation.</p></dd>
+separation. Without <span class="pkg">uwot</span> the step is skipped and the raw SONG
+embedding is returned; see Details.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>Integer or <code>NULL</code>. Random seed for reproducibility.</p></dd>
+<dd><p>Integer or <code>NULL</code>. Random seed for reproducibility. A
+non-<code>NULL</code> seed is passed to <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></code>, so it also
+resets the random number stream of the session; with <code>NULL</code> the
+current stream is used and advanced.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -202,10 +217,19 @@ establish that supplied measurements have the declared physical meaning.</p></dd
 <dd><p>Coding vectors (<code>n_coding x D</code>).</p></dd>
 
 <dt>E</dt>
-<dd><p>Directed adjacency matrix (<code>n_coding x n_coding</code>).</p></dd>
+<dd><p>Directed adjacency matrix (<code>n_coding x n_coding</code>) of edge
+strengths, with a zero diagonal.</p></dd>
 
 <dt>E_s</dt>
-<dd><p>Symmetric adjacency matrix.</p></dd>
+<dd><p>Symmetric adjacency matrix, <code>(E + t(E)) / 2</code>.</p></dd>
+
+<dt>adj</dt>
+<dd><p>Internal training state: <code>E</code> with a unit diagonal, used
+to continue training in <code><a href="update.song_model.html">update.song_model</a></code>.</p></dd>
+
+<dt>E_q</dt>
+<dd><p>Internal training state: accumulated squared quantization
+error per coding vector, which drives codebook growth.</p></dd>
 
 <dt>assignments</dt>
 <dd><p>Integer vector of length <code>n</code>: nearest CV index.</p></dd>
@@ -216,14 +240,24 @@ establish that supplied measurements have the declared physical meaning.</p></dd
 <dt>parameters</dt>
 <dd><p>List of all hyperparameters used.</p></dd>
 
+<dt>n_epochs</dt>
+<dd><p>Number of epochs run in this call.</p></dd>
+
+<dt>converged</dt>
+<dd><p>Always <code>FALSE</code>: training runs for the requested
+number of epochs and has no early-stopping criterion.</p></dd>
+
+<dt>n_input</dt>
+<dd><p>Number of training observations.</p></dd>
+
+<dt>D</dt>
+<dd><p>Number of input features.</p></dd>
+
 <dt>feature_contract</dt>
 <dd><p>Versioned feature order, declared metadata and missing-value policy.</p></dd>
 
 <dt>lineage</dt>
 <dd><p>Projection version, parent identifier and reprojection policy.</p></dd>
-
-<dt>n_epochs</dt>
-<dd><p>Number of epochs actually run.</p></dd>
 
 
 </dl></div>
@@ -238,6 +272,16 @@ Legacy models without a contract also retain positional behavior.
 Integer controls must be scalar, finite, whole numbers within R's integer
 range; fractional values are rejected rather than truncated. Numeric controls
 must be finite, and <code>lr_sigma</code> must be non-negative.</p>
+<p>With <code>dispersion = TRUE</code> the returned <code>embedding</code> is the UMAP-refined layout
+and <code>Y</code> holds, for each coding vector, the centroid of its assigned points in
+that layout, so that <code><a href="predict.song_model.html">predict.song_model()</a></code> projects into the same
+coordinates. A coding vector without assigned points is placed at the
+edge-weighted mean of its occupied graph neighbors, or at the occupied
+coding vector nearest in input space when it has none. If the refinement
+fails, for example on very small inputs, a warning is issued and the raw
+SONG embedding is returned. <code>parameters$dispersion</code> records the request,
+not whether <span class="pkg">uwot</span> was available. <code><a href="update.song_model.html">update.song_model()</a></code> continues the
+core SONG training and does not repeat the refinement.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

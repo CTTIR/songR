@@ -16,14 +16,14 @@ Source:
 
 Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
 Dimensionality Reduction. R package version 1.0.0.
-https://github.com/cttir/songR
+https://github.com/CTTIR/songR
 
     @Manual{,
       title = {songR: Self-Organizing Nebulous Growths for Dimensionality Reduction},
       author = {R. Heller},
       year = {2026},
       note = {R package version 1.0.0},
-      url = {https://github.com/cttir/songR},
+      url = {https://github.com/CTTIR/songR},
     }
 
 Senanayake, D. A., Wang, W., Naik, S. H., & Halgamuge, S. (2021).

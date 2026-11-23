@@ -4,14 +4,8 @@
 
 [![R-CMD-check](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/songR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/songR)](https://CRAN.R-project.org/package=songR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/songR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/songR)](https://cran.r-project.org/package=songR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/songR)](https://cran.r-project.org/package=songR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -21,9 +15,10 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The Self-Organizing Nebulous Growths (SONG) algorithm is a parametric
 method for nonlinear dimensionality reduction. Unlike t-SNE and UMAP,
-SONG supports **incremental visualization**: new data can be added to an
-existing embedding without reinitializing or retraining the model. SONG
-is also robust to noise and highly mixed clusters.
+SONG supports **incremental visualization**: when new data arrive,
+training continues from the existing model instead of starting again
+from a new initialization. SONG is also robust to noise and highly mixed
+clusters.
 
 | Property            | SONG           | t-SNE     | UMAP      |
 |---------------------|----------------|-----------|-----------|
@@ -44,7 +39,8 @@ The algorithm is described in:
 ``` r
 
 # Install from GitHub
-devtools::install_github("cttir/songR")
+# install.packages("pak")
+pak::pak("CTTIR/songR")
 ```
 
 ## Quick Start with Iris
@@ -53,32 +49,13 @@ devtools::install_github("cttir/songR")
 
 library(songR)
 
-model <- song(as.matrix(iris[, 1:4]), seed = 42, epochs = 20L)
-#> Epoch 1/20 | CVs: 3 | QE: 1.5296 | so_lr: 1.0000 | lr: 1.0000
-#> Epoch 2/20 | CVs: 5 | QE: 0.8782 | so_lr: 0.9876 | lr: 0.9500
-#> Epoch 3/20 | CVs: 9 | QE: 0.5992 | so_lr: 0.9512 | lr: 0.9000
-#> Epoch 4/20 | CVs: 16 | QE: 0.4691 | so_lr: 0.8936 | lr: 0.8500
-#> Epoch 5/20 | CVs: 28 | QE: 0.3987 | so_lr: 0.8187 | lr: 0.8000
-#> Epoch 6/20 | CVs: 28 | QE: 0.3752 | so_lr: 0.7316 | lr: 0.7500
-#> Epoch 7/20 | CVs: 28 | QE: 0.3812 | so_lr: 0.6376 | lr: 0.7000
-#> Epoch 8/20 | CVs: 28 | QE: 0.3555 | so_lr: 0.5420 | lr: 0.6500
-#> Epoch 9/20 | CVs: 28 | QE: 0.3573 | so_lr: 0.4493 | lr: 0.6000
-#> Epoch 10/20 | CVs: 28 | QE: 0.3492 | so_lr: 0.3633 | lr: 0.5500
-#> Epoch 11/20 | CVs: 28 | QE: 0.3412 | so_lr: 0.2865 | lr: 0.5000
-#> Epoch 12/20 | CVs: 28 | QE: 0.3356 | so_lr: 0.2204 | lr: 0.4500
-#> Epoch 13/20 | CVs: 28 | QE: 0.3251 | so_lr: 0.1653 | lr: 0.4000
-#> Epoch 14/20 | CVs: 28 | QE: 0.3210 | so_lr: 0.1209 | lr: 0.3500
-#> Epoch 15/20 | CVs: 28 | QE: 0.3148 | so_lr: 0.0863 | lr: 0.3000
-#> Epoch 16/20 | CVs: 28 | QE: 0.3114 | so_lr: 0.0601 | lr: 0.2500
-#> Epoch 17/20 | CVs: 28 | QE: 0.3087 | so_lr: 0.0408 | lr: 0.2000
-#> Epoch 18/20 | CVs: 28 | QE: 0.3076 | so_lr: 0.0270 | lr: 0.1500
-#> Epoch 19/20 | CVs: 28 | QE: 0.3063 | so_lr: 0.0174 | lr: 0.1000
-#> Epoch 20/20 | CVs: 28 | QE: 0.3048 | so_lr: 0.0110 | lr: 0.0500
-#> Running UMAP dispersion step...
+model <- song(as.matrix(iris[, 1:4]), seed = 42, epochs = 20L, verbose = FALSE)
 plot(model, color_by = iris$Species)
 ```
 
-![](introduction_files/figure-html/quickstart-1.png)
+![Scatter plot of the two-dimensional SONG embedding of the iris data,
+with the three species forming separate groups and a legend naming
+them.](introduction_files/figure-html/quickstart-1.png)
 
 ## Working with the Bundled Dataset
 
@@ -89,7 +66,9 @@ model_blobs <- song(songR_blobs$data, seed = 42, epochs = 15L, verbose = FALSE)
 plot(model_blobs, color_by = songR_blobs$labels)
 ```
 
-![](introduction_files/figure-html/blobs-1.png)
+![Scatter plot of the SONG embedding of the bundled blobs data: eight
+compact, well separated clusters, one color per
+cluster.](introduction_files/figure-html/blobs-1.png)
 
 ## Incremental Visualization
 
@@ -110,19 +89,35 @@ model_v1 <- song(songR_blobs$data[idx1, ], seed = 42, epochs = 15L, verbose = FA
 # Update with second half
 model_v2 <- update(model_v1, songR_blobs$data[idx2, ], epochs = 10L, verbose = FALSE)
 
+# The eight colors that plot() uses for eight categories (Okabe-Ito)
+cluster_cols <- palette.colors(8, "Okabe-Ito")[c(2:4, 6:8, 5, 1)]
 par(mfrow = c(1, 2))
 plot(model_v1$embedding, pch = 16, cex = 0.5,
-     col = rainbow(8)[as.integer(songR_blobs$labels[idx1])],
+     col = cluster_cols[as.integer(songR_blobs$labels[idx1])],
      main = "Before update", xlab = "SONG 1", ylab = "SONG 2", bty = "n")
 plot(model_v2$embedding, pch = 16, cex = 0.5,
-     col = rainbow(8)[as.integer(songR_blobs$labels[idx2])],
+     col = cluster_cols[as.integer(songR_blobs$labels[idx2])],
      main = "After update", xlab = "SONG 1", ylab = "SONG 2", bty = "n")
 ```
 
-![](introduction_files/figure-html/incremental-1.png)
+![Two scatter plots side by side: the SONG embedding of the first half
+of the blobs data before the update, and the embedding of the second
+half after the update; each half contains four of the eight
+clusters.](introduction_files/figure-html/incremental-1.png)
 
-The codebook grows to accommodate new data while preserving the existing
-embedding structure.
+The codebook grows to accommodate the new data. Training continues from
+the existing layout, so prototypes and their coordinates may move. After
+an update, `model_v2$embedding` describes the update batch only; use
+`predict(model_v2, newdata = ...)` to place earlier observations in the
+new model revision, and
+[`predict()`](https://rdrr.io/r/stats/predict.html) with the unchanged
+model when coordinates must stay frozen.
+
+[`update()`](https://rdrr.io/r/stats/update.html) does not repeat the
+dispersion step. After a fit with the default `dispersion = TRUE`, the
+updated layout is therefore the raw SONG layout of the update batch: its
+clusters are much tighter and on a different scale than in the dispersed
+layout before the update, as the right panel shows.
 
 ## Predicting New Points
 
@@ -143,7 +138,9 @@ plot(model$embedding[, 1], model$embedding[, 2],
 points(new_coords[, 1], new_coords[, 2], col = "red", pch = 17, cex = 1.2)
 ```
 
-![](introduction_files/figure-html/predict-1.png)
+![Scatter plot of the SONG embedding of 135 training flowers in gray
+with the 15 projected test flowers overlaid as red triangles on existing
+groups.](introduction_files/figure-html/predict-1.png)
 
 ## Comparison: SONG vs t-SNE vs UMAP
 
@@ -162,19 +159,30 @@ tsne_result <- Rtsne::Rtsne(mat, dims = 2, perplexity = 30,
 umap_result <- uwot::umap(mat, n_neighbors = 15, verbose = FALSE)
 
 par(mfrow = c(1, 3))
-col <- as.integer(iris$Species)
+# Species colors from the color-blind-safe Okabe-Ito palette
+species_cols <- palette.colors(4, "Okabe-Ito")[2:4]
+col <- species_cols[as.integer(iris$Species)]
 plot(song_model$embedding, col = col, pch = 16, main = "SONG",
      xlab = "SONG 1", ylab = "SONG 2")
+legend("bottomright", legend = levels(iris$Species), col = species_cols,
+       pch = 16, bty = "n")
 plot(tsne_result$Y, col = col, pch = 16, main = "t-SNE",
      xlab = "tSNE 1", ylab = "tSNE 2")
 plot(umap_result, col = col, pch = 16, main = "UMAP",
      xlab = "UMAP 1", ylab = "UMAP 2")
 ```
 
-![](introduction_files/figure-html/comparison-1.png)
+![Three scatter plots of the iris data side by side, embedded with SONG,
+t-SNE and UMAP; each separates one species clearly from the two others.
+A legend in the first panel names the species
+colors.](introduction_files/figure-html/comparison-1.png)
 
 All three methods separate the Iris species, but only SONG supports
-incremental updates and retains a parametric codebook model.
+incremental updates and retains a parametric codebook model. With the
+default `dispersion = TRUE`, the SONG panel shows a UMAP refinement
+(‘uwot’, 200 epochs) that starts from the SONG layout, so it resembles
+the UMAP panel by construction; `dispersion = FALSE` returns the layout
+of SONG alone.
 
 ## Tuning Guide
 
@@ -214,7 +222,10 @@ summary(model)
 plot(model, type = "graph", color_by = iris$Species)
 ```
 
-![](introduction_files/figure-html/codebook-1.png)
+![Plot of the SONG codebook graph for the iris data: coding vectors as
+points colored by the most frequent species of their assigned flowers,
+connected by gray edges of the learned
+topology.](introduction_files/figure-html/codebook-1.png)
 
 ## Interactive Comparison App
 
@@ -237,7 +248,7 @@ citation("songR")
 #> 
 #>   Heller, R. (2026). songR: Self-Organizing Nebulous Growths for
 #>   Dimensionality Reduction. R package version 1.0.0.
-#>   https://github.com/cttir/songR
+#>   https://github.com/CTTIR/songR
 #> 
 #> To cite the underlying SONG algorithm, use:
 #> 

@@ -1,6 +1,8 @@
 # Print a SONG Model
 
-Prints a concise summary of a `"song_model"` object.
+Prints a concise summary of a `"song_model"` object: the class in the
+header line, then the input size, the number of coding vectors and
+edges, the output dimensionality and the number of epochs.
 
 ## Usage
 
@@ -42,7 +44,7 @@ model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)
 #> Epoch 5/5 | CVs: 25 | QE: 0.3978 | so_lr: 0.0408 | lr: 0.2000
 #> Running UMAP dispersion step...
 print(model)
-#> SONG model
+#> <song_model> SONG model
 #>   Input: 150 points in 4 dimensions
 #>   Coding vectors: 25 
 #>   Edges: 42 

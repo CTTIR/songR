@@ -4,14 +4,8 @@
 
 [![R-CMD-check](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/songR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/songR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/songR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/songR)](https://CRAN.R-project.org/package=songR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/songR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/songR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/songR)](https://cran.r-project.org/package=songR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/songR)](https://cran.r-project.org/package=songR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -112,7 +106,11 @@ for (s in 1:4) {
 }
 ```
 
-![](reproducing_paper_figures_files/figure-html/fig34-hetero-1.png)
+![Grid of eight scatter plots in two rows. Top row: SONG embeddings
+updated incrementally as two clusters of the blobs data are added per
+step, shown with 2, 4, 6 and 8 clusters. Bottom row: SONG refitted from
+scratch at each of the four steps. Points are colored by
+cluster.](reproducing_paper_figures_files/figure-html/fig34-hetero-1.png)
 
 **Key observation**: SONG preserves existing cluster positions as new
 clusters are added, while SONG+Reinit recomputes the entire layout.
@@ -160,7 +158,11 @@ for (s in seq_along(sizes)) {
 }
 ```
 
-![](reproducing_paper_figures_files/figure-html/fig5-homogeneous-1.png)
+![Grid of eight scatter plots in two rows for random subsamples of 400,
+800, 1200 and 1600 points of the blobs data. Top row: SONG updated
+incrementally. Bottom row: SONG refitted from scratch for each sample
+size. Points are colored by
+cluster.](reproducing_paper_figures_files/figure-html/fig5-homogeneous-1.png)
 
 ## Figure 6: CDY (Consecutive Displacement of Y)
 
@@ -214,13 +216,17 @@ method_cols <- viridis::plasma(4, end = 0.92)
 plot(1:n_steps, song_cdy, type = "b", pch = 16, col = method_cols[1],
      ylim = c(0, max(c(song_cdy, reinit_cdy)) * 1.1),
      xlab = "Increment", ylab = "Mean CDY",
-     main = "CDY: Embedding Stability", bty = "n", lwd = 2)
+     main = "CDY: Embedding Stability", bty = "n", lwd = 2, xaxt = "n")
+axis(1, at = 1:n_steps)
 lines(1:n_steps, reinit_cdy, type = "b", pch = 17, col = method_cols[3], lwd = 2)
 legend("topright", c("SONG (incremental)", "SONG+Reinit"),
        col = method_cols[c(1, 3)], pch = c(16, 17), lwd = 2, bty = "n")
 ```
 
-![](reproducing_paper_figures_files/figure-html/fig6-cdy-1.png)
+![Line chart of the mean displacement of existing points (CDY) against
+the increment number, with one line for incremental SONG and one for
+SONG refitted from
+scratch.](reproducing_paper_figures_files/figure-html/fig6-cdy-1.png)
 
 **Key result**: SONG (incremental) displaces existing points far less
 than reinitialized methods. In the paper, t-SNE shows CDY 10-50x higher
@@ -259,7 +265,10 @@ m3 <- song(blobs_many$data, epochs = 20L, seed = SEED, verbose = FALSE)
 plot_plasma(m3$embedding, blobs_many$labels, title = "SONG (std=12, k=20)")
 ```
 
-![](reproducing_paper_figures_files/figure-html/fig7-noise-1.png)
+![Three scatter plots of SONG embeddings of simulated Gaussian blobs: 10
+clusters with standard deviation 4, 10 clusters with standard deviation
+16, and 20 clusters with standard deviation 12. Points are colored by
+cluster.](reproducing_paper_figures_files/figure-html/fig7-noise-1.png)
 
 The full tutorial `06_fig7_table_IV_noise_tolerance.R` computes AMI
 scores across all 32 configurations and compares SONG, t-SNE, and UMAP.
@@ -312,7 +321,9 @@ if (requireNamespace("uwot", quietly = TRUE)) {
 }
 ```
 
-![](reproducing_paper_figures_files/figure-html/fig8-topology-1.png)
+![Three scatter plots of five simulated objects with circular topology,
+embedded with SONG, t-SNE and UMAP. Points are colored by
+object.](reproducing_paper_figures_files/figure-html/fig8-topology-1.png)
 
 **Expected**: Circular/elongated clusters in SONG and UMAP, arch shapes
 in t-SNE.
@@ -371,7 +382,9 @@ if (requireNamespace("uwot", quietly = TRUE)) {
 }
 ```
 
-![](reproducing_paper_figures_files/figure-html/iris-comparison-1.png)
+![Three scatter plots of the iris data embedded with SONG, t-SNE and
+UMAP. Points are colored by
+species.](reproducing_paper_figures_files/figure-html/iris-comparison-1.png)
 
 ## Running the Full Tutorial Suite
 
@@ -428,7 +441,12 @@ figure below overlays the reference and songR embeddings (the latter
 Procrustes-aligned for comparison); the analysis is reproducible via
 `data-raw/reproduction/repro_procrustes.R`.
 
-![](reference_parity_overlay.png)
+![Four scatter plots in two rows comparing the Python reference (left)
+with songR after Procrustes alignment (right). Top row: blobs data
+without dispersion, eight compact clusters in both, alignment R squared
+0.22. Bottom row: MNIST with dispersion, ten digit classes forming
+similar groups in both, alignment R squared
+0.73.](reference_parity_overlay.png)
 
 ## Citation
 
