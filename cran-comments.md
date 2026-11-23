@@ -37,7 +37,7 @@ the baseline platform results do not qualify the changed source.
   Reference-parity tests against larger fixtures are skipped on CRAN.
 * The interactive 'shiny' application is only launched inside
   `if (interactive())`.
-* The complete non-CRAN test run measured 93.42% coverage. The hosted
+* The complete non-CRAN test run measured 96.88% coverage. The hosted
   regression floor is 90%; the reference-parity tests also run in that lane.
 
 ## Downstream dependencies
