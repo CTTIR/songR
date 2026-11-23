@@ -133,6 +133,11 @@ update, `model_v2$embedding` describes the update batch only; use
 model revision, and `predict()` with the unchanged model when coordinates must
 stay frozen.
 
+`update()` does not repeat the dispersion step. After a fit with the default
+`dispersion = TRUE`, the updated layout is therefore the raw SONG layout of the
+update batch: its clusters are much tighter and on a different scale than in
+the dispersed layout before the update, as the right panel shows.
+
 ## Predicting New Points
 
 ```{r predict, fig.alt = "Scatter plot of the SONG embedding of 135 training flowers in gray with the 15 projected test flowers overlaid as red triangles on existing groups."}
@@ -181,7 +186,10 @@ plot(umap_result, col = col, pch = 16, main = "UMAP",
 ```
 
 All three methods separate the Iris species, but only SONG supports
-incremental updates and retains a parametric codebook model.
+incremental updates and retains a parametric codebook model. With the default
+`dispersion = TRUE`, the SONG panel shows a UMAP refinement ('uwot', 200
+epochs) that starts from the SONG layout, so it resembles the UMAP panel by
+construction; `dispersion = FALSE` returns the layout of SONG alone.
 
 ## Tuning Guide
 
