@@ -18,9 +18,11 @@ autoplot.song_model(
 \code{"graph"}.}
 
 \item{color_by}{Optional vector for coloring points; see
-\code{\link{plot.song_model}} for the accepted lengths. Categorical and
-numeric vectors use the discrete and continuous \code{ggplot2} color
-scales, which can be replaced by adding a scale to the returned plot.}
+\code{\link{plot.song_model}} for the accepted lengths. As in
+\code{plot()}, up to eight categories are drawn in the Okabe-Ito palette
+and numeric vectors on the viridis scale; more than eight categories use
+the default discrete \code{ggplot2} scale. Adding a color scale to the
+returned plot replaces the scale chosen here.}
 
 \item{...}{Ignored.}
 }

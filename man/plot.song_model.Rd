@@ -22,10 +22,13 @@ embedding space), \code{"codebook"} (coding vectors only), or
 \item{color_by}{Optional vector of length equal to
 the number of input points (for \code{"embedding"}) or coding vectors
 (for \code{"codebook"} and \code{"graph"}) used to color the points.
-Factor, character and logical vectors are treated as categories and drawn
-with a qualitative palette. Numeric vectors are treated as continuous and
-mapped linearly onto the sequential viridis palette (low values dark
-purple, high values yellow). Missing or nonfinite values are drawn in gray.
+Factor, character and logical vectors are treated as categories. Up to
+eight categories are drawn in the Okabe-Ito palette, which stays
+distinguishable under the common forms of color vision deficiency; more
+categories use evenly spaced hues. Numeric vectors are treated as
+continuous and mapped linearly onto the sequential viridis palette (low
+values dark purple, high values yellow). Missing or nonfinite values are
+drawn in gray.
 After an update, observation labels must follow the update batch, not all
 historical inputs. Codebook and graph plots also accept current-batch
 labels and map them to each prototype: the modal value of categories and
@@ -52,6 +55,10 @@ the codebook, or the codebook graph with edges.
 \details{
 Models with more than two output dimensions are drawn in their first two
 embedding dimensions.
+
+The graph edges and the eighth category color take the foreground color of
+the graphics device (\code{par("fg")}), so that they remain visible when the
+plot is drawn on a dark background.
 }
 \examples{
 model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)

@@ -38,6 +38,17 @@ First stable release and first CRAN submission.
 * `plot()` forwards graphical arguments such as `main`, `xlab`, `ylab`, `pch`
   and `cex` through `...`; they override the defaults of the method. These
   previously failed as duplicated arguments.
+* `plot()` and `autoplot()` draw up to eight categories in the Okabe-Ito
+  palette, which stays distinguishable under the common forms of color vision
+  deficiency, instead of pastel hues (`plot()`) and the default `ggplot2` hues
+  (`autoplot()`). More than eight categories keep evenly spaced hues.
+* `autoplot()` draws a numeric `color_by` on the viridis scale and missing
+  values in gray, as `plot()` does. Adding a color scale to the returned plot
+  still replaces the scale.
+* The edges of `plot(type = "graph")` and the eighth category color follow the
+  foreground color of the graphics device (`par("fg")`), so they stay visible
+  on a dark background, for example in the dark mode of the comparison app.
+  On a white background the edges look as before.
 
 ## Bug fixes
 

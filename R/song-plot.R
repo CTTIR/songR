@@ -10,10 +10,13 @@
 #' @param color_by Optional vector of length equal to
 #'   the number of input points (for \code{"embedding"}) or coding vectors
 #'   (for \code{"codebook"} and \code{"graph"}) used to color the points.
-#'   Factor, character and logical vectors are treated as categories and drawn
-#'   with a qualitative palette. Numeric vectors are treated as continuous and
-#'   mapped linearly onto the sequential viridis palette (low values dark
-#'   purple, high values yellow). Missing or nonfinite values are drawn in gray.
+#'   Factor, character and logical vectors are treated as categories. Up to
+#'   eight categories are drawn in the Okabe-Ito palette, which stays
+#'   distinguishable under the common forms of color vision deficiency; more
+#'   categories use evenly spaced hues. Numeric vectors are treated as
+#'   continuous and mapped linearly onto the sequential viridis palette (low
+#'   values dark purple, high values yellow). Missing or nonfinite values are
+#'   drawn in gray.
 #'   After an update, observation labels must follow the update batch, not all
 #'   historical inputs. Codebook and graph plots also accept current-batch
 #'   labels and map them to each prototype: the modal value of categories and
@@ -31,6 +34,10 @@
 #' @details
 #' Models with more than two output dimensions are drawn in their first two
 #' embedding dimensions.
+#'
+#' The graph edges and the eighth category color take the foreground color of
+#' the graphics device (\code{par("fg")}), so that they remain visible when the
+#' plot is drawn on a dark background.
 #' @export
 #' @examples
 #' model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)
@@ -66,7 +73,10 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
     cli::cli_abort("Cannot plot with output dimensionality < 2.")
   }
 
-  colors <- .song_point_colors(color_by)
+  # The foreground color of the device: the graph edges and the eighth category
+  # color follow it, so that both stay visible on a dark background.
+  ink <- graphics::par("fg")
+  colors <- .song_point_colors(color_by, ink = ink)
 
   # Arguments supplied through `...` take precedence over the method defaults.
   dots <- list(...)
@@ -89,10 +99,11 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
     edges <- which(upper.tri(E_s) & E_s > 0, arr.ind = TRUE)
     if (nrow(edges) > 0L) {
       w <- E_s[edges]
-      edge_col <- vapply(
-        pmin(w, 1),
-        function(a) grDevices::adjustcolor("gray40", alpha.f = a),
-        character(1)
+      # Edge opacity follows the edge weight. At full weight an edge is 60 %
+      # foreground color, which is "gray40" on a white background.
+      ink_rgb <- grDevices::col2rgb(ink)[, 1L] / 255
+      edge_col <- grDevices::rgb(
+        ink_rgb[1L], ink_rgb[2L], ink_rgb[3L], alpha = 0.6 * pmin(w, 1)
       )
       graphics::segments(
         coords[edges[, 1], 1], coords[edges[, 1], 2],
@@ -115,9 +126,31 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
   invisible(NULL)
 }
 
+# Qualitative colors for `n` categories. Up to eight categories use the
+# Okabe-Ito palette that ships with R (grDevices::palette.colors()), which stays
+# distinguishable under the common forms of color vision deficiency. Its yellow
+# and black come last: yellow is faint on a white background, and black is
+# replaced by `ink`, the foreground color of the plot, so that the eighth
+# category stays visible on a dark background. More than eight categories fall
+# back to evenly spaced hues.
+.song_qualitative_palette <- function(n, ink = "black") {
+  if (n < 1L) {
+    return(character(0))
+  }
+  if (n > 8L) {
+    return(grDevices::hcl.colors(n, palette = "Set 2"))
+  }
+  # Positions in the palette: 1 black, 2 orange, 3 sky blue, 4 bluish green,
+  # 5 yellow, 6 blue, 7 vermillion, 8 reddish purple.
+  okabe_ito <- unname(grDevices::palette.colors(8L, palette = "Okabe-Ito"))
+  palette <- okabe_ito[c(2L, 3L, 4L, 6L, 7L, 8L, 5L, 1L)]
+  palette[8L] <- ink
+  palette[seq_len(n)]
+}
+
 # Translate a `color_by` vector into point colors for base graphics.
 # Categories use a qualitative palette; numeric values use a sequential one.
-.song_point_colors <- function(color_by, missing = "grey70") {
+.song_point_colors <- function(color_by, missing = "grey70", ink = "black") {
   if (is.null(color_by)) {
     return(list(col = "steelblue", levels = NULL, palette = NULL, missing = NULL))
   }
@@ -152,8 +185,7 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
     ))
   }
   color_by <- as.factor(color_by)
-  palette <- grDevices::hcl.colors(max(nlevels(color_by), 1L), palette = "Set 2")
-  palette <- palette[seq_len(nlevels(color_by))]
+  palette <- .song_qualitative_palette(nlevels(color_by), ink = ink)
   col <- palette[as.integer(color_by)]
   has_missing <- anyNA(col)
   col[is.na(col)] <- missing
@@ -202,9 +234,11 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
 #' @param type Character. One of \code{"embedding"}, \code{"codebook"}, or
 #'   \code{"graph"}.
 #' @param color_by Optional vector for coloring points; see
-#'   \code{\link{plot.song_model}} for the accepted lengths. Categorical and
-#'   numeric vectors use the discrete and continuous \code{ggplot2} color
-#'   scales, which can be replaced by adding a scale to the returned plot.
+#'   \code{\link{plot.song_model}} for the accepted lengths. As in
+#'   \code{plot()}, up to eight categories are drawn in the Okabe-Ito palette
+#'   and numeric vectors on the viridis scale; more than eight categories use
+#'   the default discrete \code{ggplot2} scale. Adding a color scale to the
+#'   returned plot replaces the scale chosen here.
 #' @param ... Ignored.
 #' @return A \code{ggplot} object.
 #' @details
@@ -249,8 +283,11 @@ autoplot.song_model <- function(object,
     cli::cli_abort("Cannot plot with output dimensionality < 2.")
   }
   df <- data.frame(x = coords[, 1], y = coords[, 2])
+  numeric_color <- is.numeric(color_by) && !is.factor(color_by)
   if (!is.null(color_by)) {
-    df$color <- color_by
+    # Categories become a factor so that a level keeps its color when it has
+    # no points, as in plot().
+    df$color <- if (numeric_color) color_by else as.factor(color_by)
   }
 
   # Suppress R CMD check notes for ggplot2 NSE
@@ -280,6 +317,16 @@ autoplot.song_model <- function(object,
   if (!is.null(color_by)) {
     p <- p + ggplot2::geom_point(ggplot2::aes(color = color), size = 1) +
       ggplot2::labs(color = "")
+    # The same colors as plot(): viridis for numeric values, Okabe-Ito for up
+    # to eight categories, gray for missing values.
+    if (numeric_color) {
+      p <- p + ggplot2::scale_color_viridis_c(na.value = "grey70")
+    } else if (nlevels(df$color) <= 8L) {
+      p <- p + ggplot2::scale_color_manual(
+        values = .song_qualitative_palette(nlevels(df$color)),
+        na.value = "grey70", drop = FALSE
+      )
+    }
   } else {
     p <- p + ggplot2::geom_point(color = "steelblue", size = 1)
   }

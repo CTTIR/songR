@@ -56,6 +56,74 @@ test_that("categorical color_by keeps levels and marks missing labels", {
   expect_identical(.song_point_colors(NULL)$col, "steelblue")
 })
 
+test_that("up to eight categories use the Okabe-Ito palette", {
+  okabe_ito <- unname(grDevices::palette.colors(8L, palette = "Okabe-Ito"))
+  eight <- .song_qualitative_palette(8L)
+  # Yellow and black come last; black follows the foreground color.
+  expect_identical(eight, c(okabe_ito[c(2:4, 6:8, 5L)], "black"))
+  expect_identical(eight[7L], "#F0E442")
+  expect_identical(.song_qualitative_palette(8L, ink = "#EEEEEE")[8L], "#EEEEEE")
+  expect_identical(.song_qualitative_palette(3L), eight[1:3])
+  expect_identical(.song_qualitative_palette(0L), character(0))
+  # More categories fall back to distinct, valid colors.
+  many <- .song_qualitative_palette(11L)
+  expect_length(unique(many), 11L)
+  expect_true(is_color(many))
+  # Point colors use the palette and pass the foreground color on.
+  colors <- .song_point_colors(factor(letters[1:8]), ink = "white")
+  expect_identical(colors$palette, c(eight[1:7], "white"))
+})
+
+test_that("graph edges follow the foreground color of the device", {
+  m <- fit_small()
+  edge_colors <- function(fg) {
+    local_null_device()
+    graphics::par(fg = fg)
+    seen <- NULL
+    testthat::local_mocked_bindings(
+      segments = function(..., col) seen <<- col,
+      .package = "graphics"
+    )
+    plot(m, type = "graph")
+    seen
+  }
+  on_light <- grDevices::col2rgb(edge_colors("black"), alpha = TRUE)
+  on_dark <- grDevices::col2rgb(edge_colors("white"), alpha = TRUE)
+  expect_true(all(on_light[1:3, ] == 0))
+  expect_true(all(on_dark[1:3, ] == 255))
+  # Opacity is 60 % of the edge weight in both cases.
+  expect_identical(on_light[4L, ], on_dark[4L, ])
+  expect_true(all(on_light[4L, ] > 0 & on_light[4L, ] <= 153))
+})
+
+test_that("autoplot uses the color scales of plot()", {
+  skip_if_not_installed("ggplot2")
+  m <- fit_small()
+  point_colors <- function(p) {
+    built <- ggplot2::ggplot_build(p)
+    built$data[[length(built$data)]]$colour
+  }
+  species <- iris$Species[1:60]
+  categorical <- point_colors(autoplot.song_model(m, color_by = species))
+  expect_identical(
+    categorical,
+    .song_qualitative_palette(3L)[as.integer(species)]
+  )
+  with_missing <- c(NA, as.character(species[-1L]))
+  expect_identical(
+    point_colors(autoplot.song_model(m, color_by = with_missing))[1L], "grey70"
+  )
+  numeric <- autoplot.song_model(m, color_by = iris$Sepal.Length[1:60])
+  shade <- point_colors(numeric)
+  order_value <- order(iris$Sepal.Length[1:60])
+  expect_identical(
+    toupper(shade[order_value[c(1L, 60L)]]), c("#440154", "#FDE725")
+  )
+  # More than eight categories keep the default discrete scale.
+  many <- autoplot.song_model(m, color_by = rep(letters[1:10], 6L))
+  expect_length(unique(point_colors(many)), 10L)
+})
+
 test_that("plot draws continuous, negative and logical color_by values", {
   local_null_device()
   m <- fit_small()
