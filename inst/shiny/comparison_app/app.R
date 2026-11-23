@@ -5,8 +5,11 @@
 app_css <- "
 /* ── Reset & base ── */
 * { box-sizing: border-box; }
+/* Bootstrap sets the root font size to 10px; the rem sizes below assume 16px. */
+html { font-size: 16px; }
 body {
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
   background: #f7f8fa;
   color: #1a1a2e;
   margin: 0;
@@ -458,7 +461,10 @@ body.dark-mode .feature-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.3); }
 "
 
 # ── UI ────────────────────────────────────────────────────────────────────────
-ui <- shiny::tagList(
+# bootstrapPage() loads the Bootstrap grid and form styles that fluidRow(),
+# column() and the input widgets rely on; a bare tagList() does not, and the
+# columns of the comparison then stack below each other.
+ui <- shiny::bootstrapPage(
   shiny::tags$head(
     shiny::tags$style(shiny::HTML(app_css)),
     shiny::tags$title("songR Explorer")
@@ -1121,21 +1127,27 @@ server <- function(input, output, session) {
     if (!is.null(labels)) {
       lvls    <- levels(as.factor(labels))
       n_lvls  <- length(lvls)
-      palette <- viridis::plasma(n_lvls, end = 0.92)
+      # The dark end of plasma disappears on the dark panel and the yellow end
+      # on the white one, so each mode leaves out the end it cannot show.
+      palette <- if (dark) {
+        viridis::plasma(n_lvls, begin = 0.3, end = 1)
+      } else {
+        viridis::plasma(n_lvls, end = 0.92)
+      }
       col     <- palette[as.integer(as.factor(labels))]
     } else {
-      col     <- "#B12A90"
+      col     <- if (dark) "#E16462" else "#B12A90"
       lvls    <- NULL
       palette <- NULL
     }
 
     graphics::plot(coords[, 1], coords[, 2], col = col,
-                   pch = 16, cex = 0.65, axes = FALSE,
+                   pch = 16, cex = 0.9, axes = FALSE,
                    xlab = "", ylab = "", main = "")
     graphics::box(col = box_col)
     if (!is.null(lvls) && n_lvls <= 20) {
       graphics::legend("topright", legend = lvls, col = palette, pch = 16,
-                       cex = 0.7, bty = "n", pt.cex = 0.9,
+                       cex = 0.95, bty = "n", pt.cex = 1.1,
                        text.col = txt_col)
     }
   }

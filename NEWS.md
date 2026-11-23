@@ -50,6 +50,15 @@ First stable release and first CRAN submission.
   on a dark background, for example in the dark mode of the comparison app.
   On a white background the edges look as before.
 
+## Comparison app
+
+* The app loads the Bootstrap styles that its layout relies on: the settings
+  and the SONG, t-SNE and UMAP panels now sit side by side instead of below
+  each other, and the inputs are styled as intended.
+* The comparison plots draw larger points and legend text, and in dark mode
+  they leave out the dark end of the plasma scale, which was invisible on the
+  dark panel.
+
 ## Bug fixes
 
 * Validate scalar, finite hyperparameters before native training. Fractional

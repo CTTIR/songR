@@ -18,6 +18,22 @@ test_that("branding helpers read the packaged artwork", {
   expect_error(.cttir_brand_logo(mode = "sepia"), "should be one of")
 })
 
+test_that("the comparison app loads the Bootstrap styles its layout needs", {
+  skip_if_not_installed("shiny")
+  skip_if_not_installed("htmltools")
+  app_dir <- system.file("shiny", "comparison_app", package = "songR")
+  skip_if(!nzchar(app_dir), "app directory not installed")
+  app_env <- new.env()
+  sys.source(file.path(app_dir, "app.R"), envir = app_env)
+  # fluidRow() and column() only place panels side by side with Bootstrap.
+  # htmltools is installed with shiny and is looked up without a declaration.
+  find_dependencies <- getExportedValue("htmltools", "findDependencies")
+  dependencies <- find_dependencies(app_env$ui)
+  expect_true("bootstrap" %in% vapply(dependencies, `[[`, character(1), "name"))
+  # Bootstrap shrinks the root font size; the app restores it for its rem units.
+  expect_match(app_env$app_css, "html { font-size: 16px; }", fixed = TRUE)
+})
+
 test_that("the comparison app server fits all three methods on iris", {
   skip_on_cran()
   for (pkg in c("shiny", "Rtsne", "uwot", "viridis")) skip_if_not_installed(pkg)
