@@ -18,7 +18,8 @@
 print.song_model <- function(x, ...) {
   n_coding <- nrow(x$C)
   n_edges <- sum(x$E_s[upper.tri(x$E_s)] > 0)
-  converge_str <- if (x$converged) "converged" else "max epochs"
+  # Models saved before the `converged` field existed report "max epochs".
+  converge_str <- if (isTRUE(x$converged)) "converged" else "max epochs"
 
   cat("SONG model\n")
   cat("  Input:", x$n_input, "points in", x$D, "dimensions\n")
@@ -52,7 +53,7 @@ summary.song_model <- function(object, ...) {
   es_upper <- object$E_s[upper.tri(object$E_s)]
   edge_vals <- es_upper[es_upper > 0]
   n_edges <- length(edge_vals)
-  converge_str <- if (object$converged) "converged" else "max epochs"
+  converge_str <- if (isTRUE(object$converged)) "converged" else "max epochs"
 
   cat("SONG model summary\n")
   cat("==================\n")

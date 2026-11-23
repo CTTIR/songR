@@ -61,3 +61,11 @@ test_that("print/summary handle a converged model and a no-edge model", {
   expect_match(out, "Edges: 0")
   expect_false(grepl("Mean edge strength", out))
 })
+
+test_that("print and summary accept models saved without a converged flag", {
+  m <- song(as.matrix(iris[1:60, 1:4]), epochs = 3L, seed = 1L,
+            verbose = FALSE, dispersion = FALSE)
+  m$converged <- NULL
+  expect_output(print(m), "max epochs")
+  expect_output(summary(m), "max epochs")
+})
