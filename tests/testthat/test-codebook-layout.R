@@ -24,6 +24,23 @@ test_that("input-length labels map to the modal label of each coding vector", {
   expect_true(is.na(resolve_color_by(m, "codebook", n_cv, labels)[1L]))
 })
 
+test_that("numeric input-length values map to the mean of each coding vector", {
+  m <- fit_small(n = 150L)
+  value <- iris$Sepal.Length
+  value[c(5L, 90L)] <- NA
+  n_cv <- nrow(m$C)
+  reference <- vapply(seq_len(n_cv), function(i) {
+    assigned <- value[m$assignments == i]
+    assigned <- assigned[is.finite(assigned)]
+    if (length(assigned) == 0L) NA_real_ else mean(assigned)
+  }, numeric(1))
+  mapped <- resolve_color_by(m, "graph", n_cv, value)
+  expect_type(mapped, "double")
+  expect_equal(mapped, reference)
+  # Values that already have coding-vector length are used as supplied.
+  expect_identical(resolve_color_by(m, "codebook", n_cv, reference), reference)
+})
+
 test_that("dispersion places coding vectors at the centroid of their points", {
   skip_if_not_installed("uwot")
   m <- song(as.matrix(iris[, 1:4]), epochs = 4L, seed = 1L, verbose = FALSE)

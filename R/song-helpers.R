@@ -44,14 +44,15 @@ validate_input <- function(X, call = rlang::caller_env(), min_rows = 2L) {
 #' input points. For \code{"codebook"} and \code{"graph"} plots, it may match
 #' either the number of coding vectors (used directly) or the number of input
 #' points (mapped to each coding vector via the modal label of its assigned
-#' points).
+#' points, or their mean for numeric values).
 #'
 #' @param object A \code{"song_model"} object.
 #' @param type Plot type: \code{"embedding"}, \code{"codebook"}, or \code{"graph"}.
 #' @param n_coords Number of rows in the coordinate matrix being plotted.
 #' @param color_by The user-supplied coloring vector, or \code{NULL}.
 #' @return \code{NULL}, the original \code{color_by}, or a coding-vector-length
-#'   factor mapped from input-length labels. Throws on length mismatch.
+#'   factor (numeric vector for numeric values) mapped from input-length labels.
+#'   Throws on length mismatch.
 #' @noRd
 resolve_color_by <- function(object, type, n_coords, color_by,
                              call = rlang::caller_env()) {
@@ -75,6 +76,13 @@ resolve_color_by <- function(object, type, n_coords, color_by,
   if (length(color_by) == n_assigned) {
     # One pass over the points: group the labels by assigned coding vector.
     groups <- split(color_by, factor(object$assignments, levels = seq_len(n_coords)))
+    if (is.numeric(color_by) && !is.factor(color_by)) {
+      # Numeric values stay continuous: the mean of the assigned points.
+      return(vapply(groups, function(values) {
+        values <- values[is.finite(values)]
+        if (length(values) == 0L) NA_real_ else mean(values)
+      }, numeric(1), USE.NAMES = FALSE))
+    }
     mapped <- vapply(groups, function(labels) {
       tbl <- table(labels)
       if (sum(tbl) == 0) return(NA_character_)

@@ -26,8 +26,9 @@ First stable release and first CRAN submission.
 
 ## Plots
 
-* `plot()` draws a legend for a categorical `color_by` with at most 12 levels,
-  in the plot corner that covers the fewest points. Use `legend = FALSE` to
+* `plot()` draws a legend in the plot corner that covers the fewest points:
+  the levels of a categorical `color_by` with at most 12 levels, or a key of
+  five evenly spaced values for a numeric `color_by`. Use `legend = FALSE` to
   omit it.
 * `plot()` forwards graphical arguments such as `main`, `xlab`, `ylab`, `pch`
   and `cex` through `...`; they override the defaults of the method. These
@@ -78,6 +79,9 @@ First stable release and first CRAN submission.
   and graph plots now share the scale of the embedding and `predict()` stays
   inside the layout. `model$embedding` is unchanged; `model$Y` and the model
   identifier change for models that contain such coding vectors.
+* Codebook and graph plots summarize numeric point values by their mean per
+  coding vector and keep a continuous color scale. They used to reduce numeric
+  values to the most frequent one and draw it as a category.
 * `autoplot()` reports a one-dimensional embedding with the same error as
   `plot()` instead of "subscript out of bounds".
 * `print()` and `summary()` accept models saved before the `converged` field

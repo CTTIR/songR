@@ -16,15 +16,17 @@
 #'   purple, high values yellow). Missing or nonfinite values are drawn in gray.
 #'   After an update, observation labels must follow the update batch, not all
 #'   historical inputs. Codebook and graph plots also accept current-batch
-#'   labels and map their modal value to each prototype; missing-only or empty
-#'   assignments yield a missing label.
+#'   labels and map them to each prototype: the modal value of categories and
+#'   the mean of numeric values. Missing-only or empty assignments yield a
+#'   missing label.
 #' @param ... Additional arguments passed to \code{\link[graphics]{plot}}, for
 #'   example \code{main}, \code{xlab}, \code{pch} or \code{cex}. They override
 #'   the defaults of this method. Point colors are set through \code{color_by};
 #'   \code{col} cannot be forwarded because it partially matches that argument.
-#' @param legend Logical. If \code{TRUE} (default), a legend is drawn for a
-#'   categorical \code{color_by} with at most 12 levels, in the plot corner
-#'   that covers the fewest points.
+#' @param legend Logical. If \code{TRUE} (default), a legend is drawn in the
+#'   plot corner that covers the fewest points: the levels of a categorical
+#'   \code{color_by} with at most 12 levels, or a key of five evenly spaced
+#'   values for a numeric \code{color_by}.
 #' @return Invisible \code{NULL}.
 #' @details
 #' Models with more than two output dimensions are drawn in their first two
@@ -123,16 +125,31 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
     ramp <- grDevices::hcl.colors(100L, palette = "viridis")
     col <- rep(missing, length(color_by))
     finite <- is.finite(color_by)
+    key_value <- NULL
+    key_col <- NULL
     if (any(finite)) {
       value <- as.double(color_by[finite])
       span <- range(value)
-      col[finite] <- if (span[2L] > span[1L]) {
-        ramp[1L + floor((value - span[1L]) / (span[2L] - span[1L]) * 99)]
+      if (span[2L] > span[1L]) {
+        position <- function(v) 1L + floor((v - span[1L]) / (span[2L] - span[1L]) * 99)
+        col[finite] <- ramp[position(value)]
+        # Five evenly spaced values, largest first, form the color key.
+        key_value <- seq(span[2L], span[1L], length.out = 5L)
+        key_col <- ramp[position(key_value)]
       } else {
-        ramp[50L]
+        col[finite] <- ramp[50L]
+        key_value <- span[1L]
+        key_col <- ramp[50L]
       }
     }
-    return(list(col = col, levels = NULL, palette = NULL, missing = NULL))
+    return(list(
+      col = col,
+      levels = if (!is.null(key_value)) {
+        format(signif(key_value, 3L), trim = TRUE, drop0trailing = TRUE)
+      },
+      palette = key_col,
+      missing = if (!all(finite)) missing else NULL
+    ))
   }
   color_by <- as.factor(color_by)
   palette <- grDevices::hcl.colors(max(nlevels(color_by), 1L), palette = "Set 2")
@@ -144,7 +161,7 @@ plot.song_model <- function(x, type = c("embedding", "codebook", "graph"),
        missing = if (has_missing) missing else NULL)
 }
 
-# Draw the category legend in the corner that hides the fewest points.
+# Draw the category legend or numeric key in the corner hiding the fewest points.
 # Returns the chosen corner invisibly, or NULL when no legend is drawn.
 .song_plot_legend <- function(coords, colors, max_levels = 12L) {
   n_levels <- length(colors$levels)

@@ -28,17 +28,19 @@ mapped linearly onto the sequential viridis palette (low values dark
 purple, high values yellow). Missing or nonfinite values are drawn in gray.
 After an update, observation labels must follow the update batch, not all
 historical inputs. Codebook and graph plots also accept current-batch
-labels and map their modal value to each prototype; missing-only or empty
-assignments yield a missing label.}
+labels and map them to each prototype: the modal value of categories and
+the mean of numeric values. Missing-only or empty assignments yield a
+missing label.}
 
 \item{...}{Additional arguments passed to \code{\link[graphics]{plot}}, for
 example \code{main}, \code{xlab}, \code{pch} or \code{cex}. They override
 the defaults of this method. Point colors are set through \code{color_by};
 \code{col} cannot be forwarded because it partially matches that argument.}
 
-\item{legend}{Logical. If \code{TRUE} (default), a legend is drawn for a
-categorical \code{color_by} with at most 12 levels, in the plot corner
-that covers the fewest points.}
+\item{legend}{Logical. If \code{TRUE} (default), a legend is drawn in the
+plot corner that covers the fewest points: the levels of a categorical
+\code{color_by} with at most 12 levels, or a key of five evenly spaced
+values for a numeric \code{color_by}.}
 }
 \value{
 Invisible \code{NULL}.

@@ -23,13 +23,21 @@ test_that("numeric color_by is mapped onto a sequential palette", {
   expect_identical(colors$col[1L], ramp[1L])
   expect_identical(colors$col[4L], ramp[100L])
   expect_identical(colors$col[5:6], rep("grey70", 2L))
-  expect_null(colors$levels)
+  # The key lists five evenly spaced values from the maximum to the minimum.
+  expect_identical(colors$levels, c("4", "2.38", "0.75", "-0.875", "-2.5"))
+  expect_identical(colors$palette[c(1L, 5L)], ramp[c(100L, 1L)])
+  expect_identical(colors$missing, "grey70")
   # Monotone: larger values never map to an earlier palette entry.
   finite <- sort(stats::rnorm(50))
   expect_false(is.unsorted(match(.song_point_colors(finite)$col, ramp)))
   # Constant and all-missing vectors still give one valid colour per point.
-  expect_identical(.song_point_colors(rep(3, 4L))$col, rep(ramp[50L], 4L))
-  expect_identical(.song_point_colors(rep(NA_real_, 3L))$col, rep("grey70", 3L))
+  constant <- .song_point_colors(rep(3, 4L))
+  expect_identical(constant$col, rep(ramp[50L], 4L))
+  expect_identical(constant$levels, "3")
+  expect_null(constant$missing)
+  all_missing <- .song_point_colors(rep(NA_real_, 3L))
+  expect_identical(all_missing$col, rep("grey70", 3L))
+  expect_null(all_missing$levels)
   expect_true(is_color(.song_point_colors(1:5)$col))
 })
 
@@ -84,9 +92,11 @@ test_that("the legend is drawn for few categories in the emptiest corner", {
   expect_true(corner %in% c("topleft", "bottomright", "bottomleft"))
   with_missing <- .song_point_colors(c("a", NA))
   expect_type(.song_plot_legend(coords, with_missing), "character")
-  # No legend without categories or with more than twelve levels.
-  expect_null(.song_plot_legend(coords, .song_point_colors(1:200)))
+  # A numeric color_by gets a five-value key.
+  expect_type(.song_plot_legend(coords, .song_point_colors(1:200)), "character")
+  # No legend without color_by, without finite values or above twelve levels.
   expect_null(.song_plot_legend(coords, .song_point_colors(NULL)))
+  expect_null(.song_plot_legend(coords, .song_point_colors(rep(NA_real_, 200L))))
   many <- .song_point_colors(as.character(seq_len(13L)))
   expect_null(.song_plot_legend(coords, many))
 })
