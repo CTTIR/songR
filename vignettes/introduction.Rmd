@@ -57,9 +57,9 @@ knitr::opts_chunk$set(
 
 The Self-Organizing Nebulous Growths (SONG) algorithm is a parametric method
 for nonlinear dimensionality reduction. Unlike t-SNE and UMAP, SONG supports
-**incremental visualization**: new data can be added to an existing embedding
-without reinitializing or retraining the model. SONG is also robust to noise
-and highly mixed clusters.
+**incremental visualization**: when new data arrive, training continues from
+the existing model instead of starting again from a new initialization. SONG
+is also robust to noise and highly mixed clusters.
 
 | Property | SONG | t-SNE | UMAP |
 |----------|------|-------|------|
@@ -84,16 +84,16 @@ devtools::install_github("cttir/songR")
 
 ## Quick Start with Iris
 
-```{r quickstart}
+```{r quickstart, fig.alt = "Scatter plot of the two-dimensional SONG embedding of the iris data, with the three species forming separate groups and a legend naming them."}
 library(songR)
 
-model <- song(as.matrix(iris[, 1:4]), seed = 42, epochs = 20L)
+model <- song(as.matrix(iris[, 1:4]), seed = 42, epochs = 20L, verbose = FALSE)
 plot(model, color_by = iris$Species)
 ```
 
 ## Working with the Bundled Dataset
 
-```{r blobs}
+```{r blobs, fig.alt = "Scatter plot of the SONG embedding of the bundled blobs data: eight compact, well separated clusters, one color per cluster."}
 data(songR_blobs)
 model_blobs <- song(songR_blobs$data, seed = 42, epochs = 15L, verbose = FALSE)
 plot(model_blobs, color_by = songR_blobs$labels)
@@ -104,7 +104,7 @@ plot(model_blobs, color_by = songR_blobs$labels)
 This is SONG's key feature. We train on the first half of the data, then
 incrementally add the second half.
 
-```{r incremental}
+```{r incremental, fig.alt = "Two scatter plots side by side: the SONG embedding of the first half of the blobs data before the update, and the embedding of the second half after the update, each showing eight clusters."}
 # Split data
 data(songR_blobs)
 n <- nrow(songR_blobs$data)
@@ -117,21 +117,26 @@ model_v1 <- song(songR_blobs$data[idx1, ], seed = 42, epochs = 15L, verbose = FA
 # Update with second half
 model_v2 <- update(model_v1, songR_blobs$data[idx2, ], epochs = 10L, verbose = FALSE)
 
+cluster_cols <- hcl.colors(8, "Set 2")
 par(mfrow = c(1, 2))
 plot(model_v1$embedding, pch = 16, cex = 0.5,
-     col = rainbow(8)[as.integer(songR_blobs$labels[idx1])],
+     col = cluster_cols[as.integer(songR_blobs$labels[idx1])],
      main = "Before update", xlab = "SONG 1", ylab = "SONG 2", bty = "n")
 plot(model_v2$embedding, pch = 16, cex = 0.5,
-     col = rainbow(8)[as.integer(songR_blobs$labels[idx2])],
+     col = cluster_cols[as.integer(songR_blobs$labels[idx2])],
      main = "After update", xlab = "SONG 1", ylab = "SONG 2", bty = "n")
 ```
 
-The codebook grows to accommodate new data while preserving the existing
-embedding structure.
+The codebook grows to accommodate the new data. Training continues from the
+existing layout, so prototypes and their coordinates may move. After an
+update, `model_v2$embedding` describes the update batch only; use
+`predict(model_v2, newdata = ...)` to place earlier observations in the new
+model revision, and `predict()` with the unchanged model when coordinates must
+stay frozen.
 
 ## Predicting New Points
 
-```{r predict}
+```{r predict, fig.alt = "Scatter plot of the SONG embedding of 135 training flowers in gray with the 15 projected test flowers overlaid as red triangles on existing groups."}
 # Train on 90%, predict on 10%
 train_idx <- 1:135
 test_idx <- 136:150
@@ -149,7 +154,7 @@ points(new_coords[, 1], new_coords[, 2], col = "red", pch = 17, cex = 1.2)
 
 ## Comparison: SONG vs t-SNE vs UMAP
 
-```{r comparison, eval = requireNamespace("Rtsne", quietly = TRUE) && requireNamespace("uwot", quietly = TRUE)}
+```{r comparison, eval = requireNamespace("Rtsne", quietly = TRUE) && requireNamespace("uwot", quietly = TRUE), fig.alt = "Three scatter plots of the iris data side by side, embedded with SONG, t-SNE and UMAP; each separates one species clearly from the two others."}
 mat <- as.matrix(iris[, 1:4])
 
 # SONG
@@ -163,7 +168,7 @@ tsne_result <- Rtsne::Rtsne(mat, dims = 2, perplexity = 30,
 umap_result <- uwot::umap(mat, n_neighbors = 15, verbose = FALSE)
 
 par(mfrow = c(1, 3))
-col <- as.integer(iris$Species)
+col <- hcl.colors(3, "Set 2")[as.integer(iris$Species)]
 plot(song_model$embedding, col = col, pch = 16, main = "SONG",
      xlab = "SONG 1", ylab = "SONG 2")
 plot(tsne_result$Y, col = col, pch = 16, main = "t-SNE",
@@ -193,7 +198,7 @@ SONG retains a codebook of coding vectors connected by a
 topology-preserving graph. This is what enables incremental updates
 and fast projection.
 
-```{r codebook}
+```{r codebook, fig.alt = "Plot of the SONG codebook graph for the iris data: coding vectors as points colored by the most frequent species of their assigned flowers, connected by gray edges of the learned topology."}
 model <- song(as.matrix(iris[, 1:4]), seed = 42, epochs = 15L, verbose = FALSE)
 summary(model)
 plot(model, type = "graph", color_by = iris$Species)

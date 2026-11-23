@@ -102,7 +102,7 @@ print(model)
 ```
 
 The model contains the 2D embedding for all input points. Let's visualize it:
-```{r iris-plot, fig.height = 4}
+```{r iris-plot, fig.height = 4, fig.alt = "Scatter plot of the two-dimensional SONG embedding of the iris data, with the three species forming separate groups and a legend naming them."}
 plot(model, color_by = iris$Species)
 ```
 
@@ -114,7 +114,7 @@ cluster structure in the 4-dimensional data and maps it to 2D.
 songR ships with `songR_blobs`, a synthetic 8-cluster dataset in 20
 dimensions designed for quick testing:
 
-```{r blobs}
+```{r blobs, fig.alt = "Scatter plot of the SONG embedding of the bundled blobs data: eight compact, well separated clusters, one color per cluster."}
 data(songR_blobs)
 cat("Data:", nrow(songR_blobs$data), "x", ncol(songR_blobs$data), "\n")
 cat("Clusters:", length(unique(songR_blobs$labels)), "\n")
@@ -131,7 +131,10 @@ plot(model_blobs, color_by = songR_blobs$labels)
 
 The key advantage of SONG is incremental updating. You can train on an
 initial batch of data and then add more data later without recomputing
-from scratch. The existing embedding is preserved.
+from scratch. Training continues from the existing model, so the layout stays
+close to the previous one, although prototypes and their coordinates may
+move. Use `predict()` with the unchanged model when coordinates must stay
+frozen.
 
 ```{r incremental}
 # Split iris into two halves
@@ -154,19 +157,20 @@ emb_v2_all <- predict(model_v2, newdata = rbind(X1, X2))
 ```
 
 Let's see the before/after:
-```{r incremental-plot, fig.width = 7, fig.height = 3.5}
+```{r incremental-plot, fig.width = 7, fig.height = 3.5, fig.alt = "Two scatter plots side by side: the SONG embedding of the first 75 iris flowers, and the embedding of all 150 flowers after the incremental update, colored by species."}
 par(mfrow = c(1, 2), mar = c(2, 2, 3, 1))
 
+# Species colors from the color-blind-safe Okabe-Ito palette
 # Before: only first 75 points
-cols1 <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-           virginica = "#4DAF4A")[as.character(labels1)]
+cols1 <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+           virginica = "#009E73")[as.character(labels1)]
 plot(emb_v1, pch = 16, col = cols1, cex = 0.8,
      main = "Step 1: First 75 points",
      xlab = "", ylab = "", bty = "n")
 
 # After: all 150 points
-cols_all <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-              virginica = "#4DAF4A")[as.character(iris$Species)]
+cols_all <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+              virginica = "#009E73")[as.character(iris$Species)]
 plot(emb_v2_all, pch = 16, col = cols_all, cex = 0.8,
      main = "Step 2: All 150 points (incremental)",
      xlab = "", ylab = "", bty = "n")
@@ -182,6 +186,7 @@ Once trained, a SONG model can project unseen data into the embedding
 space without retraining:
 ```{r predict}
 # Train on 80% of iris
+set.seed(42)
 train_idx <- sample(150, 120)
 test_idx <- setdiff(1:150, train_idx)
 
@@ -195,14 +200,14 @@ cat("Projected", nrow(new_coords), "new points into",
     ncol(new_coords), "dimensions\n")
 ```
 
-```{r predict-plot, fig.height = 4}
+```{r predict-plot, fig.height = 4, fig.alt = "Scatter plot of the SONG embedding of 120 training flowers as circles and 30 projected held-out flowers as larger triangles, colored by species, with the projected points on top of training groups."}
 # Plot training points (circles) and projected points (triangles)
 emb_train <- model_train$embedding
 
-cols_train <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-                virginica = "#4DAF4A")[as.character(iris$Species[train_idx])]
-cols_test <- c(setosa = "#E41A1C", versicolor = "#377EB8",
-               virginica = "#4DAF4A")[as.character(iris$Species[test_idx])]
+cols_train <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+                virginica = "#009E73")[as.character(iris$Species[train_idx])]
+cols_test <- c(setosa = "#E69F00", versicolor = "#56B4E9",
+               virginica = "#009E73")[as.character(iris$Species[test_idx])]
 
 plot(rbind(emb_train, new_coords),
      pch = c(rep(16, nrow(emb_train)), rep(17, nrow(new_coords))),
