@@ -238,17 +238,25 @@ song <- function(
       # We skip rescaling since the absolute scale doesn't matter for plots.
       result$embedding <- umap_result
 
-      # Update CV positions to centroid of their assigned points
+      # Update CV positions to centroid of their assigned points. Grouping the
+      # row indices once keeps this linear in the number of points.
       Y_refined <- matrix(0.0, nrow = result$n_coding, ncol = d)
+      members <- split(
+        seq_len(n),
+        factor(result$assignments, levels = seq_len(result$n_coding))
+      )
       for (cv in seq_len(result$n_coding)) {
-        mask <- which(result$assignments == cv)
+        mask <- members[[cv]]
         if (length(mask) > 0L) {
           Y_refined[cv, ] <- colMeans(matrix(umap_result[mask, ], ncol = d))
-        } else {
-          Y_refined[cv, ] <- result$Y[cv, ]
         }
       }
-      result$Y <- Y_refined
+      # Coding vectors without assigned points have no refined position. Their
+      # raw SONG coordinates belong to a different coordinate system, so they
+      # are placed inside the refined layout instead of being kept.
+      result$Y <- .song_place_unassigned(
+        Y_refined, lengths(members) > 0L, result$E_s, result$C
+      )
     }
   }
 

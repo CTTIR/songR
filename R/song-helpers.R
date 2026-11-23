@@ -73,13 +73,13 @@ resolve_color_by <- function(object, type, n_coords, color_by,
   # input-point length is mapped to coding vectors via the modal label
   n_assigned <- length(object$assignments)
   if (length(color_by) == n_assigned) {
-    mapped <- vapply(seq_len(n_coords), function(i) {
-      pts <- which(object$assignments == i)
-      if (length(pts) == 0L) return(NA_character_)
-      tbl <- table(color_by[pts])
+    # One pass over the points: group the labels by assigned coding vector.
+    groups <- split(color_by, factor(object$assignments, levels = seq_len(n_coords)))
+    mapped <- vapply(groups, function(labels) {
+      tbl <- table(labels)
       if (sum(tbl) == 0) return(NA_character_)
       names(tbl)[which.max(tbl)]
-    }, character(1))
+    }, character(1), USE.NAMES = FALSE)
     return(as.factor(mapped))
   }
 
@@ -127,6 +127,27 @@ validate_params <- function(d, k, epsilon, alpha, a, b, spread_factor,
   check(.song_scalar(e_min) && e_min > 0, "`e_min` must be positive and finite")
   check(.song_count(epochs, 1), "`epochs` must be a positive integer")
   invisible(NULL)
+}
+
+# Place coding vectors without assigned points in the refined (dispersed)
+# layout: at the edge-weighted mean of their occupied graph neighbours, or at
+# the occupied coding vector nearest in input space when they have none.
+.song_place_unassigned <- function(Y, occupied, E_s, C) {
+  empty <- which(!occupied)
+  filled <- which(occupied)
+  if (length(empty) == 0L || length(filled) == 0L) {
+    return(Y)
+  }
+  for (cv in empty) {
+    weight <- E_s[cv, filled]
+    if (any(weight > 0)) {
+      Y[cv, ] <- colSums(Y[filled, , drop = FALSE] * weight) / sum(weight)
+    } else {
+      offset <- sweep(C[filled, , drop = FALSE], 2L, C[cv, ], "-")
+      Y[cv, ] <- Y[filled[which.min(rowSums(offset^2))], ]
+    }
+  }
+  Y
 }
 
 .song_scalar <- function(x) {
