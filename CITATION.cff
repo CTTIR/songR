@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: If you use this software, please cite it as below.
 type: software
-title: 'songR: Self-organizing nebulous growths for nonlinear dimensionality reduction'
+title: 'songR: Self-Organizing Nebulous Growths for Dimensionality Reduction'
 version: 1.0.0
 doi: 10.5281/zenodo.21889964
 date-released: '2026-11-10'

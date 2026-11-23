@@ -182,6 +182,9 @@ First stable release and first CRAN submission.
 * The citation of the package in the README, the text version in
   `inst/CITATION`, `CITATION.cff` and `.zenodo.json` name the author as
   R. Heller.
+* `CITATION.cff` and `.zenodo.json` use the title of `inst/CITATION`,
+  "songR: Self-Organizing Nebulous Growths for Dimensionality Reduction", as
+  the README citation already did.
 
 # songR 0.1.0
 
