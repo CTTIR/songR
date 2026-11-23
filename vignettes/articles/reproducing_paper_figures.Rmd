@@ -240,7 +240,8 @@ method_cols <- viridis::plasma(4, end = 0.92)
 plot(1:n_steps, song_cdy, type = "b", pch = 16, col = method_cols[1],
      ylim = c(0, max(c(song_cdy, reinit_cdy)) * 1.1),
      xlab = "Increment", ylab = "Mean CDY",
-     main = "CDY: Embedding Stability", bty = "n", lwd = 2)
+     main = "CDY: Embedding Stability", bty = "n", lwd = 2, xaxt = "n")
+axis(1, at = 1:n_steps)
 lines(1:n_steps, reinit_cdy, type = "b", pch = 17, col = method_cols[3], lwd = 2)
 legend("topright", c("SONG (incremental)", "SONG+Reinit"),
        col = method_cols[c(1, 3)], pch = c(16, 17), lwd = 2, bty = "n")

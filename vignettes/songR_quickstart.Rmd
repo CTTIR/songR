@@ -166,6 +166,8 @@ cols1 <- c(setosa = "#E69F00", versicolor = "#56B4E9",
 plot(emb_v1, pch = 16, col = cols1, cex = 0.8,
      main = "Step 1: First 75 points",
      xlab = "", ylab = "", bty = "n")
+legend("topleft", legend = levels(labels1)[1:2],
+       col = c("#E69F00", "#56B4E9"), pch = 16, bty = "n")
 
 # After: all 150 points
 cols_all <- c(setosa = "#E69F00", versicolor = "#56B4E9",
@@ -173,6 +175,8 @@ cols_all <- c(setosa = "#E69F00", versicolor = "#56B4E9",
 plot(emb_v2_all, pch = 16, col = cols_all, cex = 0.8,
      main = "Step 2: All 150 points",
      xlab = "", ylab = "", bty = "n")
+legend("bottomleft", legend = levels(iris$Species),
+       col = c("#E69F00", "#56B4E9", "#009E73"), pch = 16, bty = "n")
 ```
 
 The first 75 points retain their approximate positions while the new
@@ -214,6 +218,8 @@ plot(rbind(emb_train, new_coords),
      cex = c(rep(0.7, nrow(emb_train)), rep(1.2, nrow(new_coords))),
      main = "Training (circles) + Projected (triangles)",
      xlab = "SONG 1", ylab = "SONG 2", bty = "n")
+legend("topleft", legend = levels(iris$Species),
+       col = c("#E69F00", "#56B4E9", "#009E73"), pch = 16, bty = "n")
 ```
 
 ## Model Inspection
