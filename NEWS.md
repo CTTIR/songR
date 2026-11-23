@@ -20,17 +20,29 @@ First stable release and first CRAN submission.
   are unchanged (bit-identical).
 * `predict()` and the codebook-graph plotting paths (`plot()` / `autoplot()`)
   are vectorized.
+* Mapping point labels to coding vectors (codebook and graph plots) and the
+  centroid step after dispersion group the points in a single pass instead of
+  scanning all points once per coding vector.
+
+## Plots
+
+* `plot()` draws a legend for a categorical `color_by` with at most 12 levels,
+  in the plot corner that covers the fewest points. Use `legend = FALSE` to
+  omit it.
+* `plot()` forwards graphical arguments such as `main`, `xlab`, `ylab`, `pch`
+  and `cex` through `...`; they override the defaults of the method. These
+  previously failed as duplicated arguments.
 
 ## Bug fixes
 
 * Validate scalar, finite hyperparameters before native training. Fractional
-  integer controls, nonpositive update epochs/learning rates and damaged saved
+  integer controls, non-positive update epochs/learning rates and damaged saved
   model dimensions now fail with an R error rather than being truncated or
   passed to C++.
 * Accept a single new observation in `predict()` and reject zero-column inputs.
 * Keep cumulative training counts finite when updates exceed R's integer range.
 * Exclude native coverage instrumentation files from source archives.
-* Map codebook colours from the current update batch rather than cumulative
+* Map codebook colors from the current update batch rather than cumulative
   training labels; handle prototypes with only missing labels. Correct the
   README to distinguish frozen projection from model retraining.
 * `autoplot()` no longer errors for `type = "codebook"` or `type = "graph"`
@@ -52,18 +64,60 @@ First stable release and first CRAN submission.
   the core SONG embedding stays frozen.
 * The Shiny comparison app no longer claims SONG stops training early, and its
   documented `k` and `epochs` defaults match the implementation.
+* `plot()` maps a numeric `color_by` linearly onto the sequential viridis
+  palette and treats logical vectors as categories. Numeric values used to be
+  passed to the graphics device as color numbers, so negative values raised an
+  error and values below 1 drew invisible points. As a consequence,
+  whole-number labels supplied as numbers are now drawn on the sequential
+  palette instead of the session palette; pass a factor for categorical
+  colors. Missing labels are drawn in gray instead of being left out.
+* With `dispersion = TRUE`, coding vectors without assigned points are placed
+  inside the refined layout (at the edge-weighted mean of their occupied graph
+  neighbors, or at the occupied coding vector nearest in input space) instead
+  of keeping raw SONG coordinates from a different coordinate system. Codebook
+  and graph plots now share the scale of the embedding and `predict()` stays
+  inside the layout. `model$embedding` is unchanged; `model$Y` and the model
+  identifier change for models that contain such coding vectors.
+* `autoplot()` reports a one-dimensional embedding with the same error as
+  `plot()` instead of "subscript out of bounds".
+* `print()` and `summary()` accept models saved before the `converged` field
+  existed.
+* The comparison app no longer passes a reactive as the plot background, which
+  raised a warning on every render.
+* The documentation of the comparison app (`run_songR_app()`, README and
+  article) describes the implemented features. RDS upload, an incremental mode
+  and export buttons were documented but are not part of the app; the article
+  shows the equivalent code.
 
 ## Robustness
 
 * `song()` validates `max_age` and `max_prototypes`.
+* `song(verbose = TRUE)` reports when the dispersion step is skipped because
+  'uwot' is not installed.
 * All user-facing messages now use `cli`, with errors signaled at the calling
   function for clearer tracebacks. Messages and behavior are otherwise unchanged.
+
+## Documentation
+
+* `song()` documents every field of the model object, the effect of `seed` on
+  the random number stream of the session, the memory needed for
+  `max_prototypes` and how the dispersed layout is built. `update()` documents
+  that it does not repeat the dispersion step.
+* The `autoplot()` example now draws a plot, and `plot()` shows continuous
+  coloring and the codebook graph.
+* The README lists installation from the CTTIR R-universe and its quick start
+  runs as written.
+* The vignettes describe updates as continued training in which prototypes may
+  move, carry alternative text for every figure and use color-blind-safe
+  colors.
 
 ## Verification
 
 * Added reference-parity tests against the original Python implementation
   (`tests/testthat/test-reference-parity.R`), covering deterministic kernels
   (Tier A, &le; 1e-5) and clustering equivalence (Tier B, AMI).
+* Added tests that drive the server of the comparison app and cover its
+  branding helpers.
 
 ## Branding
 
@@ -79,6 +133,7 @@ First stable release and first CRAN submission.
   URLs, unused `Matrix` suggestion removed, and the version aligned across
   `DESCRIPTION`, `inst/CITATION`, `CITATION.cff`, `.zenodo.json` and the
   README.
+* Local review notes are excluded from the source archive.
 
 # songR 0.1.0
 
