@@ -1140,27 +1140,25 @@ server <- function(input, output, session) {
     }
   }
 
-  plot_bg <- shiny::reactive({
-    if (isTRUE(input$dark_mode)) "#1a1d28" else "white"
-  })
-
+  # The plotting code sets the page background through par(bg = ...); a
+  # reactive is not a valid `bg` for the graphics device behind renderPlot().
   output$song_plot <- shiny::renderPlot({
     shiny::req(results$song_model)
     make_embed_plot(results$song_model$embedding, results$labels, "SONG",
                     dark = isTRUE(input$dark_mode))
-  }, bg = shiny::reactive({ plot_bg() }))
+  })
 
   output$tsne_plot <- shiny::renderPlot({
     shiny::req(results$tsne_result)
     make_embed_plot(results$tsne_result, results$labels, "t-SNE",
                     dark = isTRUE(input$dark_mode))
-  }, bg = shiny::reactive({ plot_bg() }))
+  })
 
   output$umap_plot <- shiny::renderPlot({
     shiny::req(results$umap_result)
     make_embed_plot(results$umap_result, results$labels, "UMAP",
                     dark = isTRUE(input$dark_mode))
-  }, bg = shiny::reactive({ plot_bg() }))
+  })
 
   output$details_content_ui <- shiny::renderUI({
     if (is.null(results$song_model)) {
@@ -1221,7 +1219,7 @@ server <- function(input, output, session) {
                              col.axis = "#e2e5ea", col.lab = "#e2e5ea",
                              col.main = "#e2e5ea")
     plot(results$song_model, type = "graph", color_by = results$labels)
-  }, bg = shiny::reactive({ plot_bg() }))
+  })
 
   output$song_summary <- shiny::renderPrint({
     shiny::req(results$song_model)
