@@ -1,6 +1,8 @@
 #' Print a SONG Model
 #'
-#' Prints a concise summary of a \code{"song_model"} object.
+#' Prints a concise summary of a \code{"song_model"} object: the class in the
+#' header line, then the input size, the number of coding vectors and edges,
+#' the output dimensionality and the number of epochs.
 #'
 #' @param x A \code{"song_model"} object.
 #' @param ... Ignored.
@@ -21,7 +23,7 @@ print.song_model <- function(x, ...) {
   # Models saved before the `converged` field existed report "max epochs".
   converge_str <- if (isTRUE(x$converged)) "converged" else "max epochs"
 
-  cat("SONG model\n")
+  cat("<song_model> SONG model\n")
   cat("  Input:", x$n_input, "points in", x$D, "dimensions\n")
   cat("  Coding vectors:", n_coding, "\n")
   cat("  Edges:", n_edges, "\n")

@@ -62,6 +62,16 @@ test_that("print/summary handle a converged model and a no-edge model", {
   expect_false(grepl("Mean edge strength", out))
 })
 
+test_that("print names the class in its header line and returns its input", {
+  m <- song(as.matrix(iris[1:60, 1:4]), epochs = 3L, seed = 1L,
+            verbose = FALSE, dispersion = FALSE)
+  out <- utils::capture.output(res <- withVisible(print(m)))
+  expect_identical(out[1L], "<song_model> SONG model")
+  expect_identical(out[2L], "  Input: 60 points in 4 dimensions")
+  expect_false(res$visible)
+  expect_identical(res$value, m)
+})
+
 test_that("print and summary accept models saved without a converged flag", {
   m <- song(as.matrix(iris[1:60, 1:4]), epochs = 3L, seed = 1L,
             verbose = FALSE, dispersion = FALSE)

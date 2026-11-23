@@ -15,7 +15,9 @@
 Invisible \code{x}.
 }
 \description{
-Prints a concise summary of a \code{"song_model"} object.
+Prints a concise summary of a \code{"song_model"} object: the class in the
+header line, then the input size, the number of coding vectors and edges,
+the output dimensionality and the number of epochs.
 }
 \examples{
 model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)

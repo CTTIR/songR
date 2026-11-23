@@ -24,6 +24,11 @@ First stable release and first CRAN submission.
   centroid step after dispersion group the points in a single pass instead of
   scanning all points once per coding vector.
 
+## Printing
+
+* `print()` names the class in its header line (`<song_model> SONG model`), as
+  the other packages of the suite do.
+
 ## Plots
 
 * `plot()` draws a legend in the plot corner that covers the fewest points:
