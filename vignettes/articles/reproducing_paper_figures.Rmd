@@ -92,7 +92,7 @@ from scratch.
 Here we demonstrate the principle on the bundled `songR_blobs` dataset
 (8 clusters, 20D), adding 2 clusters per step:
 
-```{r fig34-hetero, fig.width = 10, fig.height = 8}
+```{r fig34-hetero, fig.width = 10, fig.height = 8, fig.alt = "Grid of eight scatter plots in two rows. Top row: SONG embeddings updated incrementally as two clusters of the blobs data are added per step, shown with 2, 4, 6 and 8 clusters. Bottom row: SONG refitted from scratch at each of the four steps. Points are colored by cluster."}
 data(songR_blobs)
 X <- songR_blobs$data
 labs <- as.integer(songR_blobs$labels)
@@ -156,7 +156,7 @@ Homogeneous increments add more data of the same distribution. The paper
 uses Wong CyTOF data colored by CCR7 expression. Here we demonstrate
 with blobs, adding random subsamples:
 
-```{r fig5-homogeneous, fig.width = 10, fig.height = 5}
+```{r fig5-homogeneous, fig.width = 10, fig.height = 5, fig.alt = "Grid of eight scatter plots in two rows for random subsamples of 400, 800, 1200 and 1600 points of the blobs data. Top row: SONG updated incrementally. Bottom row: SONG refitted from scratch for each sample size. Points are colored by cluster."}
 data(songR_blobs)
 set.seed(SEED)
 idx <- sample(nrow(songR_blobs$data))
@@ -197,7 +197,7 @@ for (s in seq_along(sizes)) {
 CDY measures how much existing points move when new data is added.
 Lower CDY = more stable embedding.
 
-```{r fig6-cdy, fig.width = 8, fig.height = 4}
+```{r fig6-cdy, fig.width = 8, fig.height = 4, fig.alt = "Line chart of the mean displacement of existing points (CDY) against the increment number, with one line for incremental SONG and one for SONG refitted from scratch."}
 data(songR_blobs)
 set.seed(SEED)
 idx <- sample(nrow(songR_blobs$data))
@@ -258,7 +258,7 @@ than SONG.
 The paper tests 32 configurations of Gaussian blobs (8 noise levels x 4
 cluster counts, 60D). SONG maintains cluster quality even at high noise.
 
-```{r fig7-noise, fig.width = 10, fig.height = 4}
+```{r fig7-noise, fig.width = 10, fig.height = 4, fig.alt = "Three scatter plots of SONG embeddings of simulated Gaussian blobs: 10 clusters with standard deviation 4, 10 clusters with standard deviation 16, and 20 clusters with standard deviation 12. Points are colored by cluster."}
 simulate_blobs <- function(k, noise_sd, d = 20, n_per = 100, seed = 42) {
   set.seed(seed)
   centers <- matrix(rnorm(k * d, sd = 30), ncol = d)
@@ -295,7 +295,7 @@ COIL-20 contains 20 objects photographed at 72 angles (360 degrees). The
 underlying topology is circular. SONG and UMAP preserve this; t-SNE
 distorts it into arches.
 
-```{r fig8-topology, fig.width = 10, fig.height = 4}
+```{r fig8-topology, fig.width = 10, fig.height = 4, fig.alt = "Three scatter plots of five simulated objects with circular topology, embedded with SONG, t-SNE and UMAP. Points are colored by object."}
 # Simulate 5 objects with circular topology
 set.seed(SEED)
 n_poses <- 72
@@ -365,7 +365,7 @@ if (requireNamespace("aricode", quietly = TRUE)) {
 
 ## Comparison: SONG vs t-SNE vs UMAP on Iris
 
-```{r iris-comparison, fig.width = 10, fig.height = 3.5}
+```{r iris-comparison, fig.width = 10, fig.height = 3.5, fig.alt = "Three scatter plots of the iris data embedded with SONG, t-SNE and UMAP. Points are colored by species."}
 X <- as.matrix(iris[, 1:4])
 labs <- iris$Species
 
@@ -441,7 +441,7 @@ different absolute coordinates**. The figure below overlays the reference and
 songR embeddings (the latter Procrustes-aligned for comparison); the analysis
 is reproducible via `data-raw/reproduction/repro_procrustes.R`.
 
-```{r parity-overlay, echo = FALSE, out.width = "100%"}
+```{r parity-overlay, echo = FALSE, out.width = "100%", fig.alt = "Four scatter plots in two rows comparing the Python reference (left) with songR after Procrustes alignment (right). Top row: blobs data without dispersion, eight compact clusters in both, alignment R squared 0.22. Bottom row: MNIST with dispersion, ten digit classes forming similar groups in both, alignment R squared 0.73."}
 knitr::include_graphics("reference_parity_overlay.png")
 ```
 
