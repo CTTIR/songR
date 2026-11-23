@@ -52,17 +52,21 @@ knitr::opts_chunk$set(
 songR includes a built-in Shiny application for interactive exploration
 of SONG embeddings. The app lets you:
 
-- Upload CSV/RDS data or use built-in datasets
-- Adjust SONG hyperparameters (epochs, epsilon, spread_factor, k)
-- Run SONG, t-SNE, and UMAP side-by-side
-- Incrementally add data and observe embedding stability
-- Color points by any variable (discrete or continuous)
+- Use the built-in datasets (iris and `songR_blobs`) or upload a CSV file
+- Choose the feature columns and an optional label column of an upload
+- Adjust SONG hyperparameters (`k`, `spread_factor`, `epochs`, `epsilon`
+  and the dispersion step), the t-SNE perplexity and the UMAP neighborhood
+  size
+- Run SONG, t-SNE, and UMAP side-by-side with run times
+- Inspect the fitted SONG codebook graph and model summary
 - Toggle **dark mode** for comfortable viewing (preference persisted via
   localStorage)
-- Export embeddings and plots
 
-All plots use the **viridis plasma** color scale for perceptually
-uniform, colorblind-friendly visualization.
+The comparison plots use the **viridis plasma** color scale.
+
+The app is a viewer. Incremental updates, projection of new points and
+export of embeddings, plots or models are done in code; see the example
+workflow below.
 
 ## Launching the App
 
@@ -73,40 +77,51 @@ library(songR)
 run_songR_app()
 ```
 
-The app opens in your default browser.
+The app opens in your default browser. It needs the suggested packages
+`shiny`, `Rtsne`, `uwot` and `viridis`; `run_songR_app()` names a missing one.
+
+## Pages
+
+The navigation bar switches between four pages:
+
+- **About**: what SONG is and how it compares with t-SNE and UMAP
+- **Compare**: the side-by-side comparison with all controls
+- **SONG Details**: the codebook graph and the summary of the fitted SONG
+  model
+- **Algorithm**: a step-by-step description of the method with references
 
 ## Using Built-in Data
 
-The app ships with `songR_blobs`, an 8-cluster synthetic dataset in 20
-dimensions. Select it from the "Data" dropdown to get started immediately.
+On the **Compare** page, the "Dataset" dropdown offers iris and
+`songR_blobs`, an 8-cluster synthetic dataset in 20 dimensions. Select one
+and click **Run Comparison**.
 
 ## Uploading Your Own Data
 
-1. Click **Upload Data** in the sidebar
-2. Select a CSV file (first columns = features, optional last column = labels)
-3. Or upload an RDS file containing a list with `$data` (matrix) and
-   optional `$labels` (factor/character)
+1. Select **Upload CSV** in the "Dataset" dropdown
+2. Choose a CSV file with a header row
+3. Pick the numeric **feature columns** (all numeric columns are selected
+   by default)
+4. Optionally pick a **label column** used to color the points
+5. Click **Run Comparison**
+
+Feature columns must be numeric and free of missing values; otherwise the
+app reports the error raised by `song()`.
 
 ## Hyperparameter Controls
 
-The sidebar provides sliders for all key SONG parameters:
+The sidebar of the **Compare** page provides these controls:
 
 | Control | Maps to | Effect |
 |---------|---------|--------|
-| Epochs | `epochs` | More = better quality, slower |
-| Epsilon | `epsilon` | Edge decay rate (0-1) |
-| Spread Factor | `spread_factor` | Growth threshold for new CVs |
-| k | `k` | Neighborhood size |
-| Dispersion | `dispersion` | Toggle UMAP refinement |
-
-## Incremental Mode
-
-The app supports SONG's incremental workflow:
-
-1. Load initial data and click **Run SONG**
-2. Upload additional data via **Add Increment**
-3. Click **Update Model** — the existing embedding is preserved
-4. Compare with **Reinitialize** to see the stability difference
+| k (neighborhood) | `song(k = )` | Neighborhood size of the coding-vector graph |
+| spread_factor | `song(spread_factor = )` | Growth threshold for new coding vectors |
+| epochs | `song(epochs = )` | More = better quality, slower |
+| epsilon (edge decay) | `song(epsilon = )` | Edge decay rate (0-1) |
+| UMAP dispersion step | `song(dispersion = )` | Toggle the UMAP refinement |
+| perplexity | `Rtsne::Rtsne(perplexity = )` | t-SNE neighborhood size |
+| n_neighbors | `uwot::umap(n_neighbors = )` | UMAP neighborhood size |
+| Random seed | `song(seed = )` | Seed set before the three methods run |
 
 ## Dark Mode
 
@@ -120,11 +135,11 @@ Dark mode adjusts:
 - Plot backgrounds and axis label colors
 - Sidebar, navbar, and well panel styling
 
-## Exporting Results
+## Incremental Updates and Export
 
-- **Download Embedding**: Saves the 2D coordinates as CSV
-- **Download Plot**: Exports the current visualization as PNG/PDF
-- **Download Model**: Saves the full `song_model` object as RDS
+The app does not train incrementally and has no download buttons. Use the
+programmatic workflow below to update a model with new data, project
+points, and save coordinates or the model.
 
 ## Example Workflow
 
@@ -148,9 +163,14 @@ emb <- predict(model, newdata = X[1:1000, ])
 
 # 4. Visualize
 plot(emb[, 1], emb[, 2], pch = 16, cex = 0.5,
-     col = rainbow(8)[as.integer(labels[1:1000])],
+     col = viridis::plasma(8, end = 0.92)[as.integer(labels[1:1000])],
      main = "After Incremental Update",
      xlab = "SONG 1", ylab = "SONG 2", bty = "n")
+
+# 5. Export the coordinates and the model revision that produced them
+write.csv(data.frame(emb, label = labels[1:1000]), "song_embedding.csv",
+          row.names = FALSE)
+saveRDS(model, "song_model.rds")
 ```
 
 ## Session Info

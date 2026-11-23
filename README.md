@@ -63,9 +63,13 @@ parity tests (`tests/testthat/test-reference-parity.R`) for the evidence.
 # Install from CRAN (when available)
 install.packages("songR")
 
+# Or install the current build from the CTTIR R-universe
+install.packages("songR",
+                 repos = c("https://cttir.r-universe.dev", getOption("repos")))
+
 # Or install the development version from GitHub
-# install.packages("devtools")
-devtools::install_github("cttir/songR")
+# install.packages("remotes")
+remotes::install_github("CTTIR/songR")
 ```
 
 ## Quick Start
@@ -73,15 +77,17 @@ devtools::install_github("cttir/songR")
 ```r
 library(songR)
 
-# Fit a SONG model
-model <- song(as.matrix(iris[, 1:4]), seed = 42)
-plot(model, color_by = iris$Species)
+X <- as.matrix(iris[, 1:4])
 
-# Incremental update with new data
-model <- update(model, new_data_matrix)
+# Fit a SONG model on the first 100 flowers
+model <- song(X[1:100, ], seed = 42)
+plot(model, color_by = iris$Species[1:100])
 
-# Project new points into existing embedding
-new_coords <- predict(model, newdata = held_out_matrix)
+# Continue training with the remaining 50 flowers (a new model revision)
+model <- update(model, X[101:150, ], seed = 42)
+
+# Project all points with the updated model
+coords <- predict(model, newdata = X)
 ```
 
 ## Key Features
@@ -105,8 +111,8 @@ emb <- predict(model, newdata = rbind(batch1, batch2))
 
 After an update, `model$embedding` and `model$assignments` describe the new batch
 only; `model$n_input` is the cumulative number of training observations. Plot
-colours for batch observations must follow the current batch, or supply one
-colour per prototype for a codebook plot. Save the model and its lineage with
+colors for batch observations must follow the current batch, or supply one
+color per prototype for a codebook plot. Save the model and its lineage with
 each exported projection.
 
 ### Parametric Projection
@@ -137,8 +143,10 @@ dark mode support:
 run_songR_app()
 ```
 
-The app supports uploading custom data, tuning all SONG hyperparameters,
-running incremental updates, and exporting embeddings and plots.
+The app runs on the built-in example data or an uploaded CSV file, exposes
+the main SONG, t-SNE and UMAP hyperparameters, and shows the fitted codebook
+graph and model summary. Incremental updates, projection and export are done
+in code with `update()`, `predict()` and `saveRDS()`.
 
 ## When to Use SONG
 
@@ -218,7 +226,7 @@ R package and the underlying SONG algorithm:
 
 > Heller, R. (2026). songR: Self-Organizing Nebulous
 > Growths for Dimensionality Reduction. R package version 1.0.0.
-> https://github.com/cttir/songR
+> https://github.com/CTTIR/songR
 
 **Underlying algorithm:**
 

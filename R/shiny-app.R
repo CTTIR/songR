@@ -1,11 +1,23 @@
 #' Launch Interactive Comparison App
 #'
 #' Opens a Shiny application that compares SONG, t-SNE, and UMAP
-#' visualizations side-by-side on user-supplied or example data.
-#' The app features a dark mode toggle (persisted via localStorage),
-#' uses the viridis plasma color scale for all plots, and supports
-#' uploading custom CSV/RDS data, tuning SONG hyperparameters,
-#' running incremental updates, and exporting embeddings.
+#' visualizations side-by-side on the built-in example data (iris and
+#' \code{\link{songR_blobs}}) or on an uploaded CSV file. The app lets you
+#' choose the feature and label columns of an upload, tune the main SONG
+#' hyperparameters (\code{k}, \code{spread_factor}, \code{epochs},
+#' \code{epsilon} and the dispersion step) together with the t-SNE perplexity
+#' and the UMAP neighborhood size, and inspect the fitted SONG codebook graph
+#' and model summary. It features a dark mode toggle (persisted via
+#' localStorage) and uses the viridis plasma color scale for the comparison
+#' plots.
+#'
+#' The app is a viewer: incremental updates, projection of new points and
+#' export of embeddings or models are done in code with
+#' \code{\link{update.song_model}}, \code{\link{predict.song_model}} and
+#' \code{\link{saveRDS}}.
+#'
+#' The app needs the suggested packages \pkg{shiny}, \pkg{Rtsne}, \pkg{uwot}
+#' and \pkg{viridis}; a missing one is reported with an installation hint.
 #'
 #' @param launch.browser Logical. Whether to open the app in the browser
 #'   (default: \code{TRUE}).
