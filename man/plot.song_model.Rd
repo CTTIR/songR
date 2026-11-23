@@ -4,7 +4,13 @@
 \alias{plot.song_model}
 \title{Plot a SONG Model}
 \usage{
-\method{plot}{song_model}(x, type = c("embedding", "codebook", "graph"), color_by = NULL, ...)
+\method{plot}{song_model}(
+  x,
+  type = c("embedding", "codebook", "graph"),
+  color_by = NULL,
+  ...,
+  legend = TRUE
+)
 }
 \arguments{
 \item{x}{A \code{"song_model"} object.}
@@ -13,15 +19,26 @@
 embedding space), \code{"codebook"} (coding vectors only), or
 \code{"graph"} (coding vectors with edges drawn). Default: \code{"embedding"}.}
 
-\item{color_by}{Optional vector (factor or numeric) of length equal to
+\item{color_by}{Optional vector of length equal to
 the number of input points (for \code{"embedding"}) or coding vectors
 (for \code{"codebook"} and \code{"graph"}) used to color the points.
+Factor, character and logical vectors are treated as categories and drawn
+with a qualitative palette. Numeric vectors are treated as continuous and
+mapped linearly onto the sequential viridis palette (low values dark
+purple, high values yellow). Missing or nonfinite values are drawn in grey.
 After an update, observation labels must follow the update batch, not all
 historical inputs. Codebook and graph plots also accept current-batch
 labels and map their modal value to each prototype; missing-only or empty
 assignments yield a missing label.}
 
-\item{...}{Additional arguments passed to \code{\link[graphics]{plot}}.}
+\item{...}{Additional arguments passed to \code{\link[graphics]{plot}}, for
+example \code{main}, \code{xlab}, \code{pch} or \code{cex}. They override
+the defaults of this method. Point colors are set through \code{color_by};
+\code{col} cannot be forwarded because it partially matches that argument.}
+
+\item{legend}{Logical. If \code{TRUE} (default), a legend is drawn for a
+categorical \code{color_by} with at most 12 levels, in the plot corner
+that covers the fewest points.}
 }
 \value{
 Invisible \code{NULL}.
@@ -30,9 +47,17 @@ Invisible \code{NULL}.
 Visualize a \code{"song_model"} as a scatter plot of the embedding,
 the codebook, or the codebook graph with edges.
 }
+\details{
+Models with more than two output dimensions are drawn in their first two
+embedding dimensions.
+}
 \examples{
 model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)
 plot(model, color_by = iris$Species)
+
+# Continuous coloring and the codebook graph
+plot(model, color_by = iris$Sepal.Length, main = "Sepal length")
+plot(model, type = "graph", color_by = iris$Species)
 
 }
 \references{

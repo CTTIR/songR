@@ -6,7 +6,7 @@ local_null_device <- function(env = parent.frame()) {
   withr::defer(grDevices::dev.off(), envir = env)
 }
 
-test_that("plot uses a numeric color_by directly (continuous path)", {
+test_that("plot maps a numeric color_by to a palette (continuous path)", {
   local_null_device()
   m <- song(as.matrix(iris[1:60, 1:4]), epochs = 4L, seed = 1L,
             verbose = FALSE, dispersion = FALSE)

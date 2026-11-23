@@ -17,7 +17,10 @@ autoplot.song_model(
 \item{type}{Character. One of \code{"embedding"}, \code{"codebook"}, or
 \code{"graph"}.}
 
-\item{color_by}{Optional vector for coloring points.}
+\item{color_by}{Optional vector for coloring points; see
+\code{\link{plot.song_model}} for the accepted lengths. Categorical and
+numeric vectors use the discrete and continuous \code{ggplot2} color
+scales, which can be replaced by adding a scale to the returned plot.}
 
 \item{...}{Ignored.}
 }
@@ -28,13 +31,18 @@ A \code{ggplot} object.
 Creates a \code{ggplot2} plot of a \code{"song_model"} object. Requires
 \code{ggplot2} to be installed.
 }
-\examples{
-\donttest{
-if (requireNamespace("ggplot2", quietly = TRUE)) {
-  model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42)
-  # Use songR::autoplot.song_model(model, color_by = iris$Species)
-  # or ensure songR is loaded with library(songR) for dispatch
+\details{
+The method is registered for \code{ggplot2::autoplot()} when \pkg{ggplot2}
+is available, so \code{ggplot2::autoplot(model)} dispatches to it once
+\pkg{songR} is loaded. Models with more than two output dimensions are drawn
+in their first two embedding dimensions.
 }
+\examples{
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  model <- song(as.matrix(iris[, 1:4]), epochs = 5L, seed = 42,
+                verbose = FALSE)
+  ggplot2::autoplot(model, color_by = iris$Species)
+  autoplot.song_model(model, type = "graph", color_by = iris$Species)
 }
 
 }
