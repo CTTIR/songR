@@ -120,7 +120,7 @@ update.song_model <- function(object, X_new, epochs = 50L,
     lr_sigma       = lr_sigma,
     verbose        = verbose,
     seed           = if (!is.null(seed)) as.integer(seed) else -1L
-  ))
+  ), scale = max(abs(X_new), abs(object$C)))
 
   total_epochs <- as.double(params$epochs) + epochs
   params$epochs <- if (total_epochs <= .Machine$integer.max) {

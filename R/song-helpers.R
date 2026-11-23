@@ -138,12 +138,18 @@ validate_params <- function(d, k, epsilon, alpha, a, b, spread_factor,
 }
 
 # Run native training and report divergence as an R condition. Coding vectors
-# overflow when the learning rate overshoots (alpha >= 2) or the features are
-# on an extreme scale; Armadillo then fails while sorting NaN distances.
-.song_native <- function(result, call = rlang::caller_env()) {
+# overflow when the learning rate overshoots strongly (a large alpha) or the
+# features are on an extreme scale; Armadillo then fails while sorting NaN
+# distances. A run can also end with finite coding vectors that are many
+# orders of magnitude away from the data. `scale` is the largest absolute
+# value of the training data (and, for an update, of the existing coding
+# vectors); with a learning rate of at most 1 the coding vectors stay within
+# it, so 1000 times that value (a package choice, not a published constant)
+# only rejects fits that have left the data.
+.song_native <- function(result, scale = NULL, call = rlang::caller_env()) {
   diverged <- function() {
     cli::cli_abort(
-      c("Training diverged: the coding vectors became nonfinite.",
+      c("Training diverged: the coding vectors became nonfinite or left the range of the data.",
         "i" = "Lower {.arg alpha} or rescale the input features."),
       class = "song_error_diverged", call = call
     )
@@ -153,6 +159,10 @@ validate_params <- function(d, k, epsilon, alpha, a, b, spread_factor,
     stop(e)
   })
   if (!all(is.finite(result$C)) || !all(is.finite(result$Y))) diverged()
+  if (!is.null(scale) && is.finite(scale) && scale > 0 &&
+        max(abs(result$C)) > 1000 * scale) {
+    diverged()
+  }
   result
 }
 

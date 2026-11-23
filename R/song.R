@@ -19,9 +19,14 @@
 #' @param epochs Integer. Number of self-organisation iterations
 #'   (default: 50, matching Python's \code{so_steps}).
 #' @param alpha Numeric. Initial SO learning rate (default: 1.0). Each sample
-#'   moves its nearest coding vector by this fraction of their distance, so
-#'   values above 1 overshoot the sample and values of 2 or more make training
-#'   diverge, which is reported as an error.
+#'   moves its nearest coding vector by this fraction of their distance, and
+#'   the rate decays over the epochs (see \code{lr_sigma}). Values above 1
+#'   overshoot the sample, and large values can make training unstable. There
+#'   is no fixed threshold: it depends on the data, \code{epochs} and
+#'   \code{lr_sigma}. Coding vectors that become nonfinite or leave the range
+#'   of the data by more than a factor of 1000 raise an error of class
+#'   \code{song_error_diverged}; a fit that returns without this error is not
+#'   thereby shown to be stable.
 #' @param a Numeric. Rational-quadratic kernel parameter (default: 1.577,
 #'   from \code{find_spread_tightness(spread=1, min_dist=0.1)}).
 #' @param b Numeric. Rational-quadratic kernel parameter (default: 0.895).
@@ -39,8 +44,8 @@
 #'   vectors. \code{NULL} (default) auto-computes as
 #'   \code{floor(exp(log(n) / 1.5))}, matching the Python reference. The
 #'   codebook graph is stored as a dense matrix, so training memory grows with
-#'   the square of this value (about \code{8 * (max_prototypes + 200)^2}
-#'   bytes).
+#'   the square of this value (at least \code{8 * (max_prototypes + 200)^2}
+#'   bytes; the returned model holds further copies of the graph).
 #' @param lr_sigma Numeric. Decay constant for the SO learning-rate
 #'   schedule: \code{so_lr = alpha * exp(-lr_sigma * (epoch/epochs)^2)}.
 #'   Default: 5.0 (matches Python).
@@ -208,7 +213,7 @@ song <- function(
     lr_sigma       = lr_sigma,
     verbose        = verbose,
     seed           = cpp_seed
-  ))
+  ), scale = max(abs(X)))
 
   # ── UMAP dispersion step (matches Python transform()) ───────────────────
   has_uwot <- isTRUE(dispersion) && requireNamespace("uwot", quietly = TRUE)

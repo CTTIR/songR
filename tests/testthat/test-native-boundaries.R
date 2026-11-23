@@ -107,6 +107,17 @@ test_that("diverging training is reported as an R error with advice", {
     song(x, epochs = 5L, seed = 1L, verbose = FALSE, dispersion = FALSE, ...)
   }
   expect_error(fit(alpha = 50), "Training diverged", class = "song_error_diverged")
+  # There is no fixed threshold at 2: a moderate overshoot still trains, and
+  # its coding vectors stay near the data.
+  overshoot <- fit(alpha = 2)
+  expect_s3_class(overshoot, "song_model")
+  expect_lt(max(abs(overshoot$C)), 10 * max(abs(x)))
+  # Finite coding vectors far outside the data are rejected as well; this fit
+  # used to return coordinates of order 1e47.
+  expect_error(
+    fit(alpha = 5),
+    class = "song_error_diverged"
+  )
   err <- expect_error(song(x * 1e200, epochs = 5L, seed = 1L, verbose = FALSE,
                            dispersion = FALSE),
                       class = "song_error_diverged")
@@ -123,4 +134,11 @@ test_that("diverging training is reported as an R error with advice", {
   expect_error(.song_native(bad), class = "song_error_diverged")
   ok <- list(C = matrix(1, 1L, 2L), Y = matrix(0, 1L, 2L))
   expect_identical(.song_native(ok), ok)
+  expect_identical(.song_native(ok, scale = 1), ok)
+  # The scale check needs a positive finite scale.
+  far <- list(C = matrix(c(1, 5000), 1L), Y = matrix(0, 1L, 2L))
+  expect_error(.song_native(far, scale = 1), class = "song_error_diverged")
+  expect_identical(.song_native(far, scale = 10), far)
+  expect_identical(.song_native(far, scale = 0), far)
+  expect_identical(.song_native(far, scale = NA_real_), far)
 })
