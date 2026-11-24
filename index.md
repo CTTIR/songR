@@ -1,5 +1,8 @@
 # songR ![songR logo](reference/figures/logo-with-name.png)
 
+Zenodo DOI reserved for the release: `10.5281/zenodo.21889964` (not yet
+published).
+
 ## Overview
 
 **songR** is a SONG-inspired dimensionality-reduction tool for R. It
